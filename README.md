@@ -21,7 +21,7 @@ Download and install glice by executing:
 To update:
 
 ```bash
-    go get -u github.com/ribice/glice/v2
+    go get -u github.com/ribice/glice/v3
 ```
 
 ## Usage
