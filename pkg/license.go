@@ -9,6 +9,17 @@ const (
 	Unspecified LicenseStatus = "unspecified"
 )
 
+type LicenseIDs []string
+type LicenseIDMap map[string]exists
+
+func (ids LicenseIDs) ToMap() LicenseIDMap {
+	idMap := make(LicenseIDMap, len(ids))
+	for _, id := range ids {
+		idMap[id] = exists{}
+	}
+	return idMap
+}
+
 type License struct {
 	ID              string        `json:"licenseId"`
 	Reference       string        `json:"reference"`

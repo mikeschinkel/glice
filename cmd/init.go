@@ -14,12 +14,11 @@ var initCmd = &cobra.Command{
 		`'init' will scan the go.mod file for dependencies and write ` +
 		`them to the YAML file which can then be hand-edited to add ` +
 		`overrides. Optionally it can generate a cache-file to allow ` +
-		`future invocations of the 'scan' command to assume data to ` +
-		`be current if last scanned within a specifiable TTL (time-to-live.)`,
+		`future invocations of the 'audit' command to assume data to ` +
+		`be current if last audited within a specifiable TTL (time-to-live.)`,
 }
 
 func init() {
 	rootCmd.AddCommand(initCmd)
-	initCmd.Flags().String("cache-file", glice.CacheFilepath(), "Full filepath for cache file to create")
 	initCmd.Flags().String("path", glice.SourceDir(""), "Directory path to your project's top-level go.mod file")
 }

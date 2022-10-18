@@ -12,8 +12,8 @@ func RunInit(cmd *cobra.Command, args []string) {
 
 	yf := NewYAMLFile(options.SourceDir)
 	if yf.Exists() {
-		LogAndExit(exitYAMLExistsCannotOverwrite,
-			"\nCannot overwrite existing YAML file %s.\nRename or delete file then re-run 'glice init'.",
+		LogAndExit(exitYAMLFileExistsCannotOverwrite,
+			"Cannot overwrite existing YAML file %s.\nRename or delete file then re-run 'glice init'.",
 			yf.Filepath)
 	}
 	fmt.Printf("\nCreating %s\n", yf.Filepath)

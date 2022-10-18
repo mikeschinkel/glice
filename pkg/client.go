@@ -83,7 +83,7 @@ func (c *Client) Validate() (err error) {
 	}
 
 	if !ModFileExists(c.path) {
-		err = ErrNoGoMod
+		err = ErrNoGoModFile
 		goto end
 	}
 

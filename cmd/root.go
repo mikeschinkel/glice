@@ -16,11 +16,7 @@ Commands & Switches:
 	--log
 	--logfile
 	init - Initialize glice.yaml for a directory
-		--cache-file={cache_file}
-		--path={repo_dir}
-	scan - CI check
-		--cache-file={cache_file}
-		--path={repo_dir}
+	audit - CI check
 		--ttl={cache_ttl}
 	report - Generate a license report
 			- print - Print license report to stdout
@@ -64,7 +60,7 @@ func init() {
 	pf.BoolVar(&verbose, "verbose", false, "Generate verbose output")
 	pf.BoolVar(&logOutput, "log", false, "Log output to default logging filepath.")
 	pf.StringVar(&logfile, "logfile", "", "File to log output to.")
-	pf.StringVar(&source, "source", glice.SourceDir(""), "Directory where go.mod for the repo to scan is located.")
+	pf.StringVar(&source, "source", glice.SourceDir(""), "Source directory where go.mod for the repo to audit is located.")
 	pf.StringVar(&cachefile, "cache-file", glice.CacheFilepath(), "Full filepath to the cachefile to create.")
 	pf.BoolVar(&nocache, "nocache", false, "Disable use of caching")
 }

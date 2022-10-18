@@ -154,11 +154,17 @@ func (r *Repository) checkURL() {
 
 func (r *Repository) GetLicenseID() string {
 	r.ResolveLicenseWithLogging(r.Context, GetOptions())
+	if r.license == nil {
+		return "Inaccessible"
+	}
 	return r.license.ID
 }
 
 func (r *Repository) GetLicenseURL() string {
 	r.ResolveLicenseWithLogging(r.Context, GetOptions())
+	if r.license == nil {
+		return "http://inaccessible"
+	}
 	return r.license.URL
 }
 

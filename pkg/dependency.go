@@ -6,7 +6,17 @@ import (
 	"log"
 )
 
-type Dependencies = []*Dependency
+type Dependencies []*Dependency
+type DependencyMap map[string]*Dependency
+
+// ToMap creates a map indexed by Dependency Import of Dependencies
+func (deps Dependencies) ToMap() DependencyMap {
+	newDeps := make(DependencyMap, len(deps))
+	for _, dep := range deps {
+		newDeps[dep.Import] = dep
+	}
+	return newDeps
+}
 
 // Dependency holds information about a dependency
 type Dependency struct {
