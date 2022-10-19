@@ -175,7 +175,7 @@ func Timestamp() string {
 func SourceDir(path string) string {
 	wd, err := os.Getwd()
 	if err != nil {
-		LogAndExit(exitCannotGetWorkingDir,
+		Failf(exitCannotGetWorkingDir,
 			"Unable to get current working directory: %s",
 			err.Error())
 	}

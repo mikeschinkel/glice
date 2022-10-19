@@ -1,7 +1,6 @@
 package glice
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 )
 
@@ -12,11 +11,11 @@ func RunInit(cmd *cobra.Command, args []string) {
 
 	yf := NewYAMLFile(options.SourceDir)
 	if yf.Exists() {
-		LogAndExit(exitYAMLFileExistsCannotOverwrite,
+		Failf(exitYAMLFileExistsCannotOverwrite,
 			"Cannot overwrite existing YAML file %s.\nRename or delete file then re-run 'glice init'.",
 			yf.Filepath)
 	}
-	fmt.Printf("\nCreating %s\n", yf.Filepath)
+	Notef("\nCreating %s\n", yf.Filepath)
 
 	yf.Editors = Editors{
 		{Name: "Name goes here", Email: "email-alias@singlestore.com"},
@@ -30,11 +29,11 @@ func RunInit(cmd *cobra.Command, args []string) {
 			Notes:            "This is a sample override added by 'glice init' command",
 		},
 	}
-	fmt.Print("Scanning dependencies...")
+	Notef("Scanning dependencies...")
 
 	yf.Dependencies, err = ScanDependencies(options)
 	if err != nil {
-		LogAndExit(exitCannotParseDependencies,
+		Failf(exitCannotParseDependencies,
 			"Failed while parsing dependencies: %s",
 			err.Error())
 	}
@@ -42,10 +41,10 @@ func RunInit(cmd *cobra.Command, args []string) {
 	yf.Filepath = YAMLFilepath(options.SourceDir)
 	err = yf.Init()
 	if err != nil {
-		LogAndExit(exitCannotInitializeYAMLFile,
+		Failf(exitCannotInitializeYAMLFile,
 			"Failed to create YAML file %s: %s",
 			options.SourceDir,
 			err.Error())
 	}
-	fmt.Println("\nYAML file created.")
+	Notef("\nYAML file created.\n")
 }

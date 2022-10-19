@@ -3,10 +3,10 @@ package glice
 type LicenseStatus string
 
 const (
-	Allowed     LicenseStatus = "allowed"
-	Disallowed  LicenseStatus = "disallowed"
-	WhiteListed LicenseStatus = "whitelisted"
-	Unspecified LicenseStatus = "unspecified"
+	AllowedStatus     LicenseStatus = "allowed"
+	DisallowedStatus  LicenseStatus = "disallowed"
+	WhiteListedStatus LicenseStatus = "whitelisted"
+	UnspecifiedStatus LicenseStatus = "unspecified"
 )
 
 type LicenseIDs []string

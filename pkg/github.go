@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/google/go-github/github"
 	"golang.org/x/oauth2"
-	"log"
 	"net/http"
 	"os"
 )
@@ -18,23 +17,33 @@ type GitHubRepoClient struct {
 	repoInfoGetter RepoInfoGetter
 }
 
+var accessor RepositoryAccessor
+
 func GetGitHubRepositoryAccessor(ctx context.Context, r *Repository) (_ RepositoryAccessor, err error) {
-	gc := &GitHubRepoClient{}
-	hc := NewHostClient()
+	var gc *GitHubRepoClient
+	var hc *HostClient
+	if accessor != nil {
+		accessor.(*GitHubRepoClient).repoInfoGetter = r
+		goto end
+	}
+	gc = &GitHubRepoClient{}
+	hc = NewHostClient()
 	gc.hostClient = hc
 	gc.repoInfoGetter = r
 	hc.RepositoryAccessor = gc
-	gc.LogIn(ctx)
-	return gc, err
+	err = gc.Initialize(ctx)
+	accessor = gc
+end:
+	return accessor, err
 }
 
-func (c *GitHubRepoClient) LogIn(ctx context.Context) {
+func (c *GitHubRepoClient) Initialize(ctx context.Context) (err error) {
 	var _c *http.Client
 	var isCredentialed bool
 
 	apiKey := os.Getenv("GITHUB_API_KEY")
 	if apiKey == "" {
-		log.Println("The environment variable GITHUB_API_KEY has not been set, or is empty; license lookups may fail.")
+		Warnf("\nThe environment variable GITHUB_API_KEY has not been set, or is empty; license lookups may fail.\n")
 	} else {
 		ts := oauth2.StaticTokenSource(&oauth2.Token{
 			AccessToken: apiKey,
@@ -44,6 +53,7 @@ func (c *GitHubRepoClient) LogIn(ctx context.Context) {
 	}
 	c.Client = github.NewClient(_c)
 	c.hostClient.CanLogIn = isCredentialed
+	return err
 }
 
 func (c *GitHubRepoClient) SetHostClient(hc *HostClient) {
@@ -71,8 +81,9 @@ func (c *GitHubRepoClient) GetRepoName() string {
 
 func (c *GitHubRepoClient) checkRepoInfoGetter() {
 	if c.repoInfoGetter == nil {
-		panic(fmt.Sprintf("Cannot call GitHubRepoClient.%s() before setting Repository.repoInfoGetter",
-			CallerName()))
+		Failf(exitRepoInfoGetterIsNil,
+			"Must set Repository.repoInfoGetter before calling GitHubRepoClient.%s()",
+			CallerName())
 	}
 }
 
@@ -88,13 +99,15 @@ func (c *GitHubRepoClient) UpVoteRepository(ctx context.Context, options *Option
 	// Increment star count for the repository
 	r, err = c.Client.Activity.Star(ctx, c.GetOrgName(), c.GetRepoName())
 	if err != nil {
-		log.Printf("Unable to increment star count for repostory '%s': %s", c.GetName(), r.Status)
+		Warnf("Unable to increment star count for repository '%s': %s",
+			c.GetName(), r.Status)
 	}
 end:
 }
 
 func (c *GitHubRepoClient) GetRepositoryLicense(ctx context.Context, options *Options) (lic *RepositoryLicense, err error) {
 	var rl *github.RepositoryLicense
+
 	for {
 		rl, _, err = c.Repositories.License(ctx, c.GetOrgName(), c.GetRepoName())
 		if err == nil {
@@ -110,17 +123,30 @@ func (c *GitHubRepoClient) GetRepositoryLicense(ctx context.Context, options *Op
 			lic.Text = rl.GetContent()
 			break
 		}
-		er, ok := err.(*github.ErrorResponse)
+		_err, ok := err.(*github.ErrorResponse)
 		if !ok {
 			// Hmm. Some other kind of error was returned
+			// Pass it along in case its helpful
 			break
 		}
-		// Pass it along in case its helpful
-		err = er
-		if er.Response.StatusCode != http.StatusNotFound {
-			// Anything other than a Not Found is an error
+		if _err.Response == nil {
+			err = fmt.Errorf("response missing unexpectedly; %w", _err)
 			break
 		}
+		switch _err.Response.StatusCode {
+		case http.StatusUnauthorized:
+			// Bad credentials?
+			err = fmt.Errorf("unauthorized; %w", _err)
+
+		case http.StatusNotFound:
+			// Anything other than a Not Found or Unauthorized
+			err = fmt.Errorf("unexpected error; %w", _err)
+
+		default:
+			err = nil
+		}
+		goto end
 	}
+end:
 	return lic, err
 }

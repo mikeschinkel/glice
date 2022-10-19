@@ -1,40 +1,44 @@
 package glice
 
-import (
-	"log"
-)
+import "sort"
 
 type Changes struct {
-	Old []string
-	New []string
+	Additions []string
+	Deletions []string
 }
 
 func NewChanges() *Changes {
 	return &Changes{
-		Old: make([]string, 0),
-		New: make([]string, 0),
+		Additions: make([]string, 0),
+		Deletions: make([]string, 0),
 	}
 }
 
 // HasChanges returns true if there are either old or new changes
 func (c *Changes) HasChanges() bool {
-	return len(c.Old) > 0 || len(c.New) > 0
+	return len(c.Additions) > 0 || len(c.Deletions) > 0
 }
 
 // Print outputs all changes, old and new
 func (c *Changes) Print() {
-	LogPrintFunc(func() {
-		showChanges(c.Old, "Old", "These imports were not found in glice.yaml but were found when scanning.")
-		showChanges(c.New, "New", "These imports were not found when scanning but were found in glice.yaml.")
+	LogPrintFunc(WarnLevel, func() {
+		showChanges(c.Additions, "Additions", "These imports were not found in glice.yaml but were found when scanning:")
+		showChanges(c.Deletions, "Deletions", "These imports were not found when scanning but were found in glice.yaml:")
 	})
 }
 
 func showChanges(list []string, _type, descr string) {
-	log.Printf("\nChanges: %s", _type)
-	log.Println("------------")
-	log.Println(descr)
-	for _, imp := range list {
-		log.Printf("  - %s\n", imp)
+	if len(list) == 0 {
+		goto end
 	}
-	log.Println("")
+	sort.Strings(list)
+	Notef("\n%s", _type)
+	Notef("\n---------")
+	Notef("\n%s", descr)
+	Notef("\n")
+	for _, imp := range list {
+		Notef("\n  - %s", imp)
+	}
+	Notef("\n\n")
+end:
 }

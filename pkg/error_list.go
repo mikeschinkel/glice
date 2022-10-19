@@ -2,7 +2,6 @@ package glice
 
 import (
 	"fmt"
-	"log"
 )
 
 var _ error = (*ErrorList)(nil)
@@ -24,17 +23,10 @@ func (el ErrorList) Error() (s string) {
 
 // LogPrint outputs all errors in list individually
 func (el ErrorList) LogPrint() {
-	el.LogPrintWithHeader("")
-}
-
-// LogPrintWithHeader outputs all errors in list individually but with header
-func (el ErrorList) LogPrintWithHeader(header string) {
-	LogPrintFunc(func() {
-		if header != "" {
-			log.Printf("\n%s\n", header)
-		}
+	level := 3
+	LogPrintFunc(level, func() {
 		for _, err := range el {
-			log.Printf("- %s\n", err.Error())
+			LogPrintf(level, "%s: - %s\n", levels[level], err.Error())
 		}
 	})
 }

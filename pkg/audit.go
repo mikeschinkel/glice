@@ -1,7 +1,6 @@
 package glice
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -12,38 +11,49 @@ func RunAudit(cmd *cobra.Command, args []string) {
 
 	options := GetOptions()
 
-	fmt.Println("\nAuditing...")
+	Notef("\nBeginning License Audit")
 	yf, err := LoadYAMLFile(options.SourceDir)
 	if err != nil {
-		LogAndExit(exitYAMLFileDoesNotExist,
+		Failf(exitYAMLFileDoesNotExist,
 			"Cannot run scan; %s",
 			err.Error())
 
 	}
-	fmt.Printf("YAML file %s loaded\n", yf.Filepath)
+	Notef("\nYAML file %s loaded", yf.Filepath)
 
-	fmt.Print("Scanning dependencies...")
+	Notef("\nScanning dependencies...")
 	deps, err = ScanDependencies(options)
 	if err != nil {
-		LogAndExit(exitCannotParseDependencies,
+		Failf(exitCannotParseDependencies,
 			"Failed while parsing dependencies: %s",
 			err.Error())
 	}
 
-	changes, el := yf.AuditDependencies(deps)
+	Notef("\nAuditing dependencies...")
+	changes, ds := yf.AuditDependencies(deps)
+	Notef("\nAudit complete.\n")
+
 	if !changes.HasChanges() {
-		fmt.Println("\nNo chances detected")
+		Notef("\nNo chances detected")
 	} else {
-		fmt.Println()
+		Notef("\n")
 		changes.Print()
 	}
 
-	if !el.HasErrors() {
-		fmt.Println("\nNo disallowed licenses detected")
+	Errorf("\n")
+	if !ds.HasDisalloweds() {
+		Notef("\nOnly allowed licenses detected")
+		Errorf("\n")
 	} else {
-		el.LogPrintWithHeader("ERROR! Disallowed Licenses Detected:")
+		Errorf("\nDisallowed licenses detected:")
+		Errorf("\n")
+		ds.LogPrint()
+		Errorf("\n")
+		Errorf("\nAudit FAILED!")
+		Errorf("\n\n")
 		os.Exit(exitAuditFoundDisallowedLicenses)
 	}
 
-	fmt.Println("\nAudit completed successfully")
+	Notef("\nAudit completed successfully")
+	Notef("\n\n")
 }

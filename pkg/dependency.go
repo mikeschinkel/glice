@@ -2,8 +2,8 @@ package glice
 
 import (
 	"context"
+	"fmt"
 	"github.com/fatih/color"
-	"log"
 )
 
 type Dependencies []*Dependency
@@ -31,7 +31,6 @@ type Dependency struct {
 }
 
 func GetDependencyFromRepository(ctx context.Context, r *Repository) *Dependency {
-	r.Context = ctx
 	return &Dependency{
 		r:          r,
 		Import:     r.Import,
@@ -83,7 +82,7 @@ func (d *Dependency) GetColorizedLicenseName() (name string) {
 
 func ScanDependencies(options *Options) (ds Dependencies, err error) {
 	var repos Repositories
-	var dependencies Dependencies
+	var deps Dependencies
 
 	ctx := context.Background()
 
@@ -97,19 +96,19 @@ func ScanDependencies(options *Options) (ds Dependencies, err error) {
 		goto end
 	}
 
-	log.Printf("Found %d dependencies", len(repos))
+	Notef("\nFound %d dependencies", len(repos))
+	Notef("\nResolving licenses...")
 
-	dependencies = make(Dependencies, len(repos))
+	deps = make(Dependencies, len(repos))
 	for i, r := range repos {
-		log.Printf("Fetching license for: %s", r.Import)
-		d := GetDependencyFromRepository(ctx, r)
+		Infof("\nFetching license for: %s", r.Import)
+		err = r.ResolveLicense(ctx, GetOptions())
 		if err != nil {
-			log.Println(err)
-			continue
+			err = fmt.Errorf("failed to resolve license; %w", err)
+			goto end
 		}
-		dependencies[i] = d
-
+		deps[i] = GetDependencyFromRepository(ctx, r)
 	}
 end:
-	return dependencies, nil
+	return deps, err
 }

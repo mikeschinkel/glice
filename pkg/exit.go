@@ -1,10 +1,5 @@
 package glice
 
-import (
-	"log"
-	"os"
-)
-
 const (
 	exitAuditFoundDisallowedLicenses  = 1
 	exitCannotGetWorkingDir           = 2
@@ -15,11 +10,7 @@ const (
 	exitCannotStatFile                = 7
 	exitYAMLFileExistsCannotOverwrite = 8
 	exitYAMLFileDoesNotExist          = 9
+	exitRepoInfoGetterIsNil           = 10
+	exitCannotGetRepositoryAccessor   = 11
+	exitCannotSetOptions              = 12
 )
-
-func LogAndExit(status int, msg string, args ...interface{}) {
-	log.Printf(msg, args...)
-	log.SetOutput(os.Stderr)
-	log.Printf("\n"+msg, args...)
-	os.Exit(status)
-}

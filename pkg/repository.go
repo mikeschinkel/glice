@@ -3,7 +3,6 @@ package glice
 import (
 	"context"
 	"fmt"
-	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -23,7 +22,6 @@ var _ RepoInfoGetter = (*Repository)(nil)
 
 // Repository holds information about the repository
 type Repository struct {
-	context.Context
 	Import   string
 	Imports  []string
 	url      *url.URL
@@ -55,13 +53,13 @@ func ScanRepositories(ctx context.Context, options *Options) ([]*Repository, err
 		r := &Repository{
 			Import: module,
 		}
-		log.Printf("Resolving repository for '%s'", r.Import)
+		Infof("Resolving repository for '%s'", r.Import)
 		err = r.ResolveRepository(ctx, options)
 		if err != nil {
 			el = append(el, err)
 			continue
 		}
-		log.Printf("\tas '%s'", r.GetURL())
+		Infof("\tas '%s'", r.GetURL())
 		repos[i] = r
 	}
 	if len(el) != 0 {
@@ -153,15 +151,13 @@ func (r *Repository) checkURL() {
 }
 
 func (r *Repository) GetLicenseID() string {
-	r.ResolveLicenseWithLogging(r.Context, GetOptions())
 	if r.license == nil {
-		return "Inaccessible"
+		return "License inaccessible"
 	}
 	return r.license.ID
 }
 
 func (r *Repository) GetLicenseURL() string {
-	r.ResolveLicenseWithLogging(r.Context, GetOptions())
 	if r.license == nil {
 		return "http://inaccessible"
 	}
@@ -265,13 +261,16 @@ func (r *Repository) ResolveLicense(ctx context.Context, options *Options) (err 
 
 	ra, err = GetRepositoryAccessor(ctx, r)
 	if err != nil {
-		log.Printf("Unable to get repository accessor for %s", r.GetHost())
-		goto end
+		Failf(exitCannotGetRepositoryAccessor,
+			"unable to get repository accessor for %s",
+			r.GetHost())
 	}
 
 	r.license, err = ra.GetRepositoryLicense(ctx, options)
 	if err != nil {
-		err = fmt.Errorf("unable to get license for '%s'", ra.GetName())
+		err = fmt.Errorf("unable to get license for '%s'; %w",
+			ra.GetName(),
+			err)
 		goto end
 	}
 
@@ -281,14 +280,6 @@ func (r *Repository) ResolveLicense(ctx context.Context, options *Options) (err 
 
 end:
 	return err
-}
-
-// ResolveLicenseWithLogging requests the license for the repository and logs an error if found
-func (r *Repository) ResolveLicenseWithLogging(ctx context.Context, options *Options) {
-	err := r.ResolveLicense(ctx, options)
-	if err != nil {
-		log.Printf("failed to resolve license for '%s'; %s", r.Import, err.Error())
-	}
 }
 
 // RecognizeKnownRepoDomain inspects r.url.Host and returns true if the domain is

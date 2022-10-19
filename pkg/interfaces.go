@@ -30,3 +30,6 @@ type LicenseInfoGetter interface {
 	GetText() string
 	GetURL() string
 }
+type Initializer interface {
+	Initialize(ctx context.Context) error
+}

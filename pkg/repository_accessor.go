@@ -13,6 +13,7 @@ type RepositoryAccessor interface {
 	RepositoryUpVoter
 	HostClientSetter
 	RepoInfoGetter
+	Initializer
 }
 
 // RepositoryAccessorFunc provides the type to support GetRepositoryAccessorFunc's ability

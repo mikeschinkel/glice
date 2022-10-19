@@ -23,7 +23,7 @@ var (
 		{
 			IncludeIndirect:      true,
 			SourceDir:            SourceDirectory,
-			LogVerbosely:         false,
+			VerbosityLevel:       glice.WarnLevel,
 			OutputFormat:         "json",
 			NoCaptureLicenseText: true,
 			OutputDestination:    "file",

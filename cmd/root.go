@@ -1,10 +1,10 @@
 package cmd
 
 import (
-	"os"
-
 	"github.com/ribice/glice/v3/pkg"
 	"github.com/spf13/cobra"
+	"os"
+	"strconv"
 )
 
 /*
@@ -47,7 +47,7 @@ func Execute() {
 }
 
 var indirect bool
-var verbose bool
+var verbose int
 var logOutput bool
 var nocache bool
 var logfile string
@@ -57,17 +57,19 @@ var cachefile string
 func init() {
 	pf := rootCmd.PersistentFlags()
 	pf.BoolVar(&indirect, "indirect", false, "Include indirect dependencies")
-	pf.BoolVar(&verbose, "verbose", false, "Generate verbose output")
+	pf.IntVar(&verbose, "verbose", glice.NoteLevel, "Verbosity Level: 0=all, 1=info, 2=warn, 3=error, 4=fail")
+	pf.Lookup("verbose").NoOptDefVal = strconv.Itoa(glice.InfoLevel)
 	pf.BoolVar(&logOutput, "log", false, "Log output to default logging filepath.")
 	pf.StringVar(&logfile, "logfile", "", "File to log output to.")
 	pf.StringVar(&source, "source", glice.SourceDir(""), "Source directory where go.mod for the repo to audit is located.")
 	pf.StringVar(&cachefile, "cache-file", glice.CacheFilepath(), "Full filepath to the cachefile to create.")
 	pf.BoolVar(&nocache, "nocache", false, "Disable use of caching")
+	rootCmd.MarkFlagsMutuallyExclusive("nocache", "cache-file")
 }
 
 func initOptions() {
 	glice.SetOptions(&glice.Options{
-		LogVerbosely:    verbose,
+		VerbosityLevel:  verbose,
 		IncludeIndirect: indirect,
 		LogOuput:        logOutput,
 		NoCache:         nocache,

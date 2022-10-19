@@ -39,7 +39,7 @@ func (yf *YAMLFile) Exists() (exists bool) {
 		goto end
 	}
 	if err != nil {
-		LogAndExit(exitCannotStatFile,
+		Failf(exitCannotStatFile,
 			"Unable to check existence for %s: %s",
 			yf.Filepath,
 			err.Error())
@@ -155,43 +155,43 @@ func (yf *YAMLFile) removeOverridden(depMap DependencyMap) DependencyMap {
 
 // auditDependency inspects a single scanned dependency to ensure
 // it has a proper license, returning an error if not.
-func (yf *YAMLFile) auditDependency(dep *Dependency) (err error) {
-	// Check to see if the license is disallowed
+func (yf *YAMLFile) auditDependency(dep *Dependency) (d *Disallowed) {
+	// Check to see if the license is d
 	if _, ok := yf.allowedMap[dep.LicenseID]; !ok {
-		err = errors.New(fmt.Sprintf("disallowed license '%s' found for '%s'",
-			dep.LicenseID,
-			dep.Import))
+		d = NewDisallowed(dep)
 	}
-	return err
+	return d
 }
 
 // AuditDependencies returns any disallowed licenses found in the provided dependencies.
 // Also returns changes based on the dependencies there were in the glice.yaml file.
-func (yf *YAMLFile) AuditDependencies(deps Dependencies) (changes *Changes, el ErrorList) {
+func (yf *YAMLFile) AuditDependencies(deps Dependencies) (changes *Changes, ds Disalloweds) {
 	var scanDeps = yf.removeOverridden(deps.ToMap())
 	var fileDeps = yf.Dependencies.ToMap()
 
-	yf.allowedMap = yf.AllowedLicenses.ToMap()
+	// Review the file dependencies to see if there are any dependencies not found
+	// when scanning the go.mod file but that were previously in glice.yaml.
 	changes = NewChanges()
-	el = make(ErrorList, 0)
-	for imp, dep := range scanDeps {
-		err := yf.auditDependency(dep)
-		if err != nil {
-			el = append(el, err)
-			continue
-		}
-		if _, ok := fileDeps[imp]; ok {
-			continue
-		}
-		changes.Old = append(changes.Old, imp)
-	}
-	// Review the file dependencies to see if there are any new
-	// dependencies found when scanning the go.mod file.
 	for _, fd := range yf.Dependencies {
 		if _, ok := scanDeps[fd.Import]; ok {
 			continue
 		}
-		changes.New = append(changes.New, fd.Import)
+		changes.Deletions = append(changes.Deletions, fd.Import)
 	}
-	return changes, el
+
+	// Review the if there are any with disallowed licenses and
+	// also to see if we found new dependencies when scanning.
+	yf.allowedMap = yf.AllowedLicenses.ToMap()
+	ds = make(Disalloweds, 0)
+	for imp, dep := range scanDeps {
+		disallowed := yf.auditDependency(dep)
+		if disallowed != nil {
+			ds = append(ds, disallowed)
+		}
+		if _, ok := fileDeps[imp]; ok {
+			continue
+		}
+		changes.Additions = append(changes.Additions, imp)
+	}
+	return changes, ds
 }
