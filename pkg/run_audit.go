@@ -13,6 +13,7 @@ func RunAudit(cmd *cobra.Command, args []string) {
 	ctx := context.Background()
 	options := GetOptions()
 
+	Notef("\n")
 	Notef("\nBeginning License Audit")
 	pf, err := LoadProjectFile(options.SourceDir)
 	if err != nil {
@@ -33,7 +34,8 @@ func RunAudit(cmd *cobra.Command, args []string) {
 
 	Notef("\nAuditing dependencies...")
 	changes, disalloweds := pf.AuditDependencies(deps)
-	Notef("\nAudit complete.\n")
+	Notef("\nAudit complete.")
+	Notef("\n")
 
 	if !changes.HasChanges() {
 		Notef("\nNo chances detected")
@@ -71,6 +73,7 @@ func ShouldGenerateOverrides(cmd *cobra.Command) bool {
 }
 
 func GenerateOverrides(ctx context.Context, disalloweds Dependencies) {
+	Notef("\n")
 	Notef("\nCreating %s", OverridesFilename)
 
 	of := NewOverridesFile(options.SourceDir)
@@ -89,6 +92,7 @@ func GenerateOverrides(ctx context.Context, disalloweds Dependencies) {
 			of.Filepath,
 			err.Error())
 	}
-	Notef("\nOverrides files created.\n\n")
+	Notef("\nOverrides files created.")
+	Notef("\n\n")
 
 }
