@@ -8,23 +8,42 @@ import (
 )
 
 type Editors []*Editor
+type EditorMap map[string]*Editor
 type Editor struct {
 	Name      string `yaml:"name"`
 	Email     string `yaml:"email"`
 	Reference string `yaml:"ref"`
 }
 
+var (
+	defaultName  = "Username Goes Here"
+	defaultEmail = "email-alias@example.com"
+)
+
 const numProperties = 3
 
 var _ yaml.Marshaler = (*Editor)(nil)
 var _ yaml.Unmarshaler = (*Editor)(nil)
 
-func (e *Editor) MarshalYAML() (interface{}, error) {
+func (em EditorMap) ToEditors() Editors {
+	editors := make(Editors, len(em))
+	index := 0
+	for _, ed := range em {
+		editors[index] = ed
+		index++
+	}
+	return editors
+}
+
+func (e *Editor) String() string {
 	if e.Reference == "" {
 		e.Reference = UpToN(e.Email, '@', 1)
 	}
-	editor := fmt.Sprintf("&%s %s <%s>", e.Reference, e.Name, e.Email)
-	return editor, nil
+	return fmt.Sprintf("&%s %s <%s>", e.Reference, e.Name, e.Email)
+}
+
+func (e *Editor) MarshalYAML() (interface{}, error) {
+	return e.String(), nil
 }
 
 var regexParseEditor = regexp.MustCompile(`^\s*&(\S+)\s+(.+)\s+<([^>]+)>\s*$`)

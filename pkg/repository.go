@@ -253,16 +253,16 @@ end:
 
 // ResolveLicense requests the license for the repository
 func (r *Repository) ResolveLicense(ctx context.Context, options *Options) (err error) {
-	var ra RepositoryAccessor
+	var ra RepositoryGetter
 
 	if r.license != nil {
 		goto end
 	}
 
-	ra, err = GetRepositoryAccessor(ctx, r)
+	ra, err = GetRepositoryGetter(ctx, r)
 	if err != nil {
-		Failf(exitCannotGetRepositoryAccessor,
-			"unable to get repository accessor for %s",
+		Failf(exitCannotGetRepositoryGetter,
+			"unable to get repository getter for %s",
 			r.GetHost())
 	}
 
@@ -288,7 +288,7 @@ end:
 // and Path of r.url, as applicable.
 
 func (r *Repository) RecognizeKnownRepoDomain() (recognized bool) {
-	return GetRepositoryAccessorFunc(r) != nil
+	return GetRepositoryGetterFunc(r) != nil
 }
 
 //func (r *Repository) RecognizeKnownRepoDomain() (recognized bool) {

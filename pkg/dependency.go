@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/fatih/color"
+	"sort"
+	"strconv"
 )
 
 type Dependencies []*Dependency
@@ -18,6 +20,29 @@ func (deps Dependencies) ToMap() DependencyMap {
 	return newDeps
 }
 
+// ToEditorsAndOverrides returns a slice of *Dependency and a slice of unique *Editor
+func (deps Dependencies) ToEditorsAndOverrides(ctx context.Context) (editors Editors, overrides Overrides) {
+	overrides = make(Overrides, len(deps))
+	edMap := make(EditorMap, 0)
+	for index, dep := range deps {
+		eg, err := GetEditorGetter(dep)
+		if err != nil {
+			Warnf("Unable to add dependency '%s'; %w",
+				dep.Import,
+				err)
+			continue
+		}
+		ed := eg.GetEditor()
+		overrides[index] = NewOverride(dep, ed)
+
+		if _, ok := edMap[ed.String()]; !ok {
+			edMap[ed.String()] = ed
+		}
+	}
+	editors = edMap.ToEditors()
+	return editors, overrides
+}
+
 // Dependency holds information about a dependency
 type Dependency struct {
 	r          *Repository
@@ -30,7 +55,7 @@ type Dependency struct {
 	LicenseURL string `yaml:"legalese" json:"legalese"`
 }
 
-func GetDependencyFromRepository(ctx context.Context, r *Repository) *Dependency {
+func GetDependencyFromRepository(r *Repository) *Dependency {
 	return &Dependency{
 		r:          r,
 		Import:     r.Import,
@@ -80,11 +105,9 @@ func (d *Dependency) GetColorizedLicenseName() (name string) {
 	return color.New(d.GetColor()).Sprintf(name)
 }
 
-func ScanDependencies(options *Options) (ds Dependencies, err error) {
+func ScanDependencies(ctx context.Context, options *Options) (ds Dependencies, err error) {
 	var repos Repositories
 	var deps Dependencies
-
-	ctx := context.Background()
 
 	//TODO Handle this concern somewhere
 	//if thanks && githubAPIKey == "" {
@@ -107,8 +130,35 @@ func ScanDependencies(options *Options) (ds Dependencies, err error) {
 			err = fmt.Errorf("failed to resolve license; %w", err)
 			goto end
 		}
-		deps[i] = GetDependencyFromRepository(ctx, r)
+		deps[i] = GetDependencyFromRepository(r)
 	}
 end:
 	return deps, err
+}
+
+// ImportWidth returns the length of the longest Import
+func (deps Dependencies) ImportWidth() (width int) {
+	for _, d := range deps {
+		n := len(d.Import)
+		if n <= width {
+			continue
+		}
+		width = n
+	}
+	return width
+}
+
+// LogPrint outputs all rejections in list individually
+func (deps Dependencies) LogPrint() {
+	level := ErrorLevel
+	LogPrintFunc(level, func() {
+		width := strconv.Itoa(deps.ImportWidth() + 2)
+		format := "\n%s: - %-" + width + "s %s"
+		sort.Slice(deps, func(i, j int) bool {
+			return deps[i].Import < deps[j].Import
+		})
+		for _, d := range deps {
+			LogPrintf(level, format, levels[level], d.Import+":", d.LicenseID)
+		}
+	})
 }

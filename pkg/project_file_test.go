@@ -1,6 +1,7 @@
 package glice_test
 
 import (
+	"context"
 	"fmt"
 	"github.com/ribice/glice/v3/pkg"
 	"log"
@@ -31,13 +32,14 @@ var (
 	}
 )
 
-func TestYAMLFileInit(t *testing.T) {
+func TestProjectFileInit(t *testing.T) {
 	var err error
 	var file *os.File
 
-	err = os.Setenv("GITHUB_API_KEY", GitHubAPIKey)
-	if err != nil {
-		t.Errorf("failed to set GitHub API key in environment: %s", err.Error())
+	ctx := context.Background()
+
+	if GitHubAPIKey == "" {
+		t.Fatal("The GITHUB_API_KEY envionment variable has not been set")
 	}
 	file, err = os.Create(LogFilepath)
 	if err != nil {
@@ -46,13 +48,13 @@ func TestYAMLFileInit(t *testing.T) {
 	log.SetOutput(file)
 	for _, options := range yamlFileInitTests {
 		t.Run(options.SourceDir, func(t *testing.T) {
-			yf := glice.NewYAMLFile(options.SourceDir)
-			yf.Generated = glice.Timestamp()[:10]
-			yf.AllowedLicenses = glice.DefaultAllowedLicenses
-			yf.Editors = glice.Editors{
+			pf := glice.NewProjectFile(options.SourceDir)
+			pf.Generated = glice.Timestamp()[:10]
+			pf.AllowedLicenses = glice.DefaultAllowedLicenses
+			pf.Editors = glice.Editors{
 				{Name: "Mike Schinkel", Email: "mschinkel-ctr@singlestore.com"},
 			}
-			yf.Overrides = glice.Overrides{
+			pf.Overrides = glice.Overrides{
 				{
 					DependencyImport: "github.com/Masterminds/squirrel",
 					LicenseID:        "MIT",
@@ -68,14 +70,14 @@ func TestYAMLFileInit(t *testing.T) {
 					Notes:            "Verification not real, done by unit test",
 				},
 			}
-			yf.Dependencies, err = glice.ScanDependencies(options)
+			pf.Dependencies, err = glice.ScanDependencies(ctx, options)
 			if err != nil {
 				t.Errorf("failed to parse dependencies: %s", err.Error())
 			}
-			yf.Filepath = glice.YAMLFilepath(TestDataDir)
-			err = yf.Init()
+			pf.Filepath = glice.GetProjectFilepath(TestDataDir)
+			err = pf.Initialize()
 			if err != nil {
-				t.Errorf("failed to create YAML file %s: %s",
+				t.Errorf("failed to create `glice.yaml` file %s: %s",
 					options.SourceDir,
 					err.Error())
 			}
@@ -89,13 +91,13 @@ var yamlFileLoadTests = []struct {
 	{Directory: glice.SourceDir(TestDataDir)},
 }
 
-func TestYAMLFileLoad(t *testing.T) {
+func TestProjectFileLoad(t *testing.T) {
 	for _, test := range yamlFileLoadTests {
 		t.Run(test.Directory, func(t *testing.T) {
-			yf, err := glice.LoadYAMLFile(test.Directory)
+			pf, err := glice.LoadProjectFile(test.Directory)
 			if err != nil {
-				t.Errorf("failed to load YAML file %s; %s",
-					yf.Filepath,
+				t.Errorf("failed to load `glice.yaml` file %s; %s",
+					pf.Filepath,
 					err.Error())
 			}
 		})

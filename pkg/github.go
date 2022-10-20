@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-var _ RepositoryAccessor = (*GitHubRepoClient)(nil)
+var _ RepositoryGetter = (*GitHubRepoClient)(nil)
 
 type GitHubRepoClient struct {
 	*github.Client
@@ -17,24 +17,24 @@ type GitHubRepoClient struct {
 	repoInfoGetter RepoInfoGetter
 }
 
-var accessor RepositoryAccessor
+var getter RepositoryGetter
 
-func GetGitHubRepositoryAccessor(ctx context.Context, r *Repository) (_ RepositoryAccessor, err error) {
+func GetGitHubRepositoryGetter(ctx context.Context, r *Repository) (_ RepositoryGetter, err error) {
 	var gc *GitHubRepoClient
 	var hc *HostClient
-	if accessor != nil {
-		accessor.(*GitHubRepoClient).repoInfoGetter = r
+	if getter != nil {
+		getter.(*GitHubRepoClient).repoInfoGetter = r
 		goto end
 	}
 	gc = &GitHubRepoClient{}
 	hc = NewHostClient()
 	gc.hostClient = hc
 	gc.repoInfoGetter = r
-	hc.RepositoryAccessor = gc
+	hc.RepositoryGetter = gc
 	err = gc.Initialize(ctx)
-	accessor = gc
+	getter = gc
 end:
-	return accessor, err
+	return getter, err
 }
 
 func (c *GitHubRepoClient) Initialize(ctx context.Context) (err error) {

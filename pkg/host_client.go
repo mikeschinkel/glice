@@ -5,6 +5,6 @@ func NewHostClient() *HostClient {
 }
 
 type HostClient struct {
-	RepositoryAccessor
+	RepositoryGetter
 	CanLogIn bool
 }

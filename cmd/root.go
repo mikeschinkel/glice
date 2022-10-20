@@ -64,9 +64,12 @@ func init() {
 	pf.StringVar(&source, "source", glice.SourceDir(""), "Source directory where go.mod for the repo to audit is located.")
 	pf.StringVar(&cachefile, "cache-file", glice.CacheFilepath(), "Full filepath to the cachefile to create.")
 	pf.BoolVar(&nocache, "nocache", false, "Disable use of caching")
+
 	rootCmd.MarkFlagsMutuallyExclusive("nocache", "cache-file")
 }
 
+// initOptions create a glice.Options object and sets its values
+// from the command line flags.
 func initOptions() {
 	glice.SetOptions(&glice.Options{
 		VerbosityLevel:  verbose,
@@ -77,4 +80,9 @@ func initOptions() {
 		SourceDir:       source,
 		CacheFilepath:   cachefile,
 	})
+}
+
+// addTTLFlag allows multiple Commands to share the TTL Flag.
+func addTTLFlag(cmd *cobra.Command) {
+	cmd.Flags().Int("ttl", 24*60*60, "Time-to-Live for data in the cache file allowing recently audited dependencies to be skipped")
 }

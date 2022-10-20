@@ -20,5 +20,4 @@ var initCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(initCmd)
-	initCmd.Flags().String("path", glice.SourceDir(""), "Directory path to your project's top-level go.mod file")
 }

@@ -33,3 +33,7 @@ type LicenseInfoGetter interface {
 type Initializer interface {
 	Initialize(ctx context.Context) error
 }
+
+type FilepathGetter interface {
+	GetFilepath() string
+}

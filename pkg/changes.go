@@ -3,14 +3,14 @@ package glice
 import "sort"
 
 type Changes struct {
-	Additions []string
-	Deletions []string
+	Additions Dependencies
+	Deletions Dependencies
 }
 
 func NewChanges() *Changes {
 	return &Changes{
-		Additions: make([]string, 0),
-		Deletions: make([]string, 0),
+		Additions: make(Dependencies, 0),
+		Deletions: make(Dependencies, 0),
 	}
 }
 
@@ -27,17 +27,19 @@ func (c *Changes) Print() {
 	})
 }
 
-func showChanges(list []string, _type, descr string) {
+func showChanges(list Dependencies, _type, descr string) {
 	if len(list) == 0 {
 		goto end
 	}
-	sort.Strings(list)
+	sort.Slice(list, func(i, j int) bool {
+		return list[i].Import < list[j].Import
+	})
 	Notef("\n%s", _type)
 	Notef("\n---------")
 	Notef("\n%s", descr)
 	Notef("\n")
-	for _, imp := range list {
-		Notef("\n  - %s", imp)
+	for _, dep := range list {
+		Notef("\n  - %s", dep.Import)
 	}
 	Notef("\n\n")
 end:
