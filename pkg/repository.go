@@ -38,7 +38,7 @@ func ScanRepositories(ctx context.Context, options *Options) ([]*Repository, err
 
 	modules, err := ParseModFile(
 		options.SourceDir,
-		options.IncludeIndirect,
+		!options.DirectOnly,
 	)
 	if err != nil {
 		err = fmt.Errorf("unable to list repositories for '%s'; %w",

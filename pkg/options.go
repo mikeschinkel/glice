@@ -8,13 +8,13 @@ import (
 // IMPORTANT: If any arrays, slices or pointers are used
 // here be sure to update Clone() below.
 type Options struct {
-	VerbosityLevel  int
-	IncludeIndirect bool
-	LogOuput        bool
-	NoCache         bool
-	LogFilepath     string
-	SourceDir       string
-	CacheFilepath   string
+	VerbosityLevel int
+	DirectOnly     bool
+	LogOutput      bool
+	NoCache        bool
+	LogFilepath    string
+	SourceDir      string
+	CacheFilepath  string
 
 	WriteFile            bool
 	OutputFormat         string
@@ -52,7 +52,7 @@ func (o *Options) Clone() *Options {
 // IsLogging returns true when the user has either requested
 // that output be logged, or set the log filepath to a value.
 func (o *Options) IsLogging() (result bool) {
-	if o.LogOuput {
+	if o.LogOutput {
 		result = true
 		goto end
 	}
@@ -68,7 +68,7 @@ end:
 // verbosity level of either requested
 // that output be logged, or set the log filepath to a value.
 func (o *Options) DiscardOutput() (result bool) {
-	if o.LogOuput {
+	if o.LogOutput {
 		result = true
 		goto end
 	}
@@ -85,7 +85,7 @@ func (o *Options) setLogging() (err error) {
 	if !o.IsLogging() {
 		goto end
 	}
-	o.LogOuput = true
+	o.LogOutput = true
 
 	if o.LogFilepath == "" {
 		o.LogFilepath = LogFilepath()

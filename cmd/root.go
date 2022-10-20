@@ -46,7 +46,7 @@ func Execute() {
 	}
 }
 
-var indirect bool
+var direct bool
 var verbose int
 var logOutput bool
 var nocache bool
@@ -56,7 +56,7 @@ var cachefile string
 
 func init() {
 	pf := rootCmd.PersistentFlags()
-	pf.BoolVar(&indirect, "indirect", false, "Include indirect dependencies")
+	pf.BoolVar(&direct, "direct-only", false, "Exclude direct dependencies")
 	pf.IntVar(&verbose, "verbose", glice.NoteLevel, "Verbosity Level: 0=all, 1=info, 2=warn, 3=error, 4=fail")
 	pf.Lookup("verbose").NoOptDefVal = strconv.Itoa(glice.InfoLevel)
 	pf.BoolVar(&logOutput, "log", false, "Log output to default logging filepath.")
@@ -72,13 +72,13 @@ func init() {
 // from the command line flags.
 func initOptions() {
 	glice.SetOptions(&glice.Options{
-		VerbosityLevel:  verbose,
-		IncludeIndirect: indirect,
-		LogOuput:        logOutput,
-		NoCache:         nocache,
-		LogFilepath:     logfile,
-		SourceDir:       source,
-		CacheFilepath:   cachefile,
+		VerbosityLevel: verbose,
+		DirectOnly:     direct,
+		LogOutput:      logOutput,
+		NoCache:        nocache,
+		LogFilepath:    logfile,
+		SourceDir:      source,
+		CacheFilepath:  cachefile,
 	})
 }
 

@@ -22,7 +22,7 @@ var (
 
 	yamlFileInitTests = []*glice.Options{
 		{
-			IncludeIndirect:      true,
+			DirectOnly:           false,
 			SourceDir:            SourceDirectory,
 			VerbosityLevel:       glice.WarnLevel,
 			OutputFormat:         "json",
