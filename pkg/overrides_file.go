@@ -21,7 +21,7 @@ const (
 		"of allowed licenses se sure to include a note for the dependency about\n" +
 		"why you are overriding license compliance, and also if you plan for\n" +
 		"the override to just be TEMPORARY, and if so be sure to specify the\n" +
-		"criteria to be satisfied before the override can be removed\n."
+		"criteria to be satisfied before the override can be removed.\n"
 )
 
 var _ FilepathGetter = (*OverridesFile)(nil)

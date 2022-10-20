@@ -35,17 +35,6 @@ func (em EditorMap) ToEditors() Editors {
 	return editors
 }
 
-func (e *Editor) Alias() string {
-	return fmt.Sprintf("*%s", e.Reference)
-}
-
-func (e *Editor) String() string {
-	if e.Reference == "" {
-		e.Reference = UpToN(e.Email, '@', 1)
-	}
-	return fmt.Sprintf("&%s %s <%s>", e.Reference, e.Name, e.Email)
-}
-
 func (e *Editor) MarshalYAML() (interface{}, error) {
 	return e.String(), nil
 }
@@ -91,4 +80,20 @@ end:
 			"should be formatted as '&reference FirstName LastName <email@example.com>'")
 	}
 	return err
+}
+
+func (e *Editor) Alias() string {
+	e.ensureReference()
+	return fmt.Sprintf("*%s", e.Reference)
+}
+
+func (e *Editor) String() string {
+	e.ensureReference()
+	return fmt.Sprintf("&%s %s <%s>", e.Reference, e.Name, e.Email)
+}
+
+func (e *Editor) ensureReference() {
+	if e.Reference == "" {
+		e.Reference = UpToN(e.Email, '@', 1)
+	}
 }
