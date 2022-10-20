@@ -35,7 +35,7 @@ func RunAudit(cmd *cobra.Command, args []string) {
 	Notef("\nAuditing dependencies...")
 	changes, disalloweds := pf.AuditDependencies(deps)
 	Notef("\nAudit complete.")
-	Notef("\n")
+	Notef("\n\n")
 
 	if !changes.HasChanges() {
 		Notef("\nNo chances detected")
