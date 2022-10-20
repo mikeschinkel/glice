@@ -15,7 +15,7 @@ func NewOverride(dep *Dependency, ed *Editor) *Override {
 		DependencyImport: dep.Import,
 		LicenseID:        dep.LicenseID,
 		LicenseIDs:       []string{},
-		VerifiedBy:       ed.String(),
+		VerifiedBy:       ed.Alias(),
 		LastVerified:     Timestamp()[:10],
 		Notes: "Your dependency-specific notes go here,\n" +
 			"e.g. links where you read the license you verified, etc.",

@@ -35,6 +35,10 @@ func (em EditorMap) ToEditors() Editors {
 	return editors
 }
 
+func (e *Editor) Alias() string {
+	return fmt.Sprintf("*%s", e.Reference)
+}
+
 func (e *Editor) String() string {
 	if e.Reference == "" {
 		e.Reference = UpToN(e.Email, '@', 1)
