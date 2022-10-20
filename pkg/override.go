@@ -17,6 +17,7 @@ func NewOverride(dep *Dependency, ed *Editor) *Override {
 		LicenseIDs:       []string{},
 		VerifiedBy:       ed.String(),
 		LastVerified:     Timestamp()[:10],
-		Notes:            "Your specific notes go here\ne.g. links where you verified a license, etc.",
+		Notes: "Your dependency-specific notes go here,\n" +
+			"e.g. links where you read the license you verified, etc.",
 	}
 }
