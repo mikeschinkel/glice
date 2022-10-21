@@ -138,7 +138,7 @@ func HandleChanges(ctx context.Context, pf *glice.ProjectFile) {
 	changes := pf.Changes
 	if !changes.HasChanges() {
 		glice.Notef("\n")
-		glice.Notef("\nNo chances detected")
+		glice.Notef("\nNo changes detected")
 		glice.Notef("\n\n")
 	} else {
 		glice.Notef("\n")
