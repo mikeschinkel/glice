@@ -6,6 +6,23 @@
 
 Golang license and dependency checker. Prints list of all dependencies, their URL, license and saves all the license files in /licenses.
 
+## Release TODO
+- Rewrite the README.md to document v3
+- Implement Caching and TTL support
+- Update `.goReleaser.yaml` and ensure it can produce a viable release.
+- (Re)Implement full suite of tests 
+- (Re)Implement these commands:
+  - `repost save` — Generate a list of dependencies and licenses to a file.
+  - `report print` — Generate a list of dependencies and licenses to Stdout.
+    - Figure out how apply colors to different licenses.
+  - `licenses save` — Write dependency's licenses to text files.
+  - `licenses download` — Download JSON of license from [spdx.org's GitHub](https://raw.githubusercontent.com/spdx/license-list-data/master/json/licenses.json).
+    - Add validation from this list to `glice audit`
+  - `thank` — Upvote each dependency on its host ("Star" on Github.)
+  - `test` — TBD
+
+# Glice v2 README Follows
+
 ## Introduction
 
 glice analyzes the go.mod file of your project and prints it in a tabular format [csv and json available as well] - name, URL, and license short-name (MIT, GPL...). 
