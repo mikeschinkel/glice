@@ -37,7 +37,7 @@ Feel free to use at your own risk.  Also, feel free to submit issues if you have
 
 ## Introduction
 
-glice analyzes the go.mod file of your project and prints it in a tabular format [csv and json available as well] - name, URL, and license short-name (MIT, GPL...). 
+glice analyzes the `go.mod` file of your project and prints it in a tabular format [csv and json available as well] - name, URL, and license short-name (MIT, GPL...). 
 
 ## Installation
 
@@ -116,6 +116,9 @@ Executing glice -c on github.com/ribice/glice prints (with additional colors for
 
 glice is licensed under the MIT license. Check the [LICENSE](LICENSE.md) file for details.
 
-## Author
+## Authors
 
-[Emir Ribic](https://ribice.ba)
+| Who                                           | What                               |
+|-----------------------------------------------|------------------------------------|
+| [Emir Ribic](https://ribice.ba)               | Original author through v2.x       |  
+| [Mike Schinkel](http://about.me/mikeschinkel) | Author of hopeful additions for v3 |
