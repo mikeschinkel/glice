@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"context"
 	"github.com/ribice/glice/v3/pkg"
 	"github.com/spf13/cobra"
 )
@@ -8,7 +9,7 @@ import (
 // initCmd represents the init command
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Run:   glice.RunInit,
+	Run:   RunInit,
 	Short: "Initialize a 'glice.yaml' command in your project's path",
 	Long: `Initialize a 'glice.yaml' command in your project's path. ` +
 		`'init' will scan the go.mod file for dependencies and write ` +
@@ -20,4 +21,14 @@ var initCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(initCmd)
+}
+
+func RunInit(cmd *cobra.Command, args []string) {
+	ctx := context.Background()
+	glice.Notef("\n")
+	glice.Notef("\nInitializing %s for project", glice.AppName)
+	pf := CreatingProjectFile(ctx)
+	pf.Dependencies = ScanningDependencies(ctx)
+	SavingProjectFile(ctx, pf)
+	glice.Notef("\n\n")
 }

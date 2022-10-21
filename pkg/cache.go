@@ -13,14 +13,14 @@ var cacheFilepath = filepath.Join(CacheDir(), CacheFilename)
 func CacheDir() string {
 	dir, err := os.UserCacheDir()
 	if err != nil {
-		Failf(exitCannotGetCacheDir,
+		Failf(ExitCannotGetCacheDir,
 			"Unable to get cache dir as %s",
 			err.Error())
 	}
 	dir = filepath.Join(dir, CacheSubDir)
 	err = os.MkdirAll(dir, os.ModePerm)
 	if err != nil {
-		Failf(exitCannotCreateCacheDir,
+		Failf(ExitCannotCreateCacheDir,
 			"Unable to get create cache subdir %s: %s",
 			err.Error())
 	}

@@ -261,7 +261,7 @@ func (r *Repository) ResolveLicense(ctx context.Context, options *Options) (err 
 
 	ra, err = GetRepositoryGetter(ctx, r)
 	if err != nil {
-		Failf(exitCannotGetRepositoryGetter,
+		Failf(ExitCannotGetRepositoryGetter,
 			"unable to get repository getter for %s",
 			r.GetHost())
 	}

@@ -60,6 +60,6 @@ func (of *OverridesFile) ensureValidProperties() {
 	}
 }
 
-func (of *OverridesFile) Create() error {
-	return CreateYAMLFile(of)
+func (of *OverridesFile) Save() error {
+	return SaveYAMLFile(of)
 }

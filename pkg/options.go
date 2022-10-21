@@ -34,7 +34,7 @@ func GetOptions() *Options {
 func SetOptions(o *Options) {
 	err := o.setLogging()
 	if err != nil {
-		Failf(exitCannotSetOptions,
+		Failf(ExitCannotSetOptions,
 			"Unable to set options: %s",
 			err.Error())
 	}

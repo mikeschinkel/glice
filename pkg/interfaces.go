@@ -15,7 +15,7 @@ type RepositoryLicenseGetter interface {
 	GetRepositoryLicense(context.Context, *Options) (*RepositoryLicense, error)
 }
 type RepositoryUpVoter interface {
-	UpVoteRepository(context.Context, *Options)
+	UpVoteRepository(context.Context)
 }
 type HostClientSetter interface {
 	SetHostClient(client *HostClient)

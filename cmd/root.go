@@ -61,7 +61,7 @@ func init() {
 	pf.Lookup("verbose").NoOptDefVal = strconv.Itoa(glice.InfoLevel)
 	pf.BoolVar(&logOutput, "log", false, "Log output to default logging filepath.")
 	pf.StringVar(&logfile, "logfile", "", "File to log output to.")
-	pf.StringVar(&source, "source", glice.SourceDir(""), "Source directory where go.mod for the repo to audit is located.")
+	pf.StringVar(&source, "source", glice.SourceDir(""), "Source directory where go.mod.")
 	pf.StringVar(&cachefile, "cache-file", glice.CacheFilepath(), "Full filepath to the cachefile to create.")
 	pf.BoolVar(&nocache, "nocache", false, "Disable use of caching")
 

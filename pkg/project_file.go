@@ -18,9 +18,11 @@ type ProjectFile struct {
 	Editors         Editors      `yaml:"editors"`
 	Generated       string       `yaml:"generated"`
 	AllowedLicenses LicenseIDs   `yaml:"allowed"`
-	allowedMap      LicenseIDMap `yaml:"-"`
 	Overrides       Overrides    `yaml:"overrides"`
 	Dependencies    Dependencies `yaml:"dependencies"`
+	allowedMap      LicenseIDMap `yaml:"-"`
+	Disalloweds     Dependencies `yaml:"-"`
+	Changes         *Changes     `yaml:"-"`
 }
 
 func NewProjectFile(dir string) *ProjectFile {
@@ -73,8 +75,8 @@ func LoadProjectFile(dir string) (pf *ProjectFile, err error) {
 	return fg.(*ProjectFile), err
 }
 
-func (pf *ProjectFile) Initialize() (err error) {
-	return CreateYAMLFile(pf)
+func (pf *ProjectFile) Save() (err error) {
+	return SaveYAMLFile(pf)
 }
 
 // removeOverridden accepts a DependencyMap and removes any found to be

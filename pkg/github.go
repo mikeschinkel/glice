@@ -81,13 +81,13 @@ func (c *GitHubRepoClient) GetRepoName() string {
 
 func (c *GitHubRepoClient) checkRepoInfoGetter() {
 	if c.repoInfoGetter == nil {
-		Failf(exitRepoInfoGetterIsNil,
+		Failf(ExitRepoInfoGetterIsNil,
 			"Must set Repository.repoInfoGetter before calling GitHubRepoClient.%s()",
 			CallerName())
 	}
 }
 
-func (c *GitHubRepoClient) UpVoteRepository(ctx context.Context, options *Options) {
+func (c *GitHubRepoClient) UpVoteRepository(ctx context.Context) {
 	var r *github.Response
 	var err error
 

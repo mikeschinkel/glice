@@ -41,7 +41,7 @@ func GetRepositoryGetter(ctx context.Context, r *Repository) (rg RepositoryGette
 		goto end
 	}
 	if rg == nil {
-		Failf(exitHostNotYetSupported,
+		Failf(ExitHostNotYetSupported,
 			"Repositories hosted on %s are not yet supported. Support can be added in ./repository_getter.go.",
 			r.GetHost())
 	}

@@ -179,7 +179,7 @@ func Timestamp() string {
 func SourceDir(path string) string {
 	wd, err := os.Getwd()
 	if err != nil {
-		Failf(exitCannotGetWorkingDir,
+		Failf(ExitCannotGetWorkingDir,
 			"Unable to get current working directory: %s",
 			err.Error())
 	}
@@ -204,7 +204,7 @@ func FileExists(fp string) (exists bool) {
 		goto end
 	}
 	if err != nil {
-		Failf(exitCannotStatFile,
+		Failf(ExitCannotStatFile,
 			"Unable to check existence of %s: %s",
 			fp,
 			err.Error())
@@ -235,7 +235,7 @@ end:
 	return obj.(FilepathGetter), err
 }
 
-func CreateYAMLFile(fg FilepathGetter) (err error) {
+func SaveYAMLFile(fg FilepathGetter) (err error) {
 	var f *os.File
 	var b []byte
 

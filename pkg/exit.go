@@ -1,17 +1,17 @@
 package glice
 
 const (
-	exitAuditFoundDisallowedLicenses = 1
-	exitCannotGetWorkingDir          = 2
-	exitCannotGetCacheDir            = 3
-	exitCannotCreateCacheDir         = 4
-	exitCannotParseDependencies      = 5
-	exitCannotCreateFile             = 6
-	exitCannotStatFile               = 7
-	exitFileExistsCannotOverwrite    = 8
-	exitFileDoesNotExist             = 9
-	exitRepoInfoGetterIsNil          = 10
-	exitCannotGetRepositoryGetter    = 11
-	exitCannotSetOptions             = 12
-	exitHostNotYetSupported          = 13
+	ExitAuditFoundDisallowedLicenses = 1
+	ExitCannotGetWorkingDir          = 2
+	ExitCannotGetCacheDir            = 3
+	ExitCannotCreateCacheDir         = 4
+	ExitCannotScanDependencies       = 5
+	ExitCannotSaveFile               = 6
+	ExitCannotStatFile               = 7
+	ExitFileExistsCannotOverwrite    = 8
+	ExitFileDoesNotExist             = 9
+	ExitRepoInfoGetterIsNil          = 10
+	ExitCannotGetRepositoryGetter    = 11
+	ExitCannotSetOptions             = 12
+	ExitHostNotYetSupported          = 1
 )

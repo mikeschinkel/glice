@@ -75,7 +75,7 @@ func TestProjectFileInit(t *testing.T) {
 				t.Errorf("failed to parse dependencies: %s", err.Error())
 			}
 			pf.Filepath = glice.GetProjectFilepath(TestDataDir)
-			err = pf.Initialize()
+			err = pf.Save()
 			if err != nil {
 				t.Errorf("failed to create `glice.yaml` file %s: %s",
 					options.SourceDir,
