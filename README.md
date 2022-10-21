@@ -32,7 +32,8 @@ Feel free to use at your own risk.  Also, feel free to submit issues if you have
   - `thank` — Upvote each dependency on its host ("Star" on Github.)
   - `test` — TBD
 
-# Glice v2 README Follows
+# Glice v2 README Follows 
+## _(This is NOT reflective of the `hopeful-v3` branch)_
 
 ## Introduction
 
