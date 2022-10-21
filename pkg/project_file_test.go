@@ -56,18 +56,18 @@ func TestProjectFileInit(t *testing.T) {
 			}
 			pf.Overrides = glice.Overrides{
 				{
-					DependencyImport: "github.com/Masterminds/squirrel",
-					LicenseID:        "MIT",
-					VerifiedBy:       "*mschinkel-ctr",
-					LastVerified:     glice.Timestamp()[:10],
-					Notes:            "Verification not real, done by unit test",
+					Import:       "github.com/Masterminds/squirrel",
+					LicenseID:    "MIT",
+					VerifiedBy:   "*mschinkel-ctr",
+					LastVerified: glice.Timestamp()[:10],
+					Notes:        "Verification not real, done by unit test",
 				},
 				{
-					DependencyImport: "github.com/miekg/dns",
-					LicenseID:        "BSD-3-Clause",
-					VerifiedBy:       "*mschinkel-ctr",
-					LastVerified:     glice.Timestamp()[:10],
-					Notes:            "Verification not real, done by unit test",
+					Import:       "github.com/miekg/dns",
+					LicenseID:    "BSD-3-Clause",
+					VerifiedBy:   "*mschinkel-ctr",
+					LastVerified: glice.Timestamp()[:10],
+					Notes:        "Verification not real, done by unit test",
 				},
 			}
 			pf.Dependencies, err = glice.ScanDependencies(ctx, options)

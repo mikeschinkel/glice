@@ -30,7 +30,7 @@ func RunAudit(cmd *cobra.Command, args []string) {
 	glice.Notef("\n")
 	glice.Notef("\nBeginning License Audit")
 	deps := ScanningDependencies(ctx)
-	pf := AuditingProjectDependencies(ctx, "run", deps)
+	pf := AuditingProjectDependencies(ctx, deps)
 	glice.Notef("\n\n")
 	HandleChanges(ctx, pf)
 	exceptions := HasDisalloweds(ctx, pf)

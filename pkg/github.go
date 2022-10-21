@@ -136,7 +136,7 @@ func (c *GitHubRepoClient) GetRepositoryLicense(ctx context.Context, options *Op
 		switch _err.Response.StatusCode {
 		case http.StatusUnauthorized:
 			// Bad credentials?
-			err = fmt.Errorf("unauthorized; %w", _err)
+			err = fmt.Errorf("unauthorized (is your GITHUB_API_KEY correct?); %w", _err)
 
 		case http.StatusNotFound:
 			// Anything other than a Not Found or Unauthorized

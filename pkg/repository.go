@@ -274,10 +274,6 @@ func (r *Repository) ResolveLicense(ctx context.Context, options *Options) (err 
 		goto end
 	}
 
-	// TODO IMO this should be moved out of getting a license and should
-	//      be handled by calling a bespoke method to thank all repos.
-	//ra.UpVoteRepository(ctx)
-
 end:
 	return err
 }

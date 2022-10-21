@@ -5,7 +5,6 @@ go 1.18
 require (
 	github.com/fatih/color v1.13.0
 	github.com/google/go-github v17.0.0+incompatible
-	github.com/mikeschinkel/go-phpcereal v0.0.0-20220731232732-62bf5394d863
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/spf13/cobra v1.6.0
 	golang.org/x/mod v0.5.1

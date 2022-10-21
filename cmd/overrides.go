@@ -24,7 +24,7 @@ func RunOverrides(cmd *cobra.Command, args []string) {
 	glice.Notef("\n")
 	glice.Notef("\nGenerating Overrides file")
 	deps := ScanningDependencies(ctx)
-	pf := AuditingProjectDependencies(ctx, "generate", deps)
+	pf := AuditingProjectDependencies(ctx, deps)
 	glice.Notef("\n\n")
 	GeneratingOverrides(ctx, cmd, pf, glice.ErrorLevel)
 }

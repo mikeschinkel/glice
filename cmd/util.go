@@ -16,7 +16,7 @@ func SavingOverridesFile(ctx context.Context, of *glice.OverridesFile) {
 	glice.Notef("\nSaving %s", of.Filepath)
 	err := of.Save()
 	if err != nil {
-		glice.Failf(glice.ExitCannotSaveFile,
+		Failf(glice.ExitCannotSaveFile,
 			"Failed to create file %s: %s",
 			of.Filepath,
 			err.Error())
@@ -24,17 +24,16 @@ func SavingOverridesFile(ctx context.Context, of *glice.OverridesFile) {
 	glice.Notef("\nOverrides files saved.")
 }
 
-func LoadingProfileFile(ctx context.Context, task string) *glice.ProjectFile {
+func LoadingProfileFile(ctx context.Context) *glice.ProjectFile {
 	glice.Notef("\nLoading `%s`", glice.ProjectFilename)
 	pf, err := glice.LoadProjectFile(glice.GetOptions().SourceDir)
 	if err != nil {
-		glice.Failf(glice.ExitFileDoesNotExist,
-			"Cannot %s %s; %s",
-			task,
+		Failf(glice.ExitFileDoesNotExist,
+			"Cannot run %s; %s",
 			glice.CallerName(),
 			err.Error())
 	}
-	glice.Notef("\nLoaded `%s`", pf.Filepath)
+	Notef("\nLoaded `%s`", pf.Filepath)
 	return pf
 }
 
@@ -44,7 +43,7 @@ func ScanningDependencies(ctx context.Context) (deps glice.Dependencies) {
 	glice.Notef("\nScanning dependencies...")
 	deps, err = glice.ScanDependencies(ctx, glice.GetOptions())
 	if err != nil {
-		glice.Failf(glice.ExitCannotScanDependencies,
+		Failf(glice.ExitCannotScanDependencies,
 			"Failed while scanning dependencies: %s",
 			err.Error())
 	}
@@ -55,7 +54,7 @@ func SavingProjectFile(ctx context.Context, pf *glice.ProjectFile) {
 	glice.Notef("\nSaving %s", glice.ProjectFilename)
 	err := pf.Save()
 	if err != nil {
-		glice.Failf(glice.ExitCannotSaveFile,
+		Failf(glice.ExitCannotSaveFile,
 			"Failed to save %s: %s",
 			pf.Filepath,
 			err.Error())
@@ -67,7 +66,7 @@ func CreatingProjectFile(ctx context.Context) (pf *glice.ProjectFile) {
 	glice.Notef("\nCreating %s", glice.ProjectFilename)
 	pf = glice.NewProjectFile(glice.GetOptions().SourceDir)
 	if pf.Exists() {
-		glice.Failf(glice.ExitFileExistsCannotOverwrite,
+		Failf(glice.ExitFileExistsCannotOverwrite,
 			"Cannot overwrite existing file %s.\nRename or delete file then re-run 'glice init'.",
 			pf.Filepath)
 	}
@@ -76,11 +75,11 @@ func CreatingProjectFile(ctx context.Context) (pf *glice.ProjectFile) {
 	}
 	pf.Overrides = glice.Overrides{
 		{
-			DependencyImport: "https://github.com/example.com/sample",
-			LicenseID:        "MIT",
-			VerifiedBy:       "*email-alias",
-			LastVerified:     glice.Timestamp()[:10],
-			Notes:            "This is a sample override added by 'glice init' command",
+			Import:       "https://github.com/example.com/sample",
+			LicenseID:    "MIT",
+			VerifiedBy:   "*email-alias",
+			LastVerified: glice.Timestamp()[:10],
+			Notes:        "This is a sample override added by 'glice init' command",
 		},
 	}
 	glice.Notef("\nFile %s created", pf.Filepath)
@@ -96,11 +95,11 @@ func CreatingOverridesFile(ctx context.Context, onExists int) *glice.OverridesFi
 	}
 	switch onExists {
 	case glice.WarnLevel:
-		glice.Warnf(
+		Warnf(
 			"\nCannot overwrite existing file %s.\nRename or delete file then re-run 'glice overrides'.",
 			of.Filepath)
 	default:
-		glice.Failf(glice.ExitFileExistsCannotOverwrite,
+		Failf(glice.ExitFileExistsCannotOverwrite,
 			"\nCannot overwrite existing file %s.\nRename or delete file then re-run 'glice overrides'.",
 			of.Filepath)
 	}
@@ -108,8 +107,8 @@ end:
 	return of
 }
 
-func AuditingProjectDependencies(ctx context.Context, task string, deps glice.Dependencies) (pf *glice.ProjectFile) {
-	pf = LoadingProfileFile(ctx, task)
+func AuditingProjectDependencies(ctx context.Context, deps glice.Dependencies) (pf *glice.ProjectFile) {
+	pf = LoadingProfileFile(ctx)
 	glice.Notef("\nAuditing dependencies...")
 	pf.Changes, pf.Disalloweds = pf.AuditDependencies(deps)
 	glice.Notef("\nAudit complete.")
@@ -120,7 +119,7 @@ func HasDisalloweds(ctx context.Context, pf *glice.ProjectFile) (has bool) {
 	if len(pf.Disalloweds) == 0 {
 		glice.Notef("\n")
 		glice.Notef("\nOnly allowed licenses detected")
-		glice.Notef("\nAudit completed successfully\n")
+		glice.Notef("\nAudit completed successfully")
 		goto end
 	}
 	has = true
@@ -159,4 +158,15 @@ func GeneratingOverrides(ctx context.Context, cmd *cobra.Command, pf *glice.Proj
 		SavingOverridesFile(ctx, of)
 		glice.Notef("\n\n")
 	}
+}
+
+func Warnf(format string, args ...interface{}) {
+	glice.Warnf(format, args...)
+
+}
+func Notef(format string, args ...interface{}) {
+	glice.Notef(format, args...)
+}
+func Failf(level int, format string, args ...interface{}) {
+	glice.Failf(level, format, args...)
 }

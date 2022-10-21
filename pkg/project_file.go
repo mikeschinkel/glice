@@ -21,6 +21,7 @@ type ProjectFile struct {
 	Overrides       Overrides    `yaml:"overrides"`
 	Dependencies    Dependencies `yaml:"dependencies"`
 	allowedMap      LicenseIDMap `yaml:"-"`
+	overrideMap     OverrideMap  `yaml:"-"`
 	Disalloweds     Dependencies `yaml:"-"`
 	Changes         *Changes     `yaml:"-"`
 }
@@ -79,36 +80,27 @@ func (pf *ProjectFile) Save() (err error) {
 	return SaveYAMLFile(pf)
 }
 
-// removeOverridden accepts a DependencyMap and removes any found to be
-// overridden in the `glice.yaml` file, returning the smaller map.
-func (pf *ProjectFile) removeOverridden(depMap DependencyMap) DependencyMap {
-	// First scan the overrides from the glice.yaml file
-	for _, _or := range pf.Overrides {
-		// If none found in the deps provided as overridden
-		if _, ok := depMap[_or.DependencyImport]; !ok {
-			// continue looking
-			continue
-		}
-		// If any deps provides WERE found to be overridden
-		// then let's remove them from the list of deps
-		// TODO: Address when license changes to unacceptable AFTER it was
-		//       overridden as acceptable
-		delete(depMap, _or.DependencyImport)
-	}
-	return depMap
-}
-
 // IsLicenseAllowed inspects a single scanned dependency to ensure
 // it has a proper license, returning false if not.
 func (pf *ProjectFile) IsLicenseAllowed(dep *Dependency) (ok bool) {
+	if pf.overrideMap == nil {
+		pf.overrideMap = pf.Overrides.ToMap()
+	}
+	if _, ok = pf.overrideMap[dep.Import]; ok {
+		goto end
+	}
+	if pf.allowedMap == nil {
+		pf.allowedMap = pf.AllowedLicenses.ToMap()
+	}
 	_, ok = pf.allowedMap[dep.LicenseID]
+end:
 	return ok
 }
 
 // AuditDependencies returns any disallowed licenses found in the provided dependencies.
 // Also returns changes based on the dependencies there were in the glice.yaml file.
 func (pf *ProjectFile) AuditDependencies(deps Dependencies) (changes *Changes, disalloweds Dependencies) {
-	var scanDeps = pf.removeOverridden(deps.ToMap())
+	var scanDeps = deps.ToMap()
 	var fileDeps = pf.Dependencies.ToMap()
 
 	// Review the file dependencies to see if there are any dependencies not found
@@ -123,7 +115,6 @@ func (pf *ProjectFile) AuditDependencies(deps Dependencies) (changes *Changes, d
 
 	// Review the if there are any with disallowed licenses and
 	// also to see if we found new dependencies when scanning.
-	pf.allowedMap = pf.AllowedLicenses.ToMap()
 	disalloweds = make(Dependencies, 0)
 	for imp, dep := range scanDeps {
 		if !pf.IsLicenseAllowed(dep) {
