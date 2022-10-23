@@ -22,12 +22,12 @@ var (
 
 	yamlFileInitTests = []*glice.Options{
 		{
-			DirectOnly:           false,
-			SourceDir:            SourceDirectory,
-			VerbosityLevel:       glice.WarnLevel,
-			OutputFormat:         "json",
-			NoCaptureLicenseText: true,
-			OutputDestination:    "file",
+			DirectOnly:     false,
+			SourceDir:      SourceDirectory,
+			VerbosityLevel: glice.WarnLevel,
+			//OutputFormat:         "json",
+			//NoCaptureLicenseText: true,
+			//OutputDestination:    "file",
 		},
 	}
 )
@@ -35,6 +35,7 @@ var (
 func TestProjectFileInit(t *testing.T) {
 	var err error
 	var file *os.File
+	var backups []string
 
 	ctx := context.Background()
 
@@ -57,14 +58,14 @@ func TestProjectFileInit(t *testing.T) {
 			pf.Overrides = glice.Overrides{
 				{
 					Import:       "github.com/Masterminds/squirrel",
-					LicenseID:    "MIT",
+					LicenseIDs:   []string{"MIT"},
 					VerifiedBy:   "*mschinkel-ctr",
 					LastVerified: glice.Timestamp()[:10],
 					Notes:        "Verification not real, done by unit test",
 				},
 				{
 					Import:       "github.com/miekg/dns",
-					LicenseID:    "BSD-3-Clause",
+					LicenseIDs:   []string{"BSD-3-Clause"},
 					VerifiedBy:   "*mschinkel-ctr",
 					LastVerified: glice.Timestamp()[:10],
 					Notes:        "Verification not real, done by unit test",
@@ -75,11 +76,14 @@ func TestProjectFileInit(t *testing.T) {
 				t.Errorf("failed to parse dependencies: %s", err.Error())
 			}
 			pf.Filepath = glice.GetProjectFilepath(TestDataDir)
-			err = pf.Save()
+			backups, err = pf.Save()
 			if err != nil {
 				t.Errorf("failed to create `glice.yaml` file %s: %s",
 					options.SourceDir,
 					err.Error())
+			}
+			if backups != nil {
+				print("TODO add logic to test this")
 			}
 		})
 	}

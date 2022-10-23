@@ -1,36 +1,50 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
-
+	glice "github.com/ribice/glice/v3/pkg"
 	"github.com/spf13/cobra"
 )
+
+const DefaultLicensesPath = "licenses"
 
 // licensesCmd represents the licenses command
 var licensesCmd = &cobra.Command{
 	Use:   "licenses",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("licenses called")
-	},
+	Run:   RunLicenses,
+	Short: "Write licenses for each dependency to a file",
 }
 
 func init() {
 	rootCmd.AddCommand(licensesCmd)
+	saveCmd.Flags().String("path",
+		DefaultLicensesPath,
+		fmt.Sprintf("Directory path in which to write licenses. Can be relative to %s, or absolute.",
+			glice.ProjectFilename))
+}
 
-	// Here you will define your flags and configuration settings.
+//goland:noinspection GoUnusedParameter
+func RunLicenses(cmd *cobra.Command, args []string) {
+	dir := glice.Flag(cmd, "path")
+	ctx := context.Background()
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// licensesCmd.PersistentFlags().String("foo", "", "A help for foo")
+	NoteBegin()
+	Notef("\nWriting Licenses to %s", dir)
+	deps := ScanDependencies(ctx)
+	SavingLicenses(deps, dir)
+	NoteEnd()
+}
 
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// licensesCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+func SavingLicenses(deps glice.Dependencies, dir string) {
+	Notef("\nSaving Licenses")
+	err := deps.SaveLicenses(dir, func(dep *glice.Dependency, fp string) {
+		Infof("\nSaving license for %s to %s", dep.Import, fp)
+	})
+	if err != nil {
+		Failf(glice.ExitCannotSaveFile,
+			"\nUnable to write licenses for individual files; %w",
+			err)
+	}
+	Notef("\nLicenses saved")
 }

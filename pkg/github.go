@@ -7,9 +7,10 @@ import (
 	"golang.org/x/oauth2"
 	"net/http"
 	"os"
+	"strings"
 )
 
-var _ RepositoryGetter = (*GitHubRepoClient)(nil)
+var _ RepositoryAdapter = (*GitHubRepoClient)(nil)
 
 type GitHubRepoClient struct {
 	*github.Client
@@ -17,9 +18,9 @@ type GitHubRepoClient struct {
 	repoInfoGetter RepoInfoGetter
 }
 
-var getter RepositoryGetter
+var getter RepositoryAdapter
 
-func GetGitHubRepositoryGetter(ctx context.Context, r *Repository) (_ RepositoryGetter, err error) {
+func GetGitHubRepositoryAdapter(ctx context.Context, r *Repository) (_ RepositoryAdapter, err error) {
 	var gc *GitHubRepoClient
 	var hc *HostClient
 	if getter != nil {
@@ -30,21 +31,29 @@ func GetGitHubRepositoryGetter(ctx context.Context, r *Repository) (_ Repository
 	hc = NewHostClient()
 	gc.hostClient = hc
 	gc.repoInfoGetter = r
-	hc.RepositoryGetter = gc
+	hc.RepositoryAdapter = gc
 	err = gc.Initialize(ctx)
 	getter = gc
 end:
 	return getter, err
 }
 
+func HasGitHubAPIKey() bool {
+	return GitHubAPIKey() != ""
+}
+
+func GitHubAPIKey() string {
+	return strings.TrimSpace(os.Getenv("GITHUB_API_KEY"))
+}
+
 func (c *GitHubRepoClient) Initialize(ctx context.Context) (err error) {
 	var _c *http.Client
 	var isCredentialed bool
 
-	apiKey := os.Getenv("GITHUB_API_KEY")
-	if apiKey == "" {
+	if !HasGitHubAPIKey() {
 		Warnf("\nThe environment variable GITHUB_API_KEY has not been set, or is empty; license lookups may fail.\n")
 	} else {
+		apiKey := GitHubAPIKey()
 		ts := oauth2.StaticTokenSource(&oauth2.Token{
 			AccessToken: apiKey,
 		})
@@ -87,22 +96,26 @@ func (c *GitHubRepoClient) checkRepoInfoGetter() {
 	}
 }
 
-func (c *GitHubRepoClient) UpVoteRepository(ctx context.Context) {
+func (c *GitHubRepoClient) UpVoteRepository(ctx context.Context) (err error) {
 	var r *github.Response
-	var err error
 
 	if !c.hostClient.CanLogIn {
 		// Have not logged in yet so can't increase star count
+		err = fmt.Errorf("unable to star repository '%s'; %w",
+			c.GetRepoName(),
+			ErrCannotLogin)
 		goto end
 	}
 
 	// Increment star count for the repository
 	r, err = c.Client.Activity.Star(ctx, c.GetOrgName(), c.GetRepoName())
 	if err != nil {
-		Warnf("Unable to increment star count for repository '%s': %s",
-			c.GetName(), r.Status)
+		err = fmt.Errorf("unable to increment star count for repository '%s': %s",
+			c.GetRepoName(),
+			r.Status)
 	}
 end:
+	return err
 }
 
 func (c *GitHubRepoClient) GetRepositoryLicense(ctx context.Context, options *Options) (lic *RepositoryLicense, err error) {
@@ -116,7 +129,7 @@ func (c *GitHubRepoClient) GetRepositoryLicense(ctx context.Context, options *Op
 				ID:  rl.License.GetSPDXID(),
 				URL: rl.GetDownloadURL(),
 			})
-			if options.NoCaptureLicenseText {
+			if !options.CaptureLicense {
 				// CLI switch requested we ignore capturing license content
 				break
 			}

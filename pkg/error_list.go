@@ -26,7 +26,7 @@ func (el ErrorList) LogPrint() {
 	level := 3
 	LogPrintFunc(level, func() {
 		for _, err := range el {
-			LogPrintf(level, "%s: - %s\n", levels[level], err.Error())
+			LogPrintf(level, "%s: - %s\n", LogLevels[level], err.Error())
 		}
 	})
 }

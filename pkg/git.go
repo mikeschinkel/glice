@@ -38,6 +38,7 @@ func (g *Git) GetEditor() *Editor {
 		Name:  strings.TrimSpace(string(name)),
 		Email: strings.TrimSpace(string(email)),
 	}
+	editor.ID = editor.GetID()
 end:
 	return editor
 }

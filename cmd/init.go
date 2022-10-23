@@ -23,12 +23,13 @@ func init() {
 	rootCmd.AddCommand(initCmd)
 }
 
+//goland:noinspection GoUnusedParameter
 func RunInit(cmd *cobra.Command, args []string) {
 	ctx := context.Background()
-	glice.Notef("\n")
-	glice.Notef("\nInitializing %s for project", glice.AppName)
+	NoteBegin()
+	Notef("\nInitializing %s for project", glice.AppName)
 	pf := CreatingProjectFile(ctx)
-	pf.Dependencies = ScanningDependencies(ctx)
+	pf.Dependencies = ScanDependencies(ctx)
 	SavingProjectFile(ctx, pf)
-	glice.Notef("\n\n")
+	NoteEnd()
 }

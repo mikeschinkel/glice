@@ -1,7 +1,12 @@
 package glice
 
-import "io"
+import (
+	"io"
+)
 
 func MustClose(c io.Closer) {
-	_ = c.Close()
+	err := c.Close()
+	if err != nil {
+		Warnf("Unable to close file: %s", err.Error())
+	}
 }

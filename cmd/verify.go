@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"context"
+	"fmt"
+	glice "github.com/ribice/glice/v3/pkg"
 	"github.com/spf13/cobra"
 )
 
@@ -9,17 +11,18 @@ import (
 var VerifyCmd = &cobra.Command{
 	Use:   "verify",
 	Run:   RunVerify,
-	Short: "Verify your project's `glice.yaml` file",
-	Long:  "Verify your project's `glice.yaml` file by loading it",
+	Short: fmt.Sprintf("Verify your project's `%s` file", glice.ProjectFilename),
+	Long:  fmt.Sprintf("Verify your project's `%s` file by loading it", glice.ProjectFilename),
 }
 
 func init() {
 	rootCmd.AddCommand(VerifyCmd)
 }
 
+//goland:noinspection GoUnusedParameter
 func RunVerify(cmd *cobra.Command, args []string) {
 	ctx := context.Background()
-	Notef("\n")
+	NoteBegin()
 	LoadingProfileFile(ctx)
-	Notef("\n\n")
+	NoteEnd()
 }

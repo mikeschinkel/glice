@@ -1,4 +1,4 @@
-package glice_test
+package cmd_test
 
 //import (
 //	"bytes"
@@ -85,7 +85,7 @@ package glice_test
 //	for name, tt := range tests {
 //		t.Run(name, func(t *testing.T) {
 //			writeTo := &bytes.Buffer{}
-//			err := Print(tt.path, false, writeTo)
+//			err := AllPrint(tt.path, false, writeTo)
 //			if (err != nil) != tt.wantErr {
 //				t.Errorf("Print() error = %v, wantErr %v", err, tt.wantErr)
 //				return

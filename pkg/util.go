@@ -2,15 +2,10 @@ package glice
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
-	"gopkg.in/yaml.v3"
-	"io/fs"
 	"net/http"
-	"os"
-	"path/filepath"
 	"runtime"
 	"time"
 	"unicode"
@@ -175,110 +170,22 @@ func Timestamp() string {
 	return time.Now().UTC().Format(time.RFC3339)
 }
 
-// SourceDir returns the current working directory as a string
-func SourceDir(path string) string {
-	wd, err := os.Getwd()
-	if err != nil {
-		Failf(ExitCannotGetWorkingDir,
-			"Unable to get current working directory: %s",
-			err.Error())
-	}
-	return filepath.Join(wd, path)
-}
-
-// AppendError appends a string message to the existing error and
-// returns a new error with the messages combined using an 'and'.
-func AppendError(err error, msg string) error {
-	if err == nil {
-		err = errors.New(msg)
-	} else {
-		err = fmt.Errorf("%s, and %s", err.Error(), msg)
-	}
-	return err
-}
-
-// FileExists returns true of the file represented by the passed filepath exists
-func FileExists(fp string) (exists bool) {
-	_, err := os.Stat(fp)
-	if errors.Is(err, fs.ErrNotExist) {
-		goto end
-	}
-	if err != nil {
-		Failf(ExitCannotStatFile,
-			"Unable to check existence of %s: %s",
-			fp,
-			err.Error())
-	}
-	exists = true
-end:
-	return exists
-}
-
-func LoadYAMLFile(fp string, obj interface{}) (fg FilepathGetter, err error) {
-	var b []byte
-
-	if !FileExists(fp) {
-		err = fmt.Errorf("unable to find %s; %w", fp, ErrLoadableYAMLFile)
-		goto end
-	}
-	b, err = os.ReadFile(fp)
-	if err != nil {
-		err = fmt.Errorf("unable to read %s; %w", fp, err)
-		goto end
-	}
-	err = yaml.Unmarshal(b, obj)
-	if err != nil {
-		err = fmt.Errorf("unable to unmashal %s; %w", fp, err)
-		goto end
-	}
-end:
-	return obj.(FilepathGetter), err
-}
-
-func SaveYAMLFile(fg FilepathGetter) (err error) {
-	var f *os.File
-	var b []byte
-
-	fp := fg.GetFilepath()
-	f, err = os.Create(fp)
-	if err != nil {
-		err = fmt.Errorf("unable to open file '%s'; %w", fp, err)
-		goto end
-	}
-
-	b, err = yaml.Marshal(fg)
-	if err != nil {
-		err = fmt.Errorf("unable to encode to %s; %w", fp, err)
-		goto end
-	}
-
-	_, err = f.Write(b)
-	if err != nil {
-		err = fmt.Errorf("unable to write to '%s'; %w", fp, err)
-		goto end
-	}
-
-	err = f.Close()
-	if err != nil {
-		err = fmt.Errorf("unable to close '%s'; %w", fp, err)
-		goto end
-	}
-end:
-	return err
-}
-
 // Flag returns the string value of a cobra.Command pFlag.
 func Flag(cmd *cobra.Command, name string) (strVal string) {
 	var value pflag.Value
 	flag := cmd.Flags().Lookup(name)
 	if flag == nil {
-		Warnf("Flag '%s' not found for the `glice `%s` command", name, cmd.Name())
+		Warnf("Flag '%s' not found for the `%s `%s` command",
+			name,
+			CLIName,
+			cmd.Name())
 		goto end
 	}
 	value = flag.Value
 	if value == nil {
-		Warnf("The value of flag '%s' for the `glice %s` command is unexpectedly nil",
+		Warnf("The value of flag '%s' for the `%s %s` command is unexpectedly nil",
 			name,
+			CLIName,
 			cmd.Name())
 		goto end
 	}

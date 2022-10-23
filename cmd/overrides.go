@@ -19,12 +19,13 @@ func init() {
 	addTTLFlag(overridesCmd)
 }
 
+//goland:noinspection GoUnusedParameter
 func RunOverrides(cmd *cobra.Command, args []string) {
 	ctx := context.Background()
-	glice.Notef("\n")
-	glice.Notef("\nGenerating Overrides file")
-	deps := ScanningDependencies(ctx)
+	NoteBegin()
+	Notef("\nGenerating Overrides file")
+	deps := ScanDependencies(ctx)
 	pf := AuditingProjectDependencies(ctx, deps)
-	glice.Notef("\n\n")
+	NoteEnd()
 	GeneratingOverrides(ctx, cmd, pf, glice.ErrorLevel)
 }

@@ -85,9 +85,11 @@ func (r *Repository) ResolveRepository(ctx context.Context, options *Options) (e
 		goto end
 	}
 
-	if r.RecognizeKnownRepoDomain() {
+	if r.KnownDomainRecognized() {
 		// It is a known repository domain (github.com, etc.) so no need
 		// to resolve an HTTP request to determine the repo URL.
+		// Note at this point in repo resolution this is about the host of
+		// the Import, not the host of the RepoURL
 		goto end
 	}
 
@@ -253,15 +255,15 @@ end:
 
 // ResolveLicense requests the license for the repository
 func (r *Repository) ResolveLicense(ctx context.Context, options *Options) (err error) {
-	var ra RepositoryGetter
+	var ra RepositoryAdapter
 
 	if r.license != nil {
 		goto end
 	}
 
-	ra, err = GetRepositoryGetter(ctx, r)
+	ra, err = GetRepositoryAdapter(ctx, r)
 	if err != nil {
-		Failf(ExitCannotGetRepositoryGetter,
+		Failf(ExitCannotGetRepositoryAdapter,
 			"unable to get repository getter for %s",
 			r.GetHost())
 	}
@@ -278,16 +280,16 @@ end:
 	return err
 }
 
-// RecognizeKnownRepoDomain inspects r.url.Host and returns true if the domain is
+// KnownDomainRecognized inspects r.url.Host and returns true if the domain is
 // recognized explicitly by this program, or false otherwise. If it is recognized
 // and there are no <meta> tags for ?go-get=1 then it may also update the Host
 // and Path of r.url, as applicable.
 
-func (r *Repository) RecognizeKnownRepoDomain() (recognized bool) {
-	return GetRepositoryGetterFunc(r) != nil
+func (r *Repository) KnownDomainRecognized() (recognized bool) {
+	return GetRepositoryAdapterFunc(r) != nil
 }
 
-//func (r *Repository) RecognizeKnownRepoDomain() (recognized bool) {
+//func (r *Repository) KnownDomainRecognized() (recognized bool) {
 //	_url := r.url
 //	switch _url.Host {
 //	case "github.com":

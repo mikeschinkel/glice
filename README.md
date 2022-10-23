@@ -5,13 +5,13 @@
 [![Coverage Status](https://coveralls.io/repos/github/ribice/glice/badge.svg?branch=master)](https://coveralls.io/github/ribice/glice?branch=master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/ribice/glice)](https://goreportcard.com/report/github.com/ribice/glice)
 -->
-Golang license and dependency checker. Prints list of all dependencies, their URL, license and saves all the license files in /licenses.
+License and dependency checker for GoLang projects. Prints list of all dependencies, their URL, license and saves all the license files in /licenses.
 
 ## Status/Intention
 
 This code is in a sort of no-man's land state. 
 
-Is has been updated from the fork to a level sufficient to meet the needs of a client. The client wants to submit the changes back to the original project ([Glice](https://github.com/ribice/glice)) so that they do not need to maintain for their needs, but they have also asked me to only update to the level of meet their needs, at least for the time being, because they have other things for me to work on that they consider more urgent.  
+It has been updated from the fork to a level sufficient to meet the needs of a client. The client wants to submit the changes back to the original project ([Glice](https://github.com/ribice/glice)) so that they do not need to maintain for their needs, but they have also asked me to only update to the level of meet their needs, at least for the time being, because they have other things for me to work on that they consider more urgent.  
 
 OTOH it if a major breaking change to the forked code so the original developer may have zero interest in merging it. But even if they do want to merge the code the README does not yet reflect the changes made nor is the functionality fixed yet that was broken during refactoring, all per the client's limits on my time _(and I have had no free time to do on my own given the time required for the client's projects.)_
 
@@ -23,13 +23,10 @@ Feel free to use at your own risk.  Also, feel free to submit issues if you have
 - Update `.goReleaser.yaml` and ensure it can produce a viable release.
 - (Re)Implement full suite of tests 
 - (Re)Implement these commands:
-  - `repost save` — Generate a list of dependencies and licenses to a file.
   - `report print` — Generate a list of dependencies and licenses to Stdout.
     - Figure out how apply colors to different licenses.
-  - `licenses save` — Write dependency's licenses to text files.
   - `licenses download` — Download JSON of license from [spdx.org's GitHub](https://raw.githubusercontent.com/spdx/license-list-data/master/json/licenses.json).
     - Add validation from this list to `glice audit`
-  - `thank` — Upvote each dependency on its host ("Star" on Github.)
   - `test` — TBD
 
 # Glice v2 README Follows 

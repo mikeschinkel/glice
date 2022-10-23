@@ -1,8 +1,10 @@
 package glice
 
 import (
+	"errors"
 	"fmt"
 	"path/filepath"
+	"strings"
 )
 
 const (
@@ -49,11 +51,11 @@ func (pf *ProjectFile) ensureValidProperties() {
 	if pf.AllowedLicenses == nil {
 		pf.AllowedLicenses = DefaultAllowedLicenses
 	}
-	if pf.AllowedLicenses == nil {
-		pf.AllowedLicenses = make([]string, 0)
-	}
 	if pf.Overrides == nil {
 		pf.Overrides = make(Overrides, 0)
+	}
+	if pf.Dependencies == nil {
+		pf.Dependencies = make(Dependencies, 0)
 	}
 	if pf.Generated == "" {
 		pf.Generated = Timestamp()
@@ -72,12 +74,54 @@ func LoadProjectFile(dir string) (pf *ProjectFile, err error) {
 	if err != nil {
 		err = fmt.Errorf("unable to load %s; %w",
 			fg.GetFilepath(), err)
+		goto end
 	}
+	err = pf.ValidateProperties()
+end:
 	return fg.(*ProjectFile), err
 }
 
-func (pf *ProjectFile) Save() (err error) {
-	return SaveYAMLFile(pf)
+func (pf *ProjectFile) ValidateProperties() (err error) {
+	var msg []string
+
+	if pf.SchemaVersion == "" {
+		pf.SchemaVersion = ProjectFileSchemaVersion
+	}
+	if pf.AllowedLicenses == nil {
+		msg = append(msg, "no allowed licenses are set")
+	}
+	if pf.Overrides == nil {
+		pf.Overrides = make(Overrides, 0)
+	}
+	if pf.Dependencies == nil {
+		msg = append(msg, "no dependencies are set")
+	}
+	if len(msg) > 0 {
+		err = errors.New(strings.Join(msg, ", "))
+	}
+	return err
+}
+
+// Backup creates a backup `glice.yaml` project file with a ".bak"
+// or ".<n>.bak" extension while maintaining all prior backups.
+func (pf *ProjectFile) Backup() ([]string, error) {
+	return BackupFile(pf.GetFilepath(), DeleteOriginalFile)
+}
+
+func (pf *ProjectFile) Save() (backups []string, err error) {
+	Notef("\nBacking up existing project file(s)")
+	backups, err = pf.Backup()
+	if err != nil {
+		err = fmt.Errorf("unable to backup %s file; %w", ProjectFilename, err)
+		goto end
+	}
+	err = SaveYAMLFile(pf)
+	if err != nil {
+		err = fmt.Errorf("unable to save %s file; %w", ProjectFilename, err)
+		goto end
+	}
+end:
+	return backups, err
 }
 
 // IsLicenseAllowed inspects a single scanned dependency to ensure
@@ -124,6 +168,7 @@ func (pf *ProjectFile) AuditDependencies(deps Dependencies) (changes *Changes, d
 			continue
 		}
 		changes.Additions = append(changes.Additions, dep)
+		pf.Dependencies = append(pf.Dependencies, dep)
 	}
 	return changes, disalloweds
 }

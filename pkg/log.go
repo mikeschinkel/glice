@@ -16,7 +16,7 @@ const (
 	FailLevel  = 5
 )
 
-var levels = []string{
+var LogLevels = []string{
 	"ALL",
 	"INFO",
 	"NOTE",
@@ -25,13 +25,29 @@ var levels = []string{
 	"FAIL",
 }
 
+var ValidVerbositiesString = fmt.Sprintf("Verbosity: %d=%s, %d=%s, %d=%s, %d=%s, %d=%s, %d=%s",
+	AllLevel,
+	LogLevels[AllLevel],
+	InfoLevel,
+	LogLevels[InfoLevel],
+	NoteLevel,
+	LogLevels[NoteLevel],
+	WarnLevel,
+	LogLevels[WarnLevel],
+	ErrorLevel,
+	LogLevels[ErrorLevel],
+	FailLevel,
+	LogLevels[FailLevel],
+)
+
 const LogFilename = "glice.log"
 
 var logFilepath = SourceDir(LogFilename)
+
 var logFile *os.File
 
 func LevelLabel(level int) (ll string) {
-	if ll = levels[level]; ll == "" {
+	if ll = LogLevels[level]; ll == "" {
 		ll = fmt.Sprintf("INVALID_LEVEL[%d]", level)
 	}
 	return ll
@@ -52,6 +68,7 @@ func LogFilepath() string {
 	return logFilepath
 }
 
+//goland:noinspection GoUnusedExportedFunction
 func SetLogFilepath(fp string) {
 	logFilepath = fp
 }
@@ -73,7 +90,9 @@ func Errorf(format string, args ...interface{}) {
 }
 
 func Failf(status int, format string, args ...interface{}) {
+	LogPrintf(FailLevel, "\n")
 	LogWithLabelPrintf(FailLevel, format, args...)
+	LogPrintf(FailLevel, "\n")
 	os.Exit(status)
 }
 

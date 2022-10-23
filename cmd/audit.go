@@ -25,18 +25,19 @@ func init() {
 	auditCmd.Flags().Bool("overrides", false, "Write an `overrides.yaml` file if any disallowed licenses are found.")
 }
 
+//goland:noinspection GoUnusedParameter
 func RunAudit(cmd *cobra.Command, args []string) {
 	ctx := context.Background()
-	glice.Notef("\n")
-	glice.Notef("\nBeginning License Audit")
-	deps := ScanningDependencies(ctx)
+	NoteBegin()
+	Notef("\nBeginning License Audit")
+	deps := ScanDependencies(ctx)
 	pf := AuditingProjectDependencies(ctx, deps)
-	glice.Notef("\n\n")
+	NoteEnd()
 	HandleChanges(ctx, pf)
-	exceptions := HasDisalloweds(ctx, pf)
+	exceptions := HandleDisalloweds(ctx, pf)
 	GeneratingOverrides(ctx, cmd, pf, glice.WarnLevel)
 	if exceptions {
 		os.Exit(glice.ExitAuditFoundDisallowedLicenses)
 	}
-	glice.Notef("\n\n")
+	NoteEnd()
 }

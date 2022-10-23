@@ -12,14 +12,10 @@ type Options struct {
 	DirectOnly     bool
 	LogOutput      bool
 	NoCache        bool
+	CaptureLicense bool
 	LogFilepath    string
 	SourceDir      string
 	CacheFilepath  string
-
-	WriteFile            bool
-	OutputFormat         string
-	NoCaptureLicenseText bool
-	OutputDestination    string
 }
 
 var options = &Options{}

@@ -11,7 +11,10 @@ const (
 	ExitFileExistsCannotOverwrite    = 8
 	ExitFileDoesNotExist             = 9
 	ExitRepoInfoGetterIsNil          = 10
-	ExitCannotGetRepositoryGetter    = 11
+	ExitCannotGetRepositoryAdapter   = 11
 	ExitCannotSetOptions             = 12
-	ExitHostNotYetSupported          = 1
+	ExitHostNotYetSupported          = 13
+	ExitCannotWriteReport            = 14
+	ExitCannotCreateFile             = 15
+	ExitCannotGetReportWriterAdapter = 16
 )

@@ -2,34 +2,76 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 	"github.com/ribice/glice/v3/pkg"
 	"github.com/spf13/cobra"
+	"os"
 )
 
-func ExtractingEditorsAndOOverrides(ctx context.Context, pf *glice.ProjectFile, of *glice.OverridesFile) {
-	glice.Notef("\nExtracting editors and overrides")
-	of.Editors, of.Overrides = pf.Disalloweds.ToEditorsAndOverrides(ctx)
-	glice.Notef("\nEditors and overrides extracted")
+// WARNING: These functions are designed to support commands and are future mutable.
+//          They ARE NOT part of the published API and are subject to change.
+
+func Infof(format string, args ...interface{}) {
+	glice.Infof(format, args...)
 }
 
+func Notef(format string, args ...interface{}) {
+	glice.Notef(format, args...)
+}
+func NoteBegin() {
+	Notef("\n")
+}
+func NoteEnd() {
+	Notef("\n\n")
+}
+
+func Errorf(format string, args ...interface{}) {
+	Errorf(format, args...)
+}
+func ErrorBegin() {
+	Errorf("\n")
+}
+func ErrorSeparator() {
+	Errorf("\n")
+}
+func ErrorEnd() {
+	Errorf("\n\n")
+}
+
+func Warnf(format string, args ...interface{}) {
+	glice.Warnf(format, args...)
+}
+
+func Failf(level int, format string, args ...interface{}) {
+	glice.Failf(level, format, args...)
+}
+
+func ExtractingEditorsAndOOverrides(ctx context.Context, pf *glice.ProjectFile, of *glice.OverridesFile) {
+	Notef("\nExtracting editors and overrides")
+	of.Editors, of.Overrides = pf.Disalloweds.ToEditorsAndOverrides(ctx)
+	Notef("\nEditors and overrides extracted")
+}
+
+//goland:noinspection GoUnusedParameter
 func SavingOverridesFile(ctx context.Context, of *glice.OverridesFile) {
-	glice.Notef("\nSaving %s", of.Filepath)
+	Notef("\nSaving %s", of.Filepath)
 	err := of.Save()
 	if err != nil {
 		Failf(glice.ExitCannotSaveFile,
-			"Failed to create file %s: %s",
+			"\nFailed to create file %s: %s",
 			of.Filepath,
 			err.Error())
 	}
-	glice.Notef("\nOverrides files saved.")
+	Notef("\nOverrides files saved.")
 }
 
+//goland:noinspection GoUnusedParameter
 func LoadingProfileFile(ctx context.Context) *glice.ProjectFile {
-	glice.Notef("\nLoading `%s`", glice.ProjectFilename)
+	Notef("\nLoading `%s`", glice.ProjectFilename)
 	pf, err := glice.LoadProjectFile(glice.GetOptions().SourceDir)
 	if err != nil {
 		Failf(glice.ExitFileDoesNotExist,
-			"Cannot run %s; %s",
+			"\nCannot run %s; %s",
 			glice.CallerName(),
 			err.Error())
 	}
@@ -37,37 +79,46 @@ func LoadingProfileFile(ctx context.Context) *glice.ProjectFile {
 	return pf
 }
 
-func ScanningDependencies(ctx context.Context) (deps glice.Dependencies) {
+func ScanDependencies(ctx context.Context) (deps glice.Dependencies) {
 	var err error
 
-	glice.Notef("\nScanning dependencies...")
+	Notef("\nScanning dependencies...")
 	deps, err = glice.ScanDependencies(ctx, glice.GetOptions())
 	if err != nil {
 		Failf(glice.ExitCannotScanDependencies,
-			"Failed while scanning dependencies: %s",
+			"\nFailed while scanning dependencies: %s",
 			err.Error())
 	}
 	return deps
 }
 
+// SavingProjectFile saves the passed project file to disk
+//goland:noinspection GoUnusedParameter
 func SavingProjectFile(ctx context.Context, pf *glice.ProjectFile) {
-	glice.Notef("\nSaving %s", glice.ProjectFilename)
-	err := pf.Save()
+	Notef("\nSaving %s", glice.ProjectFilename)
+	backups, err := pf.Save()
 	if err != nil {
 		Failf(glice.ExitCannotSaveFile,
-			"Failed to save %s: %s",
+			"\nFailed to save %s: %s",
 			pf.Filepath,
 			err.Error())
 	}
-	glice.Notef("\nProject file saved")
+	if backups != nil {
+		for _, bu := range backups[1:] {
+			Notef("\nBackup file %s created", bu)
+		}
+	}
+	Notef("\nProject file saved")
 }
 
+// CreatingProjectFile creates a new object representing the project file
+//goland:noinspection GoUnusedParameter
 func CreatingProjectFile(ctx context.Context) (pf *glice.ProjectFile) {
-	glice.Notef("\nCreating %s", glice.ProjectFilename)
+	Notef("\nCreating %s", glice.ProjectFilename)
 	pf = glice.NewProjectFile(glice.GetOptions().SourceDir)
 	if pf.Exists() {
 		Failf(glice.ExitFileExistsCannotOverwrite,
-			"Cannot overwrite existing file %s.\nRename or delete file then re-run 'glice init'.",
+			"\nCannot overwrite existing file %s.\nRename or delete file then re-run 'glice init'.",
 			pf.Filepath)
 	}
 	pf.Editors = glice.Editors{
@@ -76,18 +127,20 @@ func CreatingProjectFile(ctx context.Context) (pf *glice.ProjectFile) {
 	pf.Overrides = glice.Overrides{
 		{
 			Import:       "https://github.com/example.com/sample",
-			LicenseID:    "MIT",
-			VerifiedBy:   "*email-alias",
+			LicenseIDs:   []string{"MIT"},
+			VerifiedBy:   "email-alias",
 			LastVerified: glice.Timestamp()[:10],
 			Notes:        "This is a sample override added by 'glice init' command",
 		},
 	}
-	glice.Notef("\nFile %s created", pf.Filepath)
+	Notef("\nFile %s created", pf.Filepath)
 	return pf
 }
 
+// CreatingOverridesFile creates a new object representing the overrides file
+//goland:noinspection GoUnusedParameter
 func CreatingOverridesFile(ctx context.Context, onExists int) *glice.OverridesFile {
-	glice.Notef("\nCreating %s", glice.OverridesFilename)
+	Notef("\nCreating %s", glice.OverridesFilename)
 
 	of := glice.NewOverridesFile(glice.GetOptions().SourceDir)
 	if !of.Exists() {
@@ -109,39 +162,46 @@ end:
 
 func AuditingProjectDependencies(ctx context.Context, deps glice.Dependencies) (pf *glice.ProjectFile) {
 	pf = LoadingProfileFile(ctx)
-	glice.Notef("\nAuditing dependencies...")
+	Notef("\nAuditing dependencies...")
 	pf.Changes, pf.Disalloweds = pf.AuditDependencies(deps)
-	glice.Notef("\nAudit complete.")
+	Notef("\nAudit complete.")
 	return pf
 }
 
-func HasDisalloweds(ctx context.Context, pf *glice.ProjectFile) (has bool) {
+// HandleDisalloweds processes any dependencies disallowed by license
+// and returns true if there were any disalloweds.
+//goland:noinspection GoUnusedParameter
+func HandleDisalloweds(ctx context.Context, pf *glice.ProjectFile) (has bool) {
 	if len(pf.Disalloweds) == 0 {
-		glice.Notef("\n")
-		glice.Notef("\nOnly allowed licenses detected")
-		glice.Notef("\nAudit completed successfully")
+		NoteBegin()
+		Notef("\nNo disallowed licenses detected")
+		Notef("\nAudit completed successfully")
+		NoteEnd()
 		goto end
 	}
 	has = true
-	glice.Errorf("\n")
-	glice.Errorf("\nDisallowed licenses detected:")
-	glice.Errorf("\n")
+	ErrorBegin()
+	Errorf("\nDisallowed licenses detected:")
+	ErrorSeparator()
 	pf.Disalloweds.LogPrint()
-	glice.Errorf("\n")
-	glice.Errorf("\nAudit FAILED!")
-	glice.Errorf("\n\n")
+	ErrorSeparator()
+	Errorf("\nAudit FAILED!")
+	ErrorEnd()
 end:
 	return has
 }
 
+// HandleChanges processes any additions and/or deletions when comparing dependencies
+// in the project file with the dependences found on disk during scanning.
+//goland:noinspection GoUnusedParameter
 func HandleChanges(ctx context.Context, pf *glice.ProjectFile) {
 	changes := pf.Changes
 	if !changes.HasChanges() {
-		glice.Notef("\n")
-		glice.Notef("\nNo changes detected")
-		glice.Notef("\n\n")
+		NoteBegin()
+		Notef("\nNo changes detected")
+		NoteEnd()
 	} else {
-		glice.Notef("\n")
+		NoteBegin()
 		changes.Print()
 	}
 }
@@ -152,21 +212,71 @@ func ShouldGenerateOverrides(cmd *cobra.Command) bool {
 
 func GeneratingOverrides(ctx context.Context, cmd *cobra.Command, pf *glice.ProjectFile, onExists int) {
 	if ShouldGenerateOverrides(cmd) {
-		glice.Notef("\n")
+		NoteBegin()
 		of := CreatingOverridesFile(ctx, onExists)
 		ExtractingEditorsAndOOverrides(ctx, pf, of)
 		SavingOverridesFile(ctx, of)
-		glice.Notef("\n\n")
+		NoteEnd()
 	}
 }
 
-func Warnf(format string, args ...interface{}) {
-	glice.Warnf(format, args...)
+func GetReportWriterAdapter(cmd *cobra.Command) (adapter glice.ReportWriterAdapter) {
+	var err error
+	var f *os.File
 
+	Notef("\nAcquiring report writer adapter")
+
+	var filename = glice.Flag(cmd, "filename")
+	Notef("\nReport filename is '%s'", filename)
+
+	var format = glice.OutputFormat(glice.Flag(cmd, "format"))
+	Notef("\nReport format is '%s'", format)
+
+	adapter, err = glice.GetReportWriterAdapter(format)
+	if err != nil {
+		Failf(glice.ExitCannotGetReportWriterAdapter,
+			"\nCannot get report writer adapter for '%s' format; %w",
+			glice.ProjectFilename,
+			err)
+		err = fmt.Errorf("unable to get a report writer adapter for outputting '%s'; %w",
+			format,
+			err)
+	}
+
+	if format != DefaultReportFormat {
+		// If user specified a different format, change the extension.
+		filename = glice.ReplaceFileExtension(DefaultReportFilename, adapter.FileExtension())
+	}
+
+	fp := glice.SourceDir(filename)
+	if glice.FileExists(fp) {
+		Failf(glice.ExitFileExistsCannotOverwrite,
+			"\nCannot generate report. The file %s already exists. Rename or delete and then rerun the `%s report save` command.",
+			fp,
+			glice.CLIName)
+	}
+	Notef("\nReport to be written to %s", fp)
+	adapter.SetFilepath(fp)
+	f, err = os.Create(fp)
+	if err != nil {
+		Failf(glice.ExitCannotCreateFile,
+			"\nCannot create file %s for report; %w",
+			fp,
+			err)
+	}
+	adapter.SetWriter(f)
+	Notef("\nReport writer adapter acquired")
+	return adapter
 }
-func Notef(format string, args ...interface{}) {
-	glice.Notef(format, args...)
-}
-func Failf(level int, format string, args ...interface{}) {
-	glice.Failf(level, format, args...)
+
+func WriteReport(adapter glice.ReportWriterAdapter) {
+	Notef("\nWriting report")
+	err := adapter.WriteReport()
+	if err != nil {
+		Failf(glice.ExitCannotWriteReport,
+			"\nUnable to get a report writer for outputting dependency report in '%s' format; %w",
+			adapter.GetFormat(),
+			err)
+	}
+	Notef("\nReport written")
 }

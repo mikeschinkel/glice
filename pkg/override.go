@@ -3,20 +3,21 @@ package glice
 type Overrides []*Override
 type OverrideMap map[string]*Override
 type Override struct {
-	Import       string   `yaml:"dependency"`
-	LicenseID    string   `yaml:"license,omitempty"`
-	LicenseIDs   []string `yaml:"licenses,omitempty"`
+	editor       *Editor
+	Import       string   `yaml:"import"`
+	LicenseIDs   []string `yaml:"licenses"`
 	VerifiedBy   string   `yaml:"verifier"`
 	LastVerified string   `yaml:"verified"`
 	Notes        string   `yaml:"notes,omitempty"`
 }
 
+type MarshallableOverride Override
+
 func NewOverride(dep *Dependency, ed *Editor) *Override {
 	return &Override{
 		Import:       dep.Import,
-		LicenseID:    dep.LicenseID,
-		LicenseIDs:   []string{},
-		VerifiedBy:   ed.Alias(),
+		LicenseIDs:   []string{dep.LicenseID},
+		VerifiedBy:   ed.ID,
 		LastVerified: Timestamp()[:10],
 		Notes: "Your dependency-specific notes go here,\n" +
 			"e.g. links where you read the license you verified, etc.",

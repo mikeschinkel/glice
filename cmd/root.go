@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/ribice/glice/v3/pkg"
 	"github.com/spf13/cobra"
 	"os"
@@ -19,9 +20,9 @@ Commands & Switches:
 	audit - CI check
 		--ttl={cache_ttl}
 	report - Generate a license report
-			- print - Print license report to stdout
-			- write - Write license report to file
-				--file={report_file}
+			- print - AllPrint license report to stdout
+			- save - Write license report to file
+				--output={report_file}
   text - Write licenses to text files
 		--output={output_dir}
 	thank - Give thanks by starring repositories
@@ -50,6 +51,7 @@ var direct bool
 var verbose int
 var logOutput bool
 var nocache bool
+var captureLic bool
 var logfile string
 var source string
 var cachefile string
@@ -57,13 +59,14 @@ var cachefile string
 func init() {
 	pf := rootCmd.PersistentFlags()
 	pf.BoolVar(&direct, "direct-only", false, "Exclude direct dependencies")
-	pf.IntVar(&verbose, "verbose", glice.NoteLevel, "Verbosity Level: 0=all, 1=info, 2=warn, 3=error, 4=fail")
+	pf.IntVar(&verbose, "verbose", glice.NoteLevel, fmt.Sprintf("Specify a verbosity level: %s", glice.ValidVerbositiesString))
 	pf.Lookup("verbose").NoOptDefVal = strconv.Itoa(glice.InfoLevel)
 	pf.BoolVar(&logOutput, "log", false, "Log output to default logging filepath.")
 	pf.StringVar(&logfile, "logfile", "", "File to log output to.")
 	pf.StringVar(&source, "source", glice.SourceDir(""), "Source directory where go.mod.")
 	pf.StringVar(&cachefile, "cache-file", glice.CacheFilepath(), "Full filepath to the cachefile to create.")
 	pf.BoolVar(&nocache, "nocache", false, "Disable use of caching")
+	pf.BoolVar(&captureLic, "capture-license", false, "Download license from host while processing (slower)")
 
 	rootCmd.MarkFlagsMutuallyExclusive("nocache", "cache-file")
 }
@@ -79,6 +82,7 @@ func initOptions() {
 		LogFilepath:    logfile,
 		SourceDir:      source,
 		CacheFilepath:  cachefile,
+		CaptureLicense: captureLic,
 	})
 }
 
