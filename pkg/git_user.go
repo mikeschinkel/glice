@@ -5,20 +5,29 @@ import (
 	"strings"
 )
 
-type Git struct{}
+var _ UserAdapter = (*GitUser)(nil)
 
-func NewGit() *Git {
-	return &Git{}
+type GitUser struct {
+	Name  string
+	Email string
 }
 
-var editor *Editor
+func (gu *GitUser) GetName() string {
+	return gu.Name
+}
 
-func (g *Git) GetEditor() *Editor {
+func (gu *GitUser) GetEmail() string {
+	return gu.Email
+}
+
+var user *GitUser
+
+func GetGitUser() UserAdapter {
 	var cmd *exec.Cmd
 	var name, email []byte
 	var err error
 
-	if editor != nil {
+	if user != nil {
 		goto end
 	}
 
@@ -34,11 +43,10 @@ func (g *Git) GetEditor() *Editor {
 		Warnf("Failed when calling `git config`; %s", err.Error())
 		email = []byte(defaultName)
 	}
-	editor = &Editor{
+	user = &GitUser{
 		Name:  strings.TrimSpace(string(name)),
 		Email: strings.TrimSpace(string(email)),
 	}
-	editor.ID = editor.GetID()
 end:
-	return editor
+	return user
 }

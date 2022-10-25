@@ -17,11 +17,6 @@ func ScanDependencies(ctx context.Context, options *Options) (ds Dependencies, e
 	var repos Repositories
 	var deps Dependencies
 
-	//TODO Handle this concern somewhere
-	//if thanks && githubAPIKey == "" {
-	//	return ErrNoAPIKey
-	//}
-
 	repos, err = ScanRepositories(ctx, options)
 	if err != nil {
 		goto end
@@ -50,14 +45,14 @@ func (deps Dependencies) ToEditorsAndOverrides(ctx context.Context) (editors Edi
 	overrides = make(Overrides, len(deps))
 	edMap := make(EditorMap, 0)
 	for index, dep := range deps {
-		eg, err := GetEditorGetter(dep)
+		ua, err := GetUserAdapter(dep)
 		if err != nil {
 			Warnf("Unable to add dependency '%s'; %w",
 				dep.Import,
 				err)
 			continue
 		}
-		ed := eg.GetEditor()
+		ed := NewEditor(ua)
 		overrides[index] = NewOverride(dep, ed)
 
 		id := ed.GetID()
@@ -180,8 +175,6 @@ func (Dependencies) GetReportHeader() []string {
 	return reportHeaderRow
 }
 
-const NoAssertion = "NOASSERTION"
-
 // GetOverridesLicenseIDs returns a map of slices of LicenseIDs with map key
 // being the Dependency Import and the LicenseIDs being the merger of the
 // Dependencies License as reported by the VCS hot (e.g GitHub) and the
@@ -200,7 +193,7 @@ func (deps Dependencies) GetOverridesLicenseIDs(overrides Overrides) (licIDs Ove
 		if dep.LicenseID == NoAssertion {
 			depLicIDs = or.LicenseIDs
 		} else {
-			depLicIDs = gllicscan.UnionString([]string{dep.LicenseID}, or.LicenseIDs)
+			depLicIDs = gllicscan.UnionStringSlices([]string{dep.LicenseID}, or.LicenseIDs)
 		}
 		if len(depLicIDs) == 0 {
 			depLicIDs = []string{NoAssertion}

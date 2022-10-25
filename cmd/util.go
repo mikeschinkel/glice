@@ -197,7 +197,7 @@ end:
 }
 
 // HandleChanges processes any additions and/or deletions when comparing dependencies
-// in the project file with the dependences found on disk during scanning.
+// in the project file with the dependencies found on disk during scanning.
 //goland:noinspection GoUnusedParameter
 func HandleChanges(ctx context.Context, pf *glice.ProjectFile) {
 	changes := pf.Changes
@@ -207,7 +207,7 @@ func HandleChanges(ctx context.Context, pf *glice.ProjectFile) {
 		NoteEnd()
 	} else {
 		NoteBegin()
-		changes.Print()
+		changes.LogPrint()
 	}
 }
 

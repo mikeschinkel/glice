@@ -14,8 +14,8 @@ func StripURLScheme(u string) string {
 	return regexStripScheme.ReplaceAllString(u, "$1")
 }
 
-// UpToN accepts a string, a character(byte) and a and a field number go
-// and then returns all character up to but excluding the nth occurrence
+// UpToN accepts a string, a character (byte), and a field number, and
+// then returns all character up to but excluding the nth occurrence
 // of the character, e.g.:
 //
 //		UpToN("https://github.com/golang/go/tree/master/src/net", '/', 5)

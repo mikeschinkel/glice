@@ -9,8 +9,6 @@ import (
 	"github.com/fatih/color"
 )
 
-//goland:noinspection GoUnusedParameter
-
 // Dependency holds information about a dependency
 type Dependency struct {
 	r          *Repository

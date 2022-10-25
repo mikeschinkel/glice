@@ -2,6 +2,12 @@ package glice
 
 import "github.com/ribice/glice/v3/pkg/gllicscan"
 
+// The purpose of GitLabDependency is to provide a bridge between glice.Dependency
+// and gllicscan.Dependency; i.e. to allow one to be converted to another but to
+// only be decoupled via the gllicscan.GitLabDependencyAdapter interface.
+
+var _ gllicscan.GitLabDependencyAdapter = (*GitLabDependency)(nil)
+
 type GitLabDependencyMap map[string]*GitLabDependency
 type GitLabDependencies []*GitLabDependency
 
@@ -20,8 +26,6 @@ type GitLabDependency struct {
 	Path       string
 	LicenseIDs []string
 }
-
-var _ gllicscan.GitLabDependencyAdapter = (*GitLabDependency)(nil)
 
 // NewGitLabDependency instantiates a new instance of GitLabDependency
 // TODO Need to handle Version and Path

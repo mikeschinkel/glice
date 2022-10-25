@@ -102,15 +102,17 @@ end:
 	return err
 }
 
+type BackupRetentionType bool
+
 //goland:noinspection GoUnusedConst
 const (
-	RetainOriginalFile = true
-	DeleteOriginalFile = false
+	RetainOriginalFile BackupRetentionType = true
+	DeleteOriginalFile BackupRetentionType = false
 )
 
 // BackupFile creates a backup of the file passed by adding a ".bak"
 // or ".<n>.bak" extension while maintaining all prior backups.
-func BackupFile(fp string, retainOriginal bool) (bfs []string, err error) {
+func BackupFile(fp string, retainOriginal BackupRetentionType) (bfs []string, err error) {
 	var bf string
 
 	if !FileExists(fp) {

@@ -14,4 +14,6 @@ var (
 	ErrNoAPIKey = errors.New("the GITHUB_API_KEY environment variable is empty")
 
 	ErrCannotLogin = errors.New("host cannot login likely because of lacking credentials")
+
+	ErrRequestPrefixInstead = errors.New("prefix is a subset of import; request prefix instead")
 )

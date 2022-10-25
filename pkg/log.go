@@ -7,6 +7,8 @@ import (
 	"os"
 )
 
+const LogFilename = "glice.log"
+
 const (
 	AllLevel   = 0
 	InfoLevel  = 1
@@ -39,8 +41,6 @@ var ValidVerbositiesString = fmt.Sprintf("Verbosity: %d=%s, %d=%s, %d=%s, %d=%s,
 	FailLevel,
 	LogLevels[FailLevel],
 )
-
-const LogFilename = "glice.log"
 
 var logFilepath = GetSourceDir(LogFilename)
 

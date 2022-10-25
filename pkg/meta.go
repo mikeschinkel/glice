@@ -1,7 +1,6 @@
 package glice
 
 import (
-	"errors"
 	"fmt"
 	"golang.org/x/net/html"
 	"io"
@@ -15,8 +14,6 @@ var gitHubLikeDomains = []string{
 	"github.com",
 	"bitbucket.com",
 }
-
-var errRequestPrefixInstead = errors.New("prefix is a subset of import; request prefix instead")
 
 type Meta struct {
 	Import string `meta:"go-import"`
@@ -100,7 +97,7 @@ func (m *Meta) ResolveGoImport(imp string) (repoURL string, err error) {
 	case len(prefix) < len(imp):
 		if imp[0:len(prefix)] == prefix {
 			repoURL = fmt.Sprintf("https://%s", prefix)
-			err = errRequestPrefixInstead
+			err = ErrRequestPrefixInstead
 			goto end
 		}
 		msg = "does not match a subset of"

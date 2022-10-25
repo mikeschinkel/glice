@@ -18,16 +18,4 @@ var (
 		"MIT",
 		"MPL-2.0",
 	}
-
-	validFormats = map[string]exists{
-		"table": {},
-		"json":  {},
-		"csv":   {},
-	}
-
-	// validOutputs to print to
-	validOutputs = map[string]exists{
-		"stdout": {},
-		"file":   {},
-	}
 )

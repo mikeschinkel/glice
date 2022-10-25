@@ -7,11 +7,6 @@ import (
 	"strings"
 )
 
-const (
-	ProjectFileSchemaVersion = "v1"
-	ProjectFilename          = "glice.yaml"
-)
-
 var _ FilepathGetter = (*ProjectFile)(nil)
 
 type ProjectFile struct {

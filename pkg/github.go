@@ -24,6 +24,7 @@ func GetGitHubRepositoryAdapter(ctx context.Context, r *Repository) (_ Repositor
 	var gc *GitHubRepoClient
 	var hc *HostClient
 	if getter != nil {
+		// TODO This is bad practice. Refactor so not required.
 		getter.(*GitHubRepoClient).repoInfoGetter = r
 		goto end
 	}
@@ -120,46 +121,52 @@ end:
 
 func (c *GitHubRepoClient) GetRepositoryLicense(ctx context.Context, options *Options) (lic *RepositoryLicense, err error) {
 	var rl *github.RepositoryLicense
+	var ghErr *github.ErrorResponse
+	var ok bool
 
-	for {
-		rl, _, err = c.Repositories.License(ctx, c.GetOrgName(), c.GetRepoName())
-		if err == nil {
-			// Request succeeded
-			lic = NewRepositoryLicense(LicenseArgs{
-				ID:  rl.License.GetSPDXID(),
-				URL: rl.GetDownloadURL(),
-			})
-			if !options.CaptureLicense {
-				// CLI switch requested we ignore capturing license content
-				break
-			}
-			lic.Text = rl.GetContent()
-			break
-		}
-		_err, ok := err.(*github.ErrorResponse)
-		if !ok {
-			// Hmm. Some other kind of error was returned
-			// Pass it along in case its helpful
-			break
-		}
-		if _err.Response == nil {
-			err = fmt.Errorf("response missing unexpectedly; %w", _err)
-			break
-		}
-		switch _err.Response.StatusCode {
-		case http.StatusUnauthorized:
-			// Bad credentials?
-			err = fmt.Errorf("unauthorized (is your GITHUB_API_KEY correct?); %w", _err)
+	// TODO This code needs to be reviewed for logic and possibly refactored into two funcs.
 
-		case http.StatusNotFound:
-			// Anything other than a Not Found or Unauthorized
-			err = fmt.Errorf("unexpected error; %w", _err)
-
-		default:
-			err = nil
+	rl, _, err = c.Repositories.License(ctx, c.GetOrgName(), c.GetRepoName())
+	if err == nil {
+		// Request succeeded
+		lic = NewRepositoryLicense(LicenseArgs{
+			ID:  rl.License.GetSPDXID(),
+			URL: rl.GetDownloadURL(),
+		})
+		if !options.CaptureLicense {
+			// CLI switch requested we ignore capturing license content
+			goto end
 		}
+		lic.Text = rl.GetContent()
 		goto end
 	}
+
+	ghErr, ok = err.(*github.ErrorResponse)
+	if !ok {
+		// Hmm. Some other kind of error was returned
+		// Pass it along in case its helpful
+		err = ghErr
+		goto end
+	}
+	if ghErr.Response == nil {
+		err = fmt.Errorf("response missing unexpectedly; %w", ghErr)
+		goto end
+	}
+
+	switch ghErr.Response.StatusCode {
+	case http.StatusUnauthorized:
+		// Bad credentials?
+		err = fmt.Errorf("unauthorized (is your GITHUB_API_KEY correct?); %w", ghErr)
+
+	case http.StatusNotFound:
+		err = fmt.Errorf("license or repo not found; %w", ghErr)
+
+	default:
+		// Anything other than a Not Found or Unauthorized
+		// TODO Should this be set to nil, or an error?
+		err = nil
+	}
+
 end:
 	return lic, err
 }

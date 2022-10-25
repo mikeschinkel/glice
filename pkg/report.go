@@ -22,17 +22,11 @@ const (
 
 type OutputFormats []OutputFormat
 
-//var ValidOutputFormats = OutputFormats{
-//	TableFormat,
-//	JSONFormat,
-//	YAMLFormat,
-//	CSVFormat,
-//}
-
 var ValidOutputFormatsFormat = fmt.Sprintf("'%s', '%s', '%s' %s '%s'", TableFormat, JSONFormat, YAMLFormat, "%s", CSVFormat)
 var ValidOutputFormatsOrString = fmt.Sprintf(ValidOutputFormatsFormat, "or")
 
-//var ValidOutputFormatsAndString = fmt.Sprintf(ValidOutputFormatsFormat,"and")
+//goland:noinspection GoUnusedGlobalVariable
+var ValidOutputFormatsAndString = fmt.Sprintf(ValidOutputFormatsFormat, "and")
 
 type Report struct {
 	io.Writer

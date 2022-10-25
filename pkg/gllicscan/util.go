@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-func UnionString(s1, s2 []string) (s3 []string) {
+func UnionStringSlices(s1, s2 []string) (s3 []string) {
 	var n, i int
 
 	m := make(map[string]struct{})
@@ -56,8 +56,6 @@ func SaveJSONFile(fg FilepathGetter) (err error) {
 end:
 	return err
 }
-
-var ErrCannotStatFile = errors.New("cannot stat file")
 
 // CheckFileExists checks for file existence, and returns an error if it does not exist.
 func CheckFileExists(fp string) (exists bool, err error) {

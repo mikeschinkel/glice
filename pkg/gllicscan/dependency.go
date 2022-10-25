@@ -21,12 +21,12 @@ func NewDependency(dep *Dependency) *Dependency {
 }
 
 func (dep Dependency) Amend(adapter GitLabDependencyAdapter) {
-	licIDs := UnionString(dep.LicenseIDs, adapter.GetLicenseIDs())
+	licIDs := UnionStringSlices(dep.LicenseIDs, adapter.GetLicenseIDs())
 	sort.Strings(licIDs)
 	dep.LicenseIDs = licIDs
 }
 
-func GetGitLabDependencyMap(adapters []GitLabDependencyAdapter) GitLabDependencyAdapterMap {
+func GetDependencyAdapterMap(adapters []GitLabDependencyAdapter) GitLabDependencyAdapterMap {
 	newMap := make(GitLabDependencyAdapterMap, len(adapters))
 	for _, adapter := range adapters {
 		newMap[adapter.GetName()] = adapter
@@ -37,7 +37,7 @@ func GetGitLabDependencyMap(adapters []GitLabDependencyAdapter) GitLabDependency
 // Amend reconciles the GitLab Report Dependencies with
 // passed-in Dependencies from another source, i.e. go.mod scanning
 func (deps Dependencies) Amend(adapters []GitLabDependencyAdapter) Dependencies {
-	adaptersMap := GetGitLabDependencyMap(adapters)
+	adaptersMap := GetDependencyAdapterMap(adapters)
 	depsMap := deps.ToMap()
 	for name, adapter := range adaptersMap {
 		dep, ok := depsMap[name]

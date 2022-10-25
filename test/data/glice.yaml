@@ -1,731 +1,737 @@
 schema: v1
 editors:
-- id: email-alias
-  name: Name goes here
-  email: email-alias@singlestore.com
+  - id: email-alias
+    name: Name goes here
+    email: email-alias@example.com
 generated: "2022-10-17T05:40:54Z"
 allowed:
-- Apache-2.0
-- BSD-2-Clause
-- BSD-3-Clause
-- MIT
-- MPL-2.0
+  - Apache-2.0
+  - BSD-2-Clause
+  - BSD-3-Clause
+  - ISC
+  - MIT
+  - MPL-2.0
 overrides:
-- dependency: https://github.com/example.com/sample
-  license: MIT
-  verifier: email-alias
-  verified: "2022-10-17"
-  notes: This is a sample override added by 'glice init' command
+  - dependency: https://github.com/example.com/sample
+    licenses:
+      - MIT
+    verifier: email-alias
+    verified: "2022-10-17"
+    notes: This is a sample override added by 'glice init' command
 dependencies:
-- import: cloud.google.com/go/storage
-  repo: https://github.com/googleapis/google-cloud-go
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/googleapis/google-cloud-go/main/LICENSE
-- import: github.com/99designs/gqlgen
-  repo: https://github.com/99designs/gqlgen
-  license: MIT
-  legalese: https://raw.githubusercontent.com/99designs/gqlgen/master/LICENSE
-- import: github.com/Azuka/keycloak-admin-go
-  repo: https://github.com/Azuka/keycloak-admin-go
-  license: MIT
-  legalese: https://raw.githubusercontent.com/Azuka/keycloak-admin-go/master/LICENSE
-- import: github.com/Azure/azure-sdk-for-go/sdk/azcore
-  repo: https://github.com/Azure/azure-sdk-for-go/sdk/azcore
-  license: MIT
-  legalese: https://raw.githubusercontent.com/Azure/azure-sdk-for-go/main/LICENSE.txt
-- import: github.com/Azure/azure-sdk-for-go/sdk/azidentity
-  repo: https://github.com/Azure/azure-sdk-for-go/sdk/azidentity
-  license: MIT
-  legalese: https://raw.githubusercontent.com/Azure/azure-sdk-for-go/main/LICENSE.txt
-- import: github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage
-  repo: https://github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage
-  license: MIT
-  legalese: https://raw.githubusercontent.com/Azure/azure-sdk-for-go/main/LICENSE.txt
-- import: github.com/Azure/azure-sdk-for-go/sdk/storage/azblob
-  repo: https://github.com/Azure/azure-sdk-for-go/sdk/storage/azblob
-  license: MIT
-  legalese: https://raw.githubusercontent.com/Azure/azure-sdk-for-go/main/LICENSE.txt
-- import: github.com/Masterminds/squirrel
-  repo: https://github.com/Masterminds/squirrel
-  license: NOASSERTION
-  legalese: https://raw.githubusercontent.com/Masterminds/squirrel/master/LICENSE
-- import: github.com/PagerDuty/go-pagerduty
-  repo: https://github.com/PagerDuty/go-pagerduty
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/PagerDuty/go-pagerduty/main/LICENSE.txt
-- import: github.com/Pallinder/go-randomdata
-  repo: https://github.com/Pallinder/go-randomdata
-  license: MIT
-  legalese: https://raw.githubusercontent.com/Pallinder/go-randomdata/master/LICENSE
-- import: github.com/aws/aws-sdk-go
-  repo: https://github.com/aws/aws-sdk-go
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/aws/aws-sdk-go/main/LICENSE.txt
-- import: github.com/blang/semver
-  repo: https://github.com/blang/semver
-  license: MIT
-  legalese: https://raw.githubusercontent.com/blang/semver/master/LICENSE
-- import: github.com/crewjam/saml
-  repo: https://github.com/crewjam/saml
-  license: BSD-2-Clause
-  legalese: https://raw.githubusercontent.com/crewjam/saml/main/LICENSE
-- import: github.com/deepmap/oapi-codegen
-  repo: https://github.com/deepmap/oapi-codegen
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/deepmap/oapi-codegen/master/LICENSE
-- import: github.com/g8rswimmer/go-sfdc
-  repo: https://github.com/g8rswimmer/go-sfdc
-  license: MIT
-  legalese: https://raw.githubusercontent.com/g8rswimmer/go-sfdc/master/LICENSE.txt
-- import: github.com/getkin/kin-openapi
-  repo: https://github.com/getkin/kin-openapi
-  license: MIT
-  legalese: https://raw.githubusercontent.com/getkin/kin-openapi/master/LICENSE
-- import: github.com/getsentry/sentry-go
-  repo: https://github.com/getsentry/sentry-go
-  license: BSD-2-Clause
-  legalese: https://raw.githubusercontent.com/getsentry/sentry-go/master/LICENSE
-- import: github.com/ghodss/yaml
-  repo: https://github.com/ghodss/yaml
-  license: NOASSERTION
-  legalese: https://raw.githubusercontent.com/ghodss/yaml/master/LICENSE
-- import: github.com/go-logr/logr
-  repo: https://github.com/go-logr/logr
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/go-logr/logr/master/LICENSE
-- import: github.com/go-ozzo/ozzo-validation
-  repo: https://github.com/go-ozzo/ozzo-validation
-  license: MIT
-  legalese: https://raw.githubusercontent.com/go-ozzo/ozzo-validation/master/LICENSE
-- import: github.com/go-playground/validator/v10
-  repo: https://github.com/go-playground/validator/v10
-  license: MIT
-  legalese: https://raw.githubusercontent.com/go-playground/validator/master/LICENSE
-- import: github.com/go-resty/resty/v2
-  repo: https://github.com/go-resty/resty/v2
-  license: MIT
-  legalese: https://raw.githubusercontent.com/go-resty/resty/master/LICENSE
-- import: github.com/go-sql-driver/mysql
-  repo: https://github.com/go-sql-driver/mysql
-  license: MPL-2.0
-  legalese: https://raw.githubusercontent.com/go-sql-driver/mysql/master/LICENSE
-- import: github.com/go-test/deep
-  repo: https://github.com/go-test/deep
-  license: MIT
-  legalese: https://raw.githubusercontent.com/go-test/deep/master/LICENSE
-- import: github.com/golang-jwt/jwt/v4
-  repo: https://github.com/golang-jwt/jwt/v4
-  license: MIT
-  legalese: https://raw.githubusercontent.com/golang-jwt/jwt/main/LICENSE
-- import: github.com/google/go-cmp
-  repo: https://github.com/google/go-cmp
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/google/go-cmp/master/LICENSE
-- import: github.com/gorilla/handlers
-  repo: https://github.com/gorilla/handlers
-  license: BSD-2-Clause
-  legalese: https://raw.githubusercontent.com/gorilla/handlers/master/LICENSE
-- import: github.com/grpc-ecosystem/go-grpc-prometheus
-  repo: https://github.com/grpc-ecosystem/go-grpc-prometheus
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/grpc-ecosystem/go-grpc-prometheus/master/LICENSE
-- import: github.com/jarcoal/httpmock
-  repo: https://github.com/jarcoal/httpmock
-  license: MIT
-  legalese: https://raw.githubusercontent.com/jarcoal/httpmock/v1/LICENSE
-- import: github.com/jeremija/gosubmit
-  repo: https://github.com/jeremija/gosubmit
-  license: MIT
-  legalese: https://raw.githubusercontent.com/jeremija/gosubmit/master/LICENSE
-- import: github.com/jmoiron/sqlx
-  repo: https://github.com/jmoiron/sqlx
-  license: MIT
-  legalese: https://raw.githubusercontent.com/jmoiron/sqlx/master/LICENSE
-- import: github.com/lib/pq
-  repo: https://github.com/lib/pq
-  license: MIT
-  legalese: https://raw.githubusercontent.com/lib/pq/master/LICENSE.md
-- import: github.com/lithammer/dedent
-  repo: https://github.com/lithammer/dedent
-  license: MIT
-  legalese: https://raw.githubusercontent.com/lithammer/dedent/master/LICENSE
-- import: github.com/matryer/is
-  repo: https://github.com/matryer/is
-  license: MIT
-  legalese: https://raw.githubusercontent.com/matryer/is/master/LICENSE
-- import: github.com/miekg/dns
-  repo: https://github.com/miekg/dns
-  license: NOASSERTION
-  legalese: https://raw.githubusercontent.com/miekg/dns/master/LICENSE
-- import: github.com/minio/minio-go/v7
-  repo: https://github.com/minio/minio-go/v7
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/minio/minio-go/master/LICENSE
-- import: github.com/mitchellh/mapstructure
-  repo: https://github.com/mitchellh/mapstructure
-  license: MIT
-  legalese: https://raw.githubusercontent.com/mitchellh/mapstructure/main/LICENSE
-- import: github.com/mohae/deepcopy
-  repo: https://github.com/mohae/deepcopy
-  license: MIT
-  legalese: https://raw.githubusercontent.com/mohae/deepcopy/master/LICENSE
-- import: github.com/muir/nchi
-  repo: https://github.com/muir/nchi
-  license: NOASSERTION
-  legalese: https://raw.githubusercontent.com/muir/nchi/main/LICENSE
-- import: github.com/muir/nfigure
-  repo: https://github.com/muir/nfigure
-  license: MIT
-  legalese: https://raw.githubusercontent.com/muir/nfigure/main/LICENSE
-- import: github.com/muir/nject
-  repo: https://github.com/muir/nject
-  license: MIT
-  legalese: https://raw.githubusercontent.com/muir/nject/main/LICENSE
-- import: github.com/muir/nvelope
-  repo: https://github.com/muir/nvelope
-  license: MIT
-  legalese: https://raw.githubusercontent.com/muir/nvelope/main/LICENSE
-- import: github.com/onsi/ginkgo
-  repo: https://github.com/onsi/ginkgo
-  license: MIT
-  legalese: https://raw.githubusercontent.com/onsi/ginkgo/master/LICENSE
-- import: github.com/onsi/gomega
-  repo: https://github.com/onsi/gomega
-  license: MIT
-  legalese: https://raw.githubusercontent.com/onsi/gomega/master/LICENSE
-- import: github.com/opentracing/opentracing-go
-  repo: https://github.com/opentracing/opentracing-go
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/opentracing/opentracing-go/master/LICENSE
-- import: github.com/patrickmn/go-cache
-  repo: https://github.com/patrickmn/go-cache
-  license: MIT
-  legalese: https://raw.githubusercontent.com/patrickmn/go-cache/master/LICENSE
-- import: github.com/pkg/errors
-  repo: https://github.com/pkg/errors
-  license: BSD-2-Clause
-  legalese: https://raw.githubusercontent.com/pkg/errors/master/LICENSE
-- import: github.com/prometheus/client_golang
-  repo: https://github.com/prometheus/client_golang
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/prometheus/client_golang/main/LICENSE
-- import: github.com/robfig/cron
-  repo: https://github.com/robfig/cron
-  license: MIT
-  legalese: https://raw.githubusercontent.com/robfig/cron/master/LICENSE
-- import: github.com/satori/go.uuid
-  repo: https://github.com/satori/go.uuid
-  license: MIT
-  legalese: https://raw.githubusercontent.com/satori/go.uuid/master/LICENSE
-- import: github.com/singlestore-labs/singlestore-go/management
-  repo: https://github.com/singlestore-labs/singlestore-go/management
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/singlestore-labs/singlestore-go/main/LICENSE
-- import: github.com/spf13/afero
-  repo: https://github.com/spf13/afero
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/spf13/afero/master/LICENSE.txt
-- import: github.com/spf13/cobra
-  repo: https://github.com/spf13/cobra
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/spf13/cobra/main/LICENSE.txt
-- import: github.com/spf13/pflag
-  repo: https://github.com/spf13/pflag
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/spf13/pflag/master/LICENSE
-- import: github.com/stretchr/testify
-  repo: https://github.com/stretchr/testify
-  license: MIT
-  legalese: https://raw.githubusercontent.com/stretchr/testify/master/LICENSE
-- import: github.com/uber/jaeger-client-go
-  repo: https://github.com/uber/jaeger-client-go
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/jaegertracing/jaeger-client-go/master/LICENSE
-- import: github.com/udhos/equalfile
-  repo: https://github.com/udhos/equalfile
-  license: MIT
-  legalese: https://raw.githubusercontent.com/udhos/equalfile/master/LICENSE
-- import: github.com/vektah/gqlparser/v2
-  repo: https://github.com/vektah/gqlparser/v2
-  license: MIT
-  legalese: https://raw.githubusercontent.com/vektah/gqlparser/master/LICENSE
-- import: github.com/xorcare/pointer
-  repo: https://github.com/xorcare/pointer
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/xorcare/pointer/main/LICENSE
-- import: go.octolab.org
-  repo: https://github.com/octolab/pkg
-  license: MIT
-  legalese: https://raw.githubusercontent.com/octolab/pkg/main/LICENSE
-- import: go.uber.org/zap
-  repo: https://github.com/uber-go/zap
-  license: MIT
-  legalese: https://raw.githubusercontent.com/uber-go/zap/master/LICENSE.txt
-- import: golang.org/x/crypto
-  repo: https://github.com/golang/crypto
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/golang/crypto/master/LICENSE
-- import: golang.org/x/net
-  repo: https://github.com/golang/net
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/golang/net/master/LICENSE
-- import: golang.org/x/oauth2
-  repo: https://github.com/golang/oauth2
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/golang/oauth2/master/LICENSE
-- import: golang.org/x/sync
-  repo: https://github.com/golang/sync
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/golang/sync/master/LICENSE
-- import: golang.org/x/tools
-  repo: https://github.com/golang/tools
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/golang/tools/master/LICENSE
-- import: google.golang.org/api
-  repo: https://github.com/googleapis/google-api-go-client
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/googleapis/google-api-go-client/main/LICENSE
-- import: google.golang.org/grpc
-  repo: https://github.com/grpc/grpc-go
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/grpc/grpc-go/master/LICENSE
-- import: google.golang.org/protobuf
-  repo: https://github.com/protocolbuffers/protobuf-go
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/protocolbuffers/protobuf-go/master/LICENSE
-- import: gopkg.in/DATA-DOG/go-sqlmock.v1
-  repo: https://github.com/DATA-DOG/go-sqlmock
-  license: NOASSERTION
-  legalese: https://raw.githubusercontent.com/DATA-DOG/go-sqlmock/master/LICENSE
-- import: gopkg.in/gomail.v2
-  repo: https://github.com/go-gomail/gomail
-  license: MIT
-  legalese: https://raw.githubusercontent.com/go-gomail/gomail/master/LICENSE
-- import: gopkg.in/yaml.v2
-  repo: https://github.com/go-yaml/yaml
-  license: NOASSERTION
-  legalese: https://raw.githubusercontent.com/go-yaml/yaml/v3/LICENSE
-- import: gotest.tools
-  repo: https://github.com/gotestyourself/gotest.tools
-  license: NOASSERTION
-  legalese: https://raw.githubusercontent.com/gotestyourself/gotest.tools/main/LICENSE
-- import: k8s.io/api
-  repo: https://github.com/kubernetes/api
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/kubernetes/api/master/LICENSE
-- import: k8s.io/apimachinery
-  repo: https://github.com/kubernetes/apimachinery
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/kubernetes/apimachinery/master/LICENSE
-- import: k8s.io/client-go
-  repo: https://github.com/kubernetes/client-go
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/kubernetes/client-go/master/LICENSE
-- import: sigs.k8s.io/controller-runtime
-  repo: https://github.com/kubernetes-sigs/controller-runtime
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/kubernetes-sigs/controller-runtime/master/LICENSE
-- import: github.com/Azure/azure-sdk-for-go/sdk/internal
-  repo: https://github.com/Azure/azure-sdk-for-go/sdk/internal
-  license: MIT
-  legalese: https://raw.githubusercontent.com/Azure/azure-sdk-for-go/main/LICENSE.txt
-- import: github.com/AzureAD/microsoft-authentication-library-for-go
-  repo: https://github.com/AzureAD/microsoft-authentication-library-for-go
-  license: MIT
-  legalese: https://raw.githubusercontent.com/AzureAD/microsoft-authentication-library-for-go/dev/LICENSE
-- import: github.com/HdrHistogram/hdrhistogram-go
-  repo: https://github.com/HdrHistogram/hdrhistogram-go
-  license: MIT
-  legalese: https://raw.githubusercontent.com/HdrHistogram/hdrhistogram-go/master/LICENSE
-- import: github.com/go-logr/zapr
-  repo: https://github.com/go-logr/zapr
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/go-logr/zapr/master/LICENSE
-- import: github.com/go-openapi/jsonpointer
-  repo: https://github.com/go-openapi/jsonpointer
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/go-openapi/jsonpointer/master/LICENSE
-- import: github.com/go-openapi/swag
-  repo: https://github.com/go-openapi/swag
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/go-openapi/swag/master/LICENSE
-- import: github.com/golang-jwt/jwt
-  repo: https://github.com/golang-jwt/jwt
-  license: MIT
-  legalese: https://raw.githubusercontent.com/golang-jwt/jwt/main/LICENSE
-- import: github.com/googleapis/gax-go/v2
-  repo: https://github.com/googleapis/gax-go/v2
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/googleapis/gax-go/main/LICENSE
-- import: github.com/josharian/intern
-  repo: https://github.com/josharian/intern
-  license: MIT
-  legalese: https://raw.githubusercontent.com/josharian/intern/master/LICENSE.md
-- import: github.com/kylelemons/godebug
-  repo: https://github.com/kylelemons/godebug
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/kylelemons/godebug/master/LICENSE
-- import: github.com/mailru/easyjson
-  repo: https://github.com/mailru/easyjson
-  license: MIT
-  legalese: https://raw.githubusercontent.com/mailru/easyjson/master/LICENSE
-- import: github.com/pkg/browser
-  repo: https://github.com/pkg/browser
-  license: BSD-2-Clause
-  legalese: https://raw.githubusercontent.com/pkg/browser/master/LICENSE
-- import: go.opencensus.io
-  repo: https://github.com/census-instrumentation/opencensus-go
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/census-instrumentation/opencensus-go/master/LICENSE
-- import: cloud.google.com/go
-  repo: https://github.com/googleapis/google-cloud-go
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/googleapis/google-cloud-go/main/LICENSE
-- import: github.com/agnivade/levenshtein
-  repo: https://github.com/agnivade/levenshtein
-  license: MIT
-  legalese: https://raw.githubusercontent.com/agnivade/levenshtein/master/License.txt
-- import: github.com/asaskevich/govalidator
-  repo: https://github.com/asaskevich/govalidator
-  license: MIT
-  legalese: https://raw.githubusercontent.com/asaskevich/govalidator/master/LICENSE
-- import: github.com/beevik/etree
-  repo: https://github.com/beevik/etree
-  license: BSD-2-Clause
-  legalese: https://raw.githubusercontent.com/beevik/etree/master/LICENSE
-- import: github.com/beorn7/perks
-  repo: https://github.com/beorn7/perks
-  license: MIT
-  legalese: https://raw.githubusercontent.com/beorn7/perks/master/LICENSE
-- import: github.com/cespare/xxhash/v2
-  repo: https://github.com/cespare/xxhash/v2
-  license: MIT
-  legalese: https://raw.githubusercontent.com/cespare/xxhash/main/LICENSE.txt
-- import: github.com/crewjam/httperr
-  repo: https://github.com/crewjam/httperr
-  license: BSD-2-Clause
-  legalese: https://raw.githubusercontent.com/crewjam/httperr/master/LICENSE
-- import: github.com/davecgh/go-spew
-  repo: https://github.com/davecgh/go-spew
-  license: ISC
-  legalese: https://raw.githubusercontent.com/davecgh/go-spew/master/LICENSE
-- import: github.com/dustin/go-humanize
-  repo: https://github.com/dustin/go-humanize
-  license: NOASSERTION
-  legalese: https://raw.githubusercontent.com/dustin/go-humanize/master/LICENSE
-- import: github.com/elazarl/goproxy
-  repo: https://github.com/elazarl/goproxy
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/elazarl/goproxy/master/LICENSE
-- import: github.com/evanphx/json-patch
-  repo: https://github.com/evanphx/json-patch
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/evanphx/json-patch/master/LICENSE
-- import: github.com/felixge/httpsnoop
-  repo: https://github.com/felixge/httpsnoop
-  license: MIT
-  legalese: https://raw.githubusercontent.com/felixge/httpsnoop/master/LICENSE.txt
-- import: github.com/fsnotify/fsnotify
-  repo: https://github.com/fsnotify/fsnotify
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/fsnotify/fsnotify/main/LICENSE
-- import: github.com/go-playground/locales
-  repo: https://github.com/go-playground/locales
-  license: MIT
-  legalese: https://raw.githubusercontent.com/go-playground/locales/master/LICENSE
-- import: github.com/go-playground/universal-translator
-  repo: https://github.com/go-playground/universal-translator
-  license: MIT
-  legalese: https://raw.githubusercontent.com/go-playground/universal-translator/master/LICENSE
-- import: github.com/gogo/googleapis
-  repo: https://github.com/gogo/googleapis
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/gogo/googleapis/master/LICENSE
-- import: github.com/gogo/protobuf
-  repo: https://github.com/gogo/protobuf
-  license: NOASSERTION
-  legalese: https://raw.githubusercontent.com/gogo/protobuf/master/LICENSE
-- import: github.com/gogo/status
-  repo: https://github.com/gogo/status
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/gogo/status/master/LICENSE
-- import: github.com/golang/gddo
-  repo: https://github.com/golang/gddo
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/golang/gddo/master/LICENSE
-- import: github.com/golang/groupcache
-  repo: https://github.com/golang/groupcache
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/golang/groupcache/master/LICENSE
-- import: github.com/golang/protobuf
-  repo: https://github.com/golang/protobuf
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/golang/protobuf/master/LICENSE
-- import: github.com/google/go-querystring
-  repo: https://github.com/google/go-querystring
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/google/go-querystring/master/LICENSE
-- import: github.com/google/gofuzz
-  repo: https://github.com/google/gofuzz
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/google/gofuzz/master/LICENSE
-- import: github.com/google/uuid
-  repo: https://github.com/google/uuid
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/google/uuid/master/LICENSE
-- import: github.com/googleapis/gnostic
-  repo: https://github.com/googleapis/gnostic
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/google/gnostic/main/LICENSE
-- import: github.com/gorilla/websocket
-  repo: https://github.com/gorilla/websocket
-  license: BSD-2-Clause
-  legalese: https://raw.githubusercontent.com/gorilla/websocket/master/LICENSE
-- import: github.com/grpc-ecosystem/go-grpc-middleware
-  repo: https://github.com/grpc-ecosystem/go-grpc-middleware
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/grpc-ecosystem/go-grpc-middleware/master/LICENSE
-- import: github.com/hashicorp/golang-lru
-  repo: https://github.com/hashicorp/golang-lru
-  license: MPL-2.0
-  legalese: https://raw.githubusercontent.com/hashicorp/golang-lru/master/LICENSE
-- import: github.com/imdario/mergo
-  repo: https://github.com/imdario/mergo
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/imdario/mergo/master/LICENSE
-- import: github.com/inconshreveable/mousetrap
-  repo: https://github.com/inconshreveable/mousetrap
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/inconshreveable/mousetrap/master/LICENSE
-- import: github.com/jmespath/go-jmespath
-  repo: https://github.com/jmespath/go-jmespath
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/jmespath/go-jmespath/master/LICENSE
-- import: github.com/jonboulle/clockwork
-  repo: https://github.com/jonboulle/clockwork
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/jonboulle/clockwork/master/LICENSE
-- import: github.com/json-iterator/go
-  repo: https://github.com/json-iterator/go
-  license: MIT
-  legalese: https://raw.githubusercontent.com/json-iterator/go/master/LICENSE
-- import: github.com/julienschmidt/httprouter
-  repo: https://github.com/julienschmidt/httprouter
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/julienschmidt/httprouter/master/LICENSE
-- import: github.com/klauspost/cpuid
-  repo: https://github.com/klauspost/cpuid
-  license: MIT
-  legalese: https://raw.githubusercontent.com/klauspost/cpuid/master/LICENSE
-- import: github.com/lann/builder
-  repo: https://github.com/lann/builder
-  license: MIT
-  legalese: https://raw.githubusercontent.com/lann/builder/master/LICENSE
-- import: github.com/lann/ps
-  repo: https://github.com/lann/ps
-  license: MIT
-  legalese: https://raw.githubusercontent.com/lann/ps/master/LICENSE
-- import: github.com/leodido/go-urn
-  repo: https://github.com/leodido/go-urn
-  license: MIT
-  legalese: https://raw.githubusercontent.com/leodido/go-urn/master/LICENSE
-- import: github.com/mattermost/xml-roundtrip-validator
-  repo: https://github.com/mattermost/xml-roundtrip-validator
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/mattermost/xml-roundtrip-validator/master/LICENSE.txt
-- import: github.com/mattn/go-sqlite3
-  repo: https://github.com/mattn/go-sqlite3
-  license: MIT
-  legalese: https://raw.githubusercontent.com/mattn/go-sqlite3/master/LICENSE
-- import: github.com/matttproud/golang_protobuf_extensions
-  repo: https://github.com/matttproud/golang_protobuf_extensions
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/matttproud/golang_protobuf_extensions/master/LICENSE
-- import: github.com/minio/md5-simd
-  repo: https://github.com/minio/md5-simd
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/minio/md5-simd/master/LICENSE
-- import: github.com/minio/sha256-simd
-  repo: https://github.com/minio/sha256-simd
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/minio/sha256-simd/master/LICENSE
-- import: github.com/mitchellh/go-homedir
-  repo: https://github.com/mitchellh/go-homedir
-  license: MIT
-  legalese: https://raw.githubusercontent.com/mitchellh/go-homedir/main/LICENSE
-- import: github.com/moby/spdystream
-  repo: https://github.com/moby/spdystream
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/moby/spdystream/master/LICENSE
-- import: github.com/modern-go/concurrent
-  repo: https://github.com/modern-go/concurrent
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/modern-go/concurrent/master/LICENSE
-- import: github.com/modern-go/reflect2
-  repo: https://github.com/modern-go/reflect2
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/modern-go/reflect2/master/LICENSE
-- import: github.com/muir/commonerrors
-  repo: https://github.com/muir/commonerrors
-  license: MIT
-  legalese: https://raw.githubusercontent.com/muir/commonerrors/main/LICENSE
-- import: github.com/muir/nflex
-  repo: https://github.com/muir/nflex
-  license: MIT
-  legalese: https://raw.githubusercontent.com/muir/nflex/main/LICENSE
-- import: github.com/muir/reflectutils
-  repo: https://github.com/muir/reflectutils
-  license: MIT
-  legalese: https://raw.githubusercontent.com/muir/reflectutils/main/LICENSE
-- import: github.com/nxadm/tail
-  repo: https://github.com/nxadm/tail
-  license: MIT
-  legalese: https://raw.githubusercontent.com/nxadm/tail/master/LICENSE
-- import: github.com/pmezard/go-difflib
-  repo: https://github.com/pmezard/go-difflib
-  license: NOASSERTION
-  legalese: https://raw.githubusercontent.com/pmezard/go-difflib/master/LICENSE
-- import: github.com/prometheus/client_model
-  repo: https://github.com/prometheus/client_model
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/prometheus/client_model/master/LICENSE
-- import: github.com/prometheus/common
-  repo: https://github.com/prometheus/common
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/prometheus/common/main/LICENSE
-- import: github.com/prometheus/procfs
-  repo: https://github.com/prometheus/procfs
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/prometheus/procfs/master/LICENSE
-- import: github.com/rs/xid
-  repo: https://github.com/rs/xid
-  license: MIT
-  legalese: https://raw.githubusercontent.com/rs/xid/master/LICENSE
-- import: github.com/russellhaering/goxmldsig
-  repo: https://github.com/russellhaering/goxmldsig
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/russellhaering/goxmldsig/main/LICENSE
-- import: github.com/sirupsen/logrus
-  repo: https://github.com/sirupsen/logrus
-  license: MIT
-  legalese: https://raw.githubusercontent.com/sirupsen/logrus/master/LICENSE
-- import: github.com/uber/jaeger-lib
-  repo: https://github.com/uber/jaeger-lib
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/jaegertracing/jaeger-lib/main/LICENSE
-- import: github.com/valyala/fastjson
-  repo: https://github.com/valyala/fastjson
-  license: MIT
-  legalese: https://raw.githubusercontent.com/valyala/fastjson/master/LICENSE
-- import: github.com/zenazn/goji
-  repo: https://github.com/zenazn/goji
-  license: MIT
-  legalese: https://raw.githubusercontent.com/zenazn/goji/master/LICENSE
-- import: go.uber.org/atomic
-  repo: https://github.com/uber-go/atomic
-  license: MIT
-  legalese: https://raw.githubusercontent.com/uber-go/atomic/master/LICENSE.txt
-- import: go.uber.org/multierr
-  repo: https://github.com/uber-go/multierr
-  license: MIT
-  legalese: https://raw.githubusercontent.com/uber-go/multierr/master/LICENSE.txt
-- import: golang.org/x/mod
-  repo: https://github.com/golang/mod
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/golang/mod/master/LICENSE
-- import: golang.org/x/sys
-  repo: https://github.com/golang/sys
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/golang/sys/master/LICENSE
-- import: golang.org/x/term
-  repo: https://github.com/golang/term
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/golang/term/master/LICENSE
-- import: golang.org/x/text
-  repo: https://github.com/golang/text
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/golang/text/master/LICENSE
-- import: golang.org/x/time
-  repo: https://github.com/golang/time
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/golang/time/master/LICENSE
-- import: golang.org/x/xerrors
-  repo: https://github.com/golang/xerrors
-  license: BSD-3-Clause
-  legalese: https://raw.githubusercontent.com/golang/xerrors/master/LICENSE
-- import: gomodules.xyz/jsonpatch/v2
-  repo: https://github.com/gomodules/jsonpatch
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/gomodules/jsonpatch/release-2.0/LICENSE
-- import: google.golang.org/appengine
-  repo: https://github.com/golang/appengine
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/golang/appengine/master/LICENSE
-- import: google.golang.org/genproto
-  repo: https://github.com/googleapis/go-genproto
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/googleapis/go-genproto/main/LICENSE
-- import: google.golang.org/grpc/security/advancedtls
-  repo: https://github.com/grpc/grpc-go
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/grpc/grpc-go/master/LICENSE
-- import: gopkg.in/alexcesaro/quotedprintable.v3
-  repo: https://github.com/alexcesaro/quotedprintable
-  license: MIT
-  legalese: https://raw.githubusercontent.com/alexcesaro/quotedprintable/master/LICENSE
-- import: gopkg.in/inf.v0
-  repo: https://github.com/go-inf/inf
-  license: NOASSERTION
-  legalese: https://raw.githubusercontent.com/go-inf/inf/master/LICENSE
-- import: gopkg.in/ini.v1
-  repo: https://github.com/go-ini/ini
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/go-ini/ini/main/LICENSE
-- import: gopkg.in/jarcoal/httpmock.v1
-  repo: https://github.com/jarcoal/httpmock
-  license: MIT
-  legalese: https://raw.githubusercontent.com/jarcoal/httpmock/v1/LICENSE
-- import: gopkg.in/resty.v1
-  repo: https://github.com/go-resty/resty
-  license: MIT
-  legalese: https://raw.githubusercontent.com/go-resty/resty/master/LICENSE
-- import: gopkg.in/tomb.v1
-  repo: https://github.com/go-tomb/tomb
-  license: NOASSERTION
-  legalese: https://raw.githubusercontent.com/go-tomb/tomb/v1/LICENSE
-- import: gopkg.in/yaml.v3
-  repo: https://github.com/go-yaml/yaml
-  license: NOASSERTION
-  legalese: https://raw.githubusercontent.com/go-yaml/yaml/v3/LICENSE
-- import: k8s.io/apiextensions-apiserver
-  repo: https://github.com/kubernetes/apiextensions-apiserver
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/kubernetes/apiextensions-apiserver/master/LICENSE
-- import: k8s.io/component-base
-  repo: https://github.com/kubernetes/component-base
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/kubernetes/component-base/master/LICENSE
-- import: k8s.io/klog/v2
-  repo: https://github.com/kubernetes/klog
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/kubernetes/klog/main/LICENSE
-- import: k8s.io/kube-openapi
-  repo: https://github.com/kubernetes/kube-openapi
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/kubernetes/kube-openapi/master/LICENSE
-- import: k8s.io/utils
-  repo: https://github.com/kubernetes/utils
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/kubernetes/utils/master/LICENSE
-- import: sigs.k8s.io/json
-  repo: https://github.com/kubernetes-sigs/json
-  license: NOASSERTION
-  legalese: https://raw.githubusercontent.com/kubernetes-sigs/json/main/LICENSE
-- import: sigs.k8s.io/structured-merge-diff/v4
-  repo: https://github.com/kubernetes-sigs/structured-merge-diff
-  license: Apache-2.0
-  legalese: https://raw.githubusercontent.com/kubernetes-sigs/structured-merge-diff/master/LICENSE
-- import: sigs.k8s.io/yaml
-  repo: https://github.com/kubernetes-sigs/yaml
-  license: NOASSERTION
-  legalese: https://raw.githubusercontent.com/kubernetes-sigs/yaml/master/LICENSE
+  - import: cloud.google.com/go/storage
+    repo: https://github.com/googleapis/google-cloud-go
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/googleapis/google-cloud-go/main/LICENSE
+  - import: github.com/99designs/gqlgen
+    repo: https://github.com/99designs/gqlgen
+    license: MIT
+    legalese: https://raw.githubusercontent.com/99designs/gqlgen/master/LICENSE
+  - import: github.com/Azuka/keycloak-admin-go
+    repo: https://github.com/Azuka/keycloak-admin-go
+    license: MIT
+    legalese: https://raw.githubusercontent.com/Azuka/keycloak-admin-go/master/LICENSE
+  - import: github.com/Azure/azure-sdk-for-go/sdk/azcore
+    repo: https://github.com/Azure/azure-sdk-for-go/sdk/azcore
+    license: MIT
+    legalese: https://raw.githubusercontent.com/Azure/azure-sdk-for-go/main/LICENSE.txt
+  - import: github.com/Azure/azure-sdk-for-go/sdk/azidentity
+    repo: https://github.com/Azure/azure-sdk-for-go/sdk/azidentity
+    license: MIT
+    legalese: https://raw.githubusercontent.com/Azure/azure-sdk-for-go/main/LICENSE.txt
+  - import: github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage
+    repo: https://github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage
+    license: MIT
+    legalese: https://raw.githubusercontent.com/Azure/azure-sdk-for-go/main/LICENSE.txt
+  - import: github.com/Azure/azure-sdk-for-go/sdk/storage/azblob
+    repo: https://github.com/Azure/azure-sdk-for-go/sdk/storage/azblob
+    license: MIT
+    legalese: https://raw.githubusercontent.com/Azure/azure-sdk-for-go/main/LICENSE.txt
+  - import: github.com/Masterminds/squirrel
+    repo: https://github.com/Masterminds/squirrel
+    license: NOASSERTION
+    legalese: https://raw.githubusercontent.com/Masterminds/squirrel/master/LICENSE
+  - import: github.com/PagerDuty/go-pagerduty
+    repo: https://github.com/PagerDuty/go-pagerduty
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/PagerDuty/go-pagerduty/main/LICENSE.txt
+  - import: github.com/Pallinder/go-randomdata
+    repo: https://github.com/Pallinder/go-randomdata
+    license: MIT
+    legalese: https://raw.githubusercontent.com/Pallinder/go-randomdata/master/LICENSE
+  - import: github.com/aws/aws-sdk-go
+    repo: https://github.com/aws/aws-sdk-go
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/aws/aws-sdk-go/main/LICENSE.txt
+  - import: github.com/blang/semver
+    repo: https://github.com/blang/semver
+    license: MIT
+    legalese: https://raw.githubusercontent.com/blang/semver/master/LICENSE
+  - import: github.com/crewjam/saml
+    repo: https://github.com/crewjam/saml
+    license: BSD-2-Clause
+    legalese: https://raw.githubusercontent.com/crewjam/saml/main/LICENSE
+  - import: github.com/deepmap/oapi-codegen
+    repo: https://github.com/deepmap/oapi-codegen
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/deepmap/oapi-codegen/master/LICENSE
+  - import: github.com/g8rswimmer/go-sfdc
+    repo: https://github.com/g8rswimmer/go-sfdc
+    license: MIT
+    legalese: https://raw.githubusercontent.com/g8rswimmer/go-sfdc/master/LICENSE.txt
+  - import: github.com/getkin/kin-openapi
+    repo: https://github.com/getkin/kin-openapi
+    license: MIT
+    legalese: https://raw.githubusercontent.com/getkin/kin-openapi/master/LICENSE
+  - import: github.com/getsentry/sentry-go
+    repo: https://github.com/getsentry/sentry-go
+    license: BSD-2-Clause
+    legalese: https://raw.githubusercontent.com/getsentry/sentry-go/master/LICENSE
+  - import: github.com/ghodss/yaml
+    repo: https://github.com/ghodss/yaml
+    license: NOASSERTION
+    legalese: https://raw.githubusercontent.com/ghodss/yaml/master/LICENSE
+  - import: github.com/go-logr/logr
+    repo: https://github.com/go-logr/logr
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/go-logr/logr/master/LICENSE
+  - import: github.com/go-ozzo/ozzo-validation
+    repo: https://github.com/go-ozzo/ozzo-validation
+    license: MIT
+    legalese: https://raw.githubusercontent.com/go-ozzo/ozzo-validation/master/LICENSE
+  - import: github.com/go-playground/validator/v10
+    repo: https://github.com/go-playground/validator/v10
+    license: MIT
+    legalese: https://raw.githubusercontent.com/go-playground/validator/master/LICENSE
+  - import: github.com/go-resty/resty/v2
+    repo: https://github.com/go-resty/resty/v2
+    license: MIT
+    legalese: https://raw.githubusercontent.com/go-resty/resty/master/LICENSE
+  - import: github.com/go-sql-driver/mysql
+    repo: https://github.com/go-sql-driver/mysql
+    license: MPL-2.0
+    legalese: https://raw.githubusercontent.com/go-sql-driver/mysql/master/LICENSE
+  - import: github.com/go-test/deep
+    repo: https://github.com/go-test/deep
+    license: MIT
+    legalese: https://raw.githubusercontent.com/go-test/deep/master/LICENSE
+  - import: github.com/golang-jwt/jwt/v4
+    repo: https://github.com/golang-jwt/jwt/v4
+    license: MIT
+    legalese: https://raw.githubusercontent.com/golang-jwt/jwt/main/LICENSE
+  - import: github.com/google/go-cmp
+    repo: https://github.com/google/go-cmp
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/google/go-cmp/master/LICENSE
+  - import: github.com/gorilla/handlers
+    repo: https://github.com/gorilla/handlers
+    license: BSD-2-Clause
+    legalese: https://raw.githubusercontent.com/gorilla/handlers/master/LICENSE
+  - import: github.com/grpc-ecosystem/go-grpc-prometheus
+    repo: https://github.com/grpc-ecosystem/go-grpc-prometheus
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/grpc-ecosystem/go-grpc-prometheus/master/LICENSE
+  - import: github.com/jarcoal/httpmock
+    repo: https://github.com/jarcoal/httpmock
+    license: MIT
+    legalese: https://raw.githubusercontent.com/jarcoal/httpmock/v1/LICENSE
+  - import: github.com/jeremija/gosubmit
+    repo: https://github.com/jeremija/gosubmit
+    license: MIT
+    legalese: https://raw.githubusercontent.com/jeremija/gosubmit/master/LICENSE
+  - import: github.com/jmoiron/sqlx
+    repo: https://github.com/jmoiron/sqlx
+    license: MIT
+    legalese: https://raw.githubusercontent.com/jmoiron/sqlx/master/LICENSE
+  - import: github.com/lib/pq
+    repo: https://github.com/lib/pq
+    license: MIT
+    legalese: https://raw.githubusercontent.com/lib/pq/master/LICENSE.md
+  - import: github.com/lithammer/dedent
+    repo: https://github.com/lithammer/dedent
+    license: MIT
+    legalese: https://raw.githubusercontent.com/lithammer/dedent/master/LICENSE
+  - import: github.com/matryer/is
+    repo: https://github.com/matryer/is
+    license: MIT
+    legalese: https://raw.githubusercontent.com/matryer/is/master/LICENSE
+  - import: github.com/miekg/dns
+    repo: https://github.com/miekg/dns
+    license: NOASSERTION
+    legalese: https://raw.githubusercontent.com/miekg/dns/master/LICENSE
+  - import: github.com/minio/minio-go/v7
+    repo: https://github.com/minio/minio-go/v7
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/minio/minio-go/master/LICENSE
+  - import: github.com/mitchellh/mapstructure
+    repo: https://github.com/mitchellh/mapstructure
+    license: MIT
+    legalese: https://raw.githubusercontent.com/mitchellh/mapstructure/main/LICENSE
+  - import: github.com/mohae/deepcopy
+    repo: https://github.com/mohae/deepcopy
+    license: MIT
+    legalese: https://raw.githubusercontent.com/mohae/deepcopy/master/LICENSE
+  - import: github.com/muir/nchi
+    repo: https://github.com/muir/nchi
+    license: NOASSERTION
+    legalese: https://raw.githubusercontent.com/muir/nchi/main/LICENSE
+  - import: github.com/muir/nfigure
+    repo: https://github.com/muir/nfigure
+    license: MIT
+    legalese: https://raw.githubusercontent.com/muir/nfigure/main/LICENSE
+  - import: github.com/muir/nject
+    repo: https://github.com/muir/nject
+    license: MIT
+    legalese: https://raw.githubusercontent.com/muir/nject/main/LICENSE
+  - import: github.com/muir/nvelope
+    repo: https://github.com/muir/nvelope
+    license: MIT
+    legalese: https://raw.githubusercontent.com/muir/nvelope/main/LICENSE
+  - import: github.com/onsi/ginkgo
+    repo: https://github.com/onsi/ginkgo
+    license: MIT
+    legalese: https://raw.githubusercontent.com/onsi/ginkgo/master/LICENSE
+  - import: github.com/onsi/gomega
+    repo: https://github.com/onsi/gomega
+    license: MIT
+    legalese: https://raw.githubusercontent.com/onsi/gomega/master/LICENSE
+  - import: github.com/opentracing/opentracing-go
+    repo: https://github.com/opentracing/opentracing-go
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/opentracing/opentracing-go/master/LICENSE
+  - import: github.com/patrickmn/go-cache
+    repo: https://github.com/patrickmn/go-cache
+    license: MIT
+    legalese: https://raw.githubusercontent.com/patrickmn/go-cache/master/LICENSE
+  - import: github.com/pkg/errors
+    repo: https://github.com/pkg/errors
+    license: BSD-2-Clause
+    legalese: https://raw.githubusercontent.com/pkg/errors/master/LICENSE
+  - import: github.com/prometheus/client_golang
+    repo: https://github.com/prometheus/client_golang
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/prometheus/client_golang/main/LICENSE
+  - import: github.com/robfig/cron
+    repo: https://github.com/robfig/cron
+    license: MIT
+    legalese: https://raw.githubusercontent.com/robfig/cron/master/LICENSE
+  - import: github.com/satori/go.uuid
+    repo: https://github.com/satori/go.uuid
+    license: MIT
+    legalese: https://raw.githubusercontent.com/satori/go.uuid/master/LICENSE
+  - import: github.com/singlestore-labs/singlestore-go/management
+    repo: https://github.com/singlestore-labs/singlestore-go/management
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/singlestore-labs/singlestore-go/main/LICENSE
+  - import: github.com/spf13/afero
+    repo: https://github.com/spf13/afero
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/spf13/afero/master/LICENSE.txt
+  - import: github.com/spf13/cobra
+    repo: https://github.com/spf13/cobra
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/spf13/cobra/main/LICENSE.txt
+  - import: github.com/spf13/pflag
+    repo: https://github.com/spf13/pflag
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/spf13/pflag/master/LICENSE
+  - import: github.com/stretchr/testify
+    repo: https://github.com/stretchr/testify
+    license: MIT
+    legalese: https://raw.githubusercontent.com/stretchr/testify/master/LICENSE
+  - import: github.com/uber/jaeger-client-go
+    repo: https://github.com/uber/jaeger-client-go
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/jaegertracing/jaeger-client-go/master/LICENSE
+  - import: github.com/udhos/equalfile
+    repo: https://github.com/udhos/equalfile
+    license: MIT
+    legalese: https://raw.githubusercontent.com/udhos/equalfile/master/LICENSE
+  - import: github.com/vektah/gqlparser/v2
+    repo: https://github.com/vektah/gqlparser/v2
+    license: MIT
+    legalese: https://raw.githubusercontent.com/vektah/gqlparser/master/LICENSE
+  - import: github.com/xorcare/pointer
+    repo: https://github.com/xorcare/pointer
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/xorcare/pointer/main/LICENSE
+  - import: go.octolab.org
+    repo: https://github.com/octolab/pkg
+    license: MIT
+    legalese: https://raw.githubusercontent.com/octolab/pkg/main/LICENSE
+  - import: go.uber.org/zap
+    repo: https://github.com/uber-go/zap
+    license: MIT
+    legalese: https://raw.githubusercontent.com/uber-go/zap/master/LICENSE.txt
+  - import: golang.org/x/crypto
+    repo: https://github.com/golang/crypto
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/golang/crypto/master/LICENSE
+  - import: golang.org/x/net
+    repo: https://github.com/golang/net
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/golang/net/master/LICENSE
+  - import: golang.org/x/oauth2
+    repo: https://github.com/golang/oauth2
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/golang/oauth2/master/LICENSE
+  - import: golang.org/x/sync
+    repo: https://github.com/golang/sync
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/golang/sync/master/LICENSE
+  - import: golang.org/x/tools
+    repo: https://github.com/golang/tools
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/golang/tools/master/LICENSE
+  - import: google.golang.org/api
+    repo: https://github.com/googleapis/google-api-go-client
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/googleapis/google-api-go-client/main/LICENSE
+  - import: google.golang.org/grpc
+    repo: https://github.com/grpc/grpc-go
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/grpc/grpc-go/master/LICENSE
+  - import: google.golang.org/protobuf
+    repo: https://github.com/protocolbuffers/protobuf-go
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/protocolbuffers/protobuf-go/master/LICENSE
+  - import: gopkg.in/DATA-DOG/go-sqlmock.v1
+    repo: https://github.com/DATA-DOG/go-sqlmock
+    license: NOASSERTION
+    legalese: https://raw.githubusercontent.com/DATA-DOG/go-sqlmock/master/LICENSE
+  - import: gopkg.in/gomail.v2
+    repo: https://github.com/go-gomail/gomail
+    license: MIT
+    legalese: https://raw.githubusercontent.com/go-gomail/gomail/master/LICENSE
+  - import: gopkg.in/yaml.v2
+    repo: https://github.com/go-yaml/yaml
+    license: NOASSERTION
+    legalese: https://raw.githubusercontent.com/go-yaml/yaml/v3/LICENSE
+  - import: gotest.tools
+    repo: https://github.com/gotestyourself/gotest.tools
+    license: NOASSERTION
+    legalese: https://raw.githubusercontent.com/gotestyourself/gotest.tools/main/LICENSE
+  - import: k8s.io/api
+    repo: https://github.com/kubernetes/api
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/kubernetes/api/master/LICENSE
+  - import: k8s.io/apimachinery
+    repo: https://github.com/kubernetes/apimachinery
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/kubernetes/apimachinery/master/LICENSE
+  - import: k8s.io/client-go
+    repo: https://github.com/kubernetes/client-go
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/kubernetes/client-go/master/LICENSE
+  - import: sigs.k8s.io/controller-runtime
+    repo: https://github.com/kubernetes-sigs/controller-runtime
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/kubernetes-sigs/controller-runtime/master/LICENSE
+  - import: github.com/Azure/azure-sdk-for-go/sdk/internal
+    repo: https://github.com/Azure/azure-sdk-for-go/sdk/internal
+    license: MIT
+    legalese: https://raw.githubusercontent.com/Azure/azure-sdk-for-go/main/LICENSE.txt
+  - import: github.com/AzureAD/microsoft-authentication-library-for-go
+    repo: https://github.com/AzureAD/microsoft-authentication-library-for-go
+    license: MIT
+    legalese: https://raw.githubusercontent.com/AzureAD/microsoft-authentication-library-for-go/dev/LICENSE
+  - import: github.com/HdrHistogram/hdrhistogram-go
+    repo: https://github.com/HdrHistogram/hdrhistogram-go
+    license: MIT
+    legalese: https://raw.githubusercontent.com/HdrHistogram/hdrhistogram-go/master/LICENSE
+  - import: github.com/go-logr/zapr
+    repo: https://github.com/go-logr/zapr
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/go-logr/zapr/master/LICENSE
+  - import: github.com/go-openapi/jsonpointer
+    repo: https://github.com/go-openapi/jsonpointer
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/go-openapi/jsonpointer/master/LICENSE
+  - import: github.com/go-openapi/swag
+    repo: https://github.com/go-openapi/swag
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/go-openapi/swag/master/LICENSE
+  - import: github.com/golang-jwt/jwt
+    repo: https://github.com/golang-jwt/jwt
+    license: MIT
+    legalese: https://raw.githubusercontent.com/golang-jwt/jwt/main/LICENSE
+  - import: github.com/googleapis/gax-go/v2
+    repo: https://github.com/googleapis/gax-go/v2
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/googleapis/gax-go/main/LICENSE
+  - import: github.com/josharian/intern
+    repo: https://github.com/josharian/intern
+    license: MIT
+    legalese: https://raw.githubusercontent.com/josharian/intern/master/LICENSE.md
+  - import: github.com/kylelemons/godebug
+    repo: https://github.com/kylelemons/godebug
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/kylelemons/godebug/master/LICENSE
+  - import: github.com/mailru/easyjson
+    repo: https://github.com/mailru/easyjson
+    license: MIT
+    legalese: https://raw.githubusercontent.com/mailru/easyjson/master/LICENSE
+  - import: github.com/pkg/browser
+    repo: https://github.com/pkg/browser
+    license: BSD-2-Clause
+    legalese: https://raw.githubusercontent.com/pkg/browser/master/LICENSE
+  - import: go.opencensus.io
+    repo: https://github.com/census-instrumentation/opencensus-go
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/census-instrumentation/opencensus-go/master/LICENSE
+  - import: cloud.google.com/go
+    repo: https://github.com/googleapis/google-cloud-go
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/googleapis/google-cloud-go/main/LICENSE
+  - import: github.com/agnivade/levenshtein
+    repo: https://github.com/agnivade/levenshtein
+    license: MIT
+    legalese: https://raw.githubusercontent.com/agnivade/levenshtein/master/License.txt
+  - import: github.com/asaskevich/govalidator
+    repo: https://github.com/asaskevich/govalidator
+    license: MIT
+    legalese: https://raw.githubusercontent.com/asaskevich/govalidator/master/LICENSE
+  - import: github.com/beevik/etree
+    repo: https://github.com/beevik/etree
+    license: BSD-2-Clause
+    legalese: https://raw.githubusercontent.com/beevik/etree/master/LICENSE
+  - import: github.com/beorn7/perks
+    repo: https://github.com/beorn7/perks
+    license: MIT
+    legalese: https://raw.githubusercontent.com/beorn7/perks/master/LICENSE
+  - import: github.com/cespare/xxhash/v2
+    repo: https://github.com/cespare/xxhash/v2
+    license: MIT
+    legalese: https://raw.githubusercontent.com/cespare/xxhash/main/LICENSE.txt
+  - import: github.com/crewjam/httperr
+    repo: https://github.com/crewjam/httperr
+    license: BSD-2-Clause
+    legalese: https://raw.githubusercontent.com/crewjam/httperr/master/LICENSE
+  - import: github.com/davecgh/go-spew
+    repo: https://github.com/davecgh/go-spew
+    license: ISC
+    legalese: https://raw.githubusercontent.com/davecgh/go-spew/master/LICENSE
+  - import: github.com/dustin/go-humanize
+    repo: https://github.com/dustin/go-humanize
+    license: NOASSERTION
+    legalese: https://raw.githubusercontent.com/dustin/go-humanize/master/LICENSE
+  - import: github.com/elazarl/goproxy
+    repo: https://github.com/elazarl/goproxy
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/elazarl/goproxy/master/LICENSE
+  - import: github.com/evanphx/json-patch
+    repo: https://github.com/evanphx/json-patch
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/evanphx/json-patch/master/LICENSE
+  - import: github.com/felixge/httpsnoop
+    repo: https://github.com/felixge/httpsnoop
+    license: MIT
+    legalese: https://raw.githubusercontent.com/felixge/httpsnoop/master/LICENSE.txt
+  - import: github.com/fsnotify/fsnotify
+    repo: https://github.com/fsnotify/fsnotify
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/fsnotify/fsnotify/main/LICENSE
+  - import: github.com/go-playground/locales
+    repo: https://github.com/go-playground/locales
+    license: MIT
+    legalese: https://raw.githubusercontent.com/go-playground/locales/master/LICENSE
+  - import: github.com/go-playground/universal-translator
+    repo: https://github.com/go-playground/universal-translator
+    license: MIT
+    legalese: https://raw.githubusercontent.com/go-playground/universal-translator/master/LICENSE
+  - import: github.com/gogo/googleapis
+    repo: https://github.com/gogo/googleapis
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/gogo/googleapis/master/LICENSE
+  - import: github.com/gogo/protobuf
+    repo: https://github.com/gogo/protobuf
+    license: NOASSERTION
+    legalese: https://raw.githubusercontent.com/gogo/protobuf/master/LICENSE
+  - import: github.com/gogo/status
+    repo: https://github.com/gogo/status
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/gogo/status/master/LICENSE
+  - import: github.com/golang/gddo
+    repo: https://github.com/golang/gddo
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/golang/gddo/master/LICENSE
+  - import: github.com/golang/groupcache
+    repo: https://github.com/golang/groupcache
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/golang/groupcache/master/LICENSE
+  - import: github.com/golang/protobuf
+    repo: https://github.com/golang/protobuf
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/golang/protobuf/master/LICENSE
+  - import: github.com/google/go-querystring
+    repo: https://github.com/google/go-querystring
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/google/go-querystring/master/LICENSE
+  - import: github.com/google/gofuzz
+    repo: https://github.com/google/gofuzz
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/google/gofuzz/master/LICENSE
+  - import: github.com/google/uuid
+    repo: https://github.com/google/uuid
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/google/uuid/master/LICENSE
+  - import: github.com/googleapis/gnostic
+    repo: https://github.com/googleapis/gnostic
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/google/gnostic/main/LICENSE
+  - import: github.com/gorilla/websocket
+    repo: https://github.com/gorilla/websocket
+    license: BSD-2-Clause
+    legalese: https://raw.githubusercontent.com/gorilla/websocket/master/LICENSE
+  - import: github.com/grpc-ecosystem/go-grpc-middleware
+    repo: https://github.com/grpc-ecosystem/go-grpc-middleware
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/grpc-ecosystem/go-grpc-middleware/master/LICENSE
+  - import: github.com/hashicorp/golang-lru
+    repo: https://github.com/hashicorp/golang-lru
+    license: MPL-2.0
+    legalese: https://raw.githubusercontent.com/hashicorp/golang-lru/master/LICENSE
+  - import: github.com/imdario/mergo
+    repo: https://github.com/imdario/mergo
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/imdario/mergo/master/LICENSE
+  - import: github.com/inconshreveable/mousetrap
+    repo: https://github.com/inconshreveable/mousetrap
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/inconshreveable/mousetrap/master/LICENSE
+  - import: github.com/jmespath/go-jmespath
+    repo: https://github.com/jmespath/go-jmespath
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/jmespath/go-jmespath/master/LICENSE
+  - import: github.com/jonboulle/clockwork
+    repo: https://github.com/jonboulle/clockwork
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/jonboulle/clockwork/master/LICENSE
+  - import: github.com/json-iterator/go
+    repo: https://github.com/json-iterator/go
+    license: MIT
+    legalese: https://raw.githubusercontent.com/json-iterator/go/master/LICENSE
+  - import: github.com/julienschmidt/httprouter
+    repo: https://github.com/julienschmidt/httprouter
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/julienschmidt/httprouter/master/LICENSE
+  - import: github.com/klauspost/cpuid
+    repo: https://github.com/klauspost/cpuid
+    license: MIT
+    legalese: https://raw.githubusercontent.com/klauspost/cpuid/master/LICENSE
+  - import: github.com/lann/builder
+    repo: https://github.com/lann/builder
+    license: MIT
+    legalese: https://raw.githubusercontent.com/lann/builder/master/LICENSE
+  - import: github.com/lann/ps
+    repo: https://github.com/lann/ps
+    license: MIT
+    legalese: https://raw.githubusercontent.com/lann/ps/master/LICENSE
+  - import: github.com/leodido/go-urn
+    repo: https://github.com/leodido/go-urn
+    license: MIT
+    legalese: https://raw.githubusercontent.com/leodido/go-urn/master/LICENSE
+  - import: github.com/mattermost/xml-roundtrip-validator
+    repo: https://github.com/mattermost/xml-roundtrip-validator
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/mattermost/xml-roundtrip-validator/master/LICENSE.txt
+  - import: github.com/mattn/go-sqlite3
+    repo: https://github.com/mattn/go-sqlite3
+    license: MIT
+    legalese: https://raw.githubusercontent.com/mattn/go-sqlite3/master/LICENSE
+  - import: github.com/matttproud/golang_protobuf_extensions
+    repo: https://github.com/matttproud/golang_protobuf_extensions
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/matttproud/golang_protobuf_extensions/master/LICENSE
+  - import: github.com/minio/md5-simd
+    repo: https://github.com/minio/md5-simd
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/minio/md5-simd/master/LICENSE
+  - import: github.com/minio/sha256-simd
+    repo: https://github.com/minio/sha256-simd
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/minio/sha256-simd/master/LICENSE
+  - import: github.com/mitchellh/go-homedir
+    repo: https://github.com/mitchellh/go-homedir
+    license: MIT
+    legalese: https://raw.githubusercontent.com/mitchellh/go-homedir/main/LICENSE
+  - import: github.com/moby/spdystream
+    repo: https://github.com/moby/spdystream
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/moby/spdystream/master/LICENSE
+  - import: github.com/modern-go/concurrent
+    repo: https://github.com/modern-go/concurrent
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/modern-go/concurrent/master/LICENSE
+  - import: github.com/modern-go/reflect2
+    repo: https://github.com/modern-go/reflect2
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/modern-go/reflect2/master/LICENSE
+  - import: github.com/muir/commonerrors
+    repo: https://github.com/muir/commonerrors
+    license: MIT
+    legalese: https://raw.githubusercontent.com/muir/commonerrors/main/LICENSE
+  - import: github.com/muir/nflex
+    repo: https://github.com/muir/nflex
+    license: MIT
+    legalese: https://raw.githubusercontent.com/muir/nflex/main/LICENSE
+  - import: github.com/muir/reflectutils
+    repo: https://github.com/muir/reflectutils
+    license: MIT
+    legalese: https://raw.githubusercontent.com/muir/reflectutils/main/LICENSE
+  - import: github.com/nxadm/tail
+    repo: https://github.com/nxadm/tail
+    license: MIT
+    legalese: https://raw.githubusercontent.com/nxadm/tail/master/LICENSE
+  - import: github.com/pmezard/go-difflib
+    repo: https://github.com/pmezard/go-difflib
+    license: NOASSERTION
+    legalese: https://raw.githubusercontent.com/pmezard/go-difflib/master/LICENSE
+  - import: github.com/prometheus/client_model
+    repo: https://github.com/prometheus/client_model
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/prometheus/client_model/master/LICENSE
+  - import: github.com/prometheus/common
+    repo: https://github.com/prometheus/common
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/prometheus/common/main/LICENSE
+  - import: github.com/prometheus/procfs
+    repo: https://github.com/prometheus/procfs
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/prometheus/procfs/master/LICENSE
+  - import: github.com/rs/xid
+    repo: https://github.com/rs/xid
+    license: MIT
+    legalese: https://raw.githubusercontent.com/rs/xid/master/LICENSE
+  - import: github.com/russellhaering/goxmldsig
+    repo: https://github.com/russellhaering/goxmldsig
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/russellhaering/goxmldsig/main/LICENSE
+  - import: github.com/sirupsen/logrus
+    repo: https://github.com/sirupsen/logrus
+    license: MIT
+    legalese: https://raw.githubusercontent.com/sirupsen/logrus/master/LICENSE
+  - import: github.com/uber/jaeger-lib
+    repo: https://github.com/uber/jaeger-lib
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/jaegertracing/jaeger-lib/main/LICENSE
+  - import: github.com/valyala/fastjson
+    repo: https://github.com/valyala/fastjson
+    license: MIT
+    legalese: https://raw.githubusercontent.com/valyala/fastjson/master/LICENSE
+  - import: github.com/zenazn/goji
+    repo: https://github.com/zenazn/goji
+    license: MIT
+    legalese: https://raw.githubusercontent.com/zenazn/goji/master/LICENSE
+  - import: go.uber.org/atomic
+    repo: https://github.com/uber-go/atomic
+    license: MIT
+    legalese: https://raw.githubusercontent.com/uber-go/atomic/master/LICENSE.txt
+  - import: go.uber.org/multierr
+    repo: https://github.com/uber-go/multierr
+    license: MIT
+    legalese: https://raw.githubusercontent.com/uber-go/multierr/master/LICENSE.txt
+  - import: golang.org/x/mod
+    repo: https://github.com/golang/mod
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/golang/mod/master/LICENSE
+  - import: golang.org/x/sys
+    repo: https://github.com/golang/sys
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/golang/sys/master/LICENSE
+  - import: golang.org/x/term
+    repo: https://github.com/golang/term
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/golang/term/master/LICENSE
+  - import: golang.org/x/text
+    repo: https://github.com/golang/text
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/golang/text/master/LICENSE
+  - import: golang.org/x/time
+    repo: https://github.com/golang/time
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/golang/time/master/LICENSE
+  - import: golang.org/x/xerrors
+    repo: https://github.com/golang/xerrors
+    license: BSD-3-Clause
+    legalese: https://raw.githubusercontent.com/golang/xerrors/master/LICENSE
+  - import: gomodules.xyz/jsonpatch/v2
+    repo: https://github.com/gomodules/jsonpatch
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/gomodules/jsonpatch/release-2.0/LICENSE
+  - import: google.golang.org/appengine
+    repo: https://github.com/golang/appengine
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/golang/appengine/master/LICENSE
+  - import: google.golang.org/genproto
+    repo: https://github.com/googleapis/go-genproto
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/googleapis/go-genproto/main/LICENSE
+  - import: google.golang.org/grpc/security/advancedtls
+    repo: https://github.com/grpc/grpc-go
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/grpc/grpc-go/master/LICENSE
+  - import: gopkg.in/alexcesaro/quotedprintable.v3
+    repo: https://github.com/alexcesaro/quotedprintable
+    license: MIT
+    legalese: https://raw.githubusercontent.com/alexcesaro/quotedprintable/master/LICENSE
+  - import: gopkg.in/inf.v0
+    repo: https://github.com/go-inf/inf
+    license: NOASSERTION
+    legalese: https://raw.githubusercontent.com/go-inf/inf/master/LICENSE
+  - import: gopkg.in/ini.v1
+    repo: https://github.com/go-ini/ini
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/go-ini/ini/main/LICENSE
+  - import: gopkg.in/jarcoal/httpmock.v1
+    repo: https://github.com/jarcoal/httpmock
+    license: MIT
+    legalese: https://raw.githubusercontent.com/jarcoal/httpmock/v1/LICENSE
+  - import: gopkg.in/resty.v1
+    repo: https://github.com/go-resty/resty
+    license: MIT
+    legalese: https://raw.githubusercontent.com/go-resty/resty/master/LICENSE
+  - import: gopkg.in/tomb.v1
+    repo: https://github.com/go-tomb/tomb
+    license: NOASSERTION
+    legalese: https://raw.githubusercontent.com/go-tomb/tomb/v1/LICENSE
+  - import: gopkg.in/yaml.v3
+    repo: https://github.com/go-yaml/yaml
+    license: NOASSERTION
+    legalese: https://raw.githubusercontent.com/go-yaml/yaml/v3/LICENSE
+  - import: k8s.io/apiextensions-apiserver
+    repo: https://github.com/kubernetes/apiextensions-apiserver
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/kubernetes/apiextensions-apiserver/master/LICENSE
+  - import: k8s.io/component-base
+    repo: https://github.com/kubernetes/component-base
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/kubernetes/component-base/master/LICENSE
+  - import: k8s.io/klog/v2
+    repo: https://github.com/kubernetes/klog
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/kubernetes/klog/main/LICENSE
+  - import: k8s.io/kube-openapi
+    repo: https://github.com/kubernetes/kube-openapi
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/kubernetes/kube-openapi/master/LICENSE
+  - import: k8s.io/utils
+    repo: https://github.com/kubernetes/utils
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/kubernetes/utils/master/LICENSE
+  - import: sigs.k8s.io/structured-merge-diff/v4
+    repo: https://github.com/kubernetes-sigs/structured-merge-diff
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/kubernetes-sigs/structured-merge-diff/master/LICENSE
+  - import: sigs.k8s.io/json
+    repo: https://github.com/kubernetes-sigs/json
+    license: NOASSERTION
+    legalese: https://raw.githubusercontent.com/kubernetes-sigs/json/main/LICENSE
+  - import: sigs.k8s.io/structured-merge-diff/v4
+    repo: https://github.com/kubernetes-sigs/structured-merge-diff
+    license: Apache-2.0
+    legalese: https://raw.githubusercontent.com/kubernetes-sigs/structured-merge-diff/master/LICENSE
+  - import: sigs.k8s.io/yaml
+    repo: https://github.com/kubernetes-sigs/yaml
+    license: NOASSERTION
+    legalese: https://raw.githubusercontent.com/kubernetes-sigs/yaml/master/LICENSE

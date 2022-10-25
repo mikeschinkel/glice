@@ -9,7 +9,6 @@ import (
 )
 
 const (
-	//TagName    = `meta`
 	htmlRegion = `head`
 	htmlTag    = `meta`
 	sourceName = "go-source"
@@ -232,7 +231,7 @@ func (r *Repository) ResolveImport(ctx context.Context, options *Options) (err e
 			goto end
 		}
 	}
-	if err == errRequestPrefixInstead || err == nil {
+	if err == ErrRequestPrefixInstead || err == nil {
 		r.SetImport(StripURLScheme(repoURL))
 		err = r.ResolveRepository(ctx, options)
 		if err != nil {
@@ -288,24 +287,3 @@ end:
 func (r *Repository) KnownDomainRecognized() (recognized bool) {
 	return GetRepositoryAdapterFunc(r) != nil
 }
-
-//func (r *Repository) KnownDomainRecognized() (recognized bool) {
-//	_url := r.url
-//	switch _url.Host {
-//	case "github.com":
-//		recognized = true
-//	case "google.golang.com", "google.golang.org":
-//		//_url.Host = "github.com"
-//		//_url.Path = "googleapis/google-api-go-client"
-//		//recognized = true
-//		recognized = false
-//	case "cloud.google.com", "go.octolab.org", "go.uber.org", "golang.org", "gopkg.in", "gotest.tools", "k8s.io", "sigs.k8s.io":
-//		// This case is not actually needed, but it documents explicitly the domains that are have tested with.
-//		// These will get resolve by requesting the import as a URL with a `go-get=1` query parameter
-//		// and then inspecting <meta name="go-import"> and/or <meta name="go-source">
-//		recognized = false
-//	default:
-//		print("")
-//	}
-//	return recognized
-//}

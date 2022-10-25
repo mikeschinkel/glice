@@ -19,8 +19,8 @@ func (c *Changes) HasChanges() bool {
 	return len(c.Additions) > 0 || len(c.Deletions) > 0
 }
 
-// Print outputs all changes, old and new
-func (c *Changes) Print() {
+// LogPrint outputs all changes, old and new
+func (c *Changes) LogPrint() {
 	LogPrintFunc(WarnLevel, func() {
 		showChanges(c.Additions, "Additions", "These imports were not found in glice.yaml but were found when scanning:")
 		showChanges(c.Deletions, "Deletions", "These imports were not found when scanning but were found in glice.yaml:")

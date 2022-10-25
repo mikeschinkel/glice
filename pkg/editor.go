@@ -14,6 +14,16 @@ var (
 	defaultEmail = "email-alias@example.com"
 )
 
+func NewEditor(ua UserAdapter) *Editor {
+	e := &Editor{
+		Name:  ua.GetName(),
+		Email: ua.GetEmail(),
+		Added: Timestamp(),
+	}
+	e.ID = e.GetID()
+	return e
+}
+
 func (em EditorMap) ToEditors() Editors {
 	editors := make(Editors, len(em))
 	index := 0

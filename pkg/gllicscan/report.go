@@ -2,7 +2,6 @@ package gllicscan
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 )
@@ -32,11 +31,6 @@ var GitLabLicenseScanningReportJsonExample = `
 }
 `
 
-const (
-	SchemaVersion  = "2.1"
-	ReportFilename = "gl-license-scanning-report.json"
-)
-
 var _ FilepathGetter = (*Report)(nil)
 
 func NewReport(fp string) (rpt *Report) {
@@ -59,10 +53,6 @@ func (rpt *Report) Amend(adapter GitLabReportAdapter) {
 	rpt.Licenses = rpt.Licenses.Amend(adapter.GetLicensesIDs())
 	rpt.Dependencies = rpt.Dependencies.Amend(adapter.GetDependencyAdapters())
 }
-
-var ErrFileDoesNotExist = errors.New("file does not exist")
-var ErrCannotReadFile = errors.New("cannot read file")
-var ErrCannotUnmarshalJSON = errors.New("unmarshal JSON")
 
 func LoadReport(fp string) (rpt *Report, err error) {
 	var content []byte
