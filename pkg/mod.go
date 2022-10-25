@@ -1,4 +1,4 @@
-package mod
+package glice
 
 import (
 	"os"
@@ -9,14 +9,14 @@ import (
 
 const goMod = "go.mod"
 
-func Exists(path string) bool {
+func ModFileExists(path string) bool {
 	if _, err := os.Stat(filepath.Join(path, goMod)); err == nil || os.IsExist(err) {
 		return true
 	}
 	return false
 }
 
-func Parse(path string, withIndirect bool) ([]string, error) {
+func ParseModFile(path string, withIndirect bool) ([]string, error) {
 	bts, err := os.ReadFile(filepath.Join(path, goMod))
 	if err != nil {
 		return nil, err

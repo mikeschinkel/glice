@@ -1,7 +1,6 @@
 .idea/
 licenses/
-*
-!*.*
-!*/
 .DS_Store
-.idea/*
+.idea/**
+bin/**
+test/log/**

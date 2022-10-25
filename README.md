@@ -1,14 +1,40 @@
-# glice
+# glice — v3 (Hopefully)
 
+<!--
 [![Build Status](https://img.shields.io/github/workflow/status/ribice/glice/CI?style=flat-square)](https://github.com/ribice/glice/actions?query=workflow%3ACI)
 [![Coverage Status](https://coveralls.io/repos/github/ribice/glice/badge.svg?branch=master)](https://coveralls.io/github/ribice/glice?branch=master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/ribice/glice)](https://goreportcard.com/report/github.com/ribice/glice)
+-->
+License and dependency checker for GoLang projects. Prints list of all dependencies, their URL, license and saves all the license files in /licenses.
 
-Golang license and dependency checker. Prints list of all dependencies, their URL, license and saves all the license files in /licenses.
+## Status/Intention
+
+This code is in a sort of no-man's land state. 
+
+It has been updated from the fork to a level sufficient to meet the needs of a client. The client wants to submit the changes back to the original project ([Glice](https://github.com/ribice/glice)) so that they do not need to maintain for their needs, but they have also asked me to only update to the level of meet their needs, at least for the time being, because they have other things for me to work on that they consider more urgent.  
+
+OTOH it if a major breaking change to the forked code so the original developer may have zero interest in merging it. But even if they do want to merge the code the README does not yet reflect the changes made nor is the functionality fixed yet that was broken during refactoring, all per the client's limits on my time _(and I have had no free time to do on my own given the time required for the client's projects.)_
+
+Feel free to use at your own risk.  Also, feel free to submit issues if you have questions you think could be quickly answered and/or if you would like to discuss submitting a PR to this fork at this repo.
+
+## TODO Needed before PR (IMO)
+- Rewrite the README.md to document v3
+- Implement Caching and TTL support
+- Update `.goReleaser.yaml` and ensure it can produce a viable release.
+- (Re)Implement full suite of tests 
+- (Re)Implement these commands:
+  - `report print` — Generate a list of dependencies and licenses to Stdout.
+    - Figure out how apply colors to different licenses.
+  - `licenses download` — Download JSON of license from [spdx.org's GitHub](https://raw.githubusercontent.com/spdx/license-list-data/master/json/licenses.json).
+    - Add validation from this list to `glice audit`
+  - `test` — TBD
+
+# Glice v2 README Follows 
+## _(This is NOT reflective of the `hopeful-v3` branch)_
 
 ## Introduction
 
-glice analyzes the go.mod file of your project and prints it in a tabular format [csv and json available as well] - name, URL, and license short-name (MIT, GPL...). 
+glice analyzes the `go.mod` file of your project and prints it in a tabular format [csv and json available as well] - name, URL, and license short-name (MIT, GPL...). 
 
 ## Installation
 
@@ -21,7 +47,7 @@ Download and install glice by executing:
 To update:
 
 ```bash
-    go get -u github.com/ribice/glice/v2
+    go get -u github.com/ribice/glice/v3
 ```
 
 ## Usage
@@ -87,6 +113,9 @@ Executing glice -c on github.com/ribice/glice prints (with additional colors for
 
 glice is licensed under the MIT license. Check the [LICENSE](LICENSE.md) file for details.
 
-## Author
+## Authors
 
-[Emir Ribic](https://ribice.ba)
+| Who                                           | What                               |
+|-----------------------------------------------|------------------------------------|
+| [Emir Ribic](https://ribice.ba)               | Original author through v2.x       |  
+| [Mike Schinkel](http://about.me/mikeschinkel) | Author of hopeful additions for v3 |
