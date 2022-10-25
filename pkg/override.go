@@ -1,7 +1,10 @@
 package glice
 
+type OverridesLicenseIDMap map[string][]string
+
 type Overrides []*Override
 type OverrideMap map[string]*Override
+
 type Override struct {
 	editor       *Editor
 	Import       string   `yaml:"import"`

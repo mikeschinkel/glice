@@ -1,12 +1,7 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
-*/
 package cmd
 
 import (
-	glice "github.com/ribice/glice/v3/pkg"
-
+	"github.com/ribice/glice/v3/pkg"
 	"github.com/spf13/cobra"
 )
 

@@ -3,7 +3,8 @@ package cmd
 import (
 	"context"
 	"fmt"
-	glice "github.com/ribice/glice/v3/pkg"
+
+	"github.com/ribice/glice/v3/pkg"
 	"github.com/spf13/cobra"
 )
 
@@ -23,6 +24,6 @@ func init() {
 func RunVerify(cmd *cobra.Command, args []string) {
 	ctx := context.Background()
 	NoteBegin()
-	LoadingProfileFile(ctx)
+	LoadProjectFile(ctx)
 	NoteEnd()
 }

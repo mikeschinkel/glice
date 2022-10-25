@@ -3,8 +3,6 @@ package glice
 import (
 	"context"
 	"fmt"
-	"github.com/spf13/cobra"
-	"github.com/spf13/pflag"
 	"net/http"
 	"runtime"
 	"time"
@@ -168,28 +166,4 @@ func ReplaceWhitespace[C Chars](inputString string, replaceChars C) string {
 // Timestamp returns current date/time at UTC as a string in RFC 3339 format.
 func Timestamp() string {
 	return time.Now().UTC().Format(time.RFC3339)
-}
-
-// Flag returns the string value of a cobra.Command pFlag.
-func Flag(cmd *cobra.Command, name string) (strVal string) {
-	var value pflag.Value
-	flag := cmd.Flags().Lookup(name)
-	if flag == nil {
-		Warnf("Flag '%s' not found for the `%s `%s` command",
-			name,
-			CLIName,
-			cmd.Name())
-		goto end
-	}
-	value = flag.Value
-	if value == nil {
-		Warnf("The value of flag '%s' for the `%s %s` command is unexpectedly nil",
-			name,
-			CLIName,
-			cmd.Name())
-		goto end
-	}
-	strVal = value.String()
-end:
-	return strVal
 }

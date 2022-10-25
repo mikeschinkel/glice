@@ -12,7 +12,13 @@ import (
 )
 
 // SourceDir returns the current working directory as a string
-func SourceDir(path string) string {
+func SourceDir() string {
+	return GetSourceDir("")
+}
+
+// GetSourceDir returns the current working directory as a string
+// with the path passed appended.
+func GetSourceDir(path string) string {
 	opt := GetOptions()
 	if opt.SourceDir == "" {
 		wd, err := os.Getwd()
@@ -23,7 +29,12 @@ func SourceDir(path string) string {
 		}
 		opt.SourceDir = wd
 	}
-	return filepath.Join(opt.SourceDir, path)
+	if path == "" {
+		path = opt.SourceDir
+	} else {
+		path = filepath.Join(opt.SourceDir, path)
+	}
+	return path
 }
 
 // FileExists returns true of the file represented by the passed filepath exists

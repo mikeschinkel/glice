@@ -3,7 +3,8 @@ package cmd
 import (
 	"context"
 	"fmt"
-	glice "github.com/ribice/glice/v3/pkg"
+
+	"github.com/ribice/glice/v3/pkg"
 	"github.com/spf13/cobra"
 )
 
@@ -34,6 +35,6 @@ func RunReportSave(cmd *cobra.Command, args []string) {
 	adapter := GetReportWriterAdapter(cmd)
 	adapter.SetDependencies(ScanDependencies(ctx))
 	WriteReport(adapter)
-	Notef("\nReport generated")
+	Notef("\nReport saved")
 	NoteEnd()
 }

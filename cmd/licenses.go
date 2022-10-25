@@ -3,7 +3,8 @@ package cmd
 import (
 	"context"
 	"fmt"
-	glice "github.com/ribice/glice/v3/pkg"
+
+	"github.com/ribice/glice/v3/pkg"
 	"github.com/spf13/cobra"
 )
 
@@ -26,7 +27,7 @@ func init() {
 
 //goland:noinspection GoUnusedParameter
 func RunLicenses(cmd *cobra.Command, args []string) {
-	dir := glice.Flag(cmd, "path")
+	dir := Flag(cmd, "path")
 	ctx := context.Background()
 
 	NoteBegin()

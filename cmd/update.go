@@ -3,8 +3,8 @@ package cmd
 import (
 	"context"
 	"fmt"
-	glice "github.com/ribice/glice/v3/pkg"
 
+	"github.com/ribice/glice/v3/pkg"
 	"github.com/spf13/cobra"
 )
 
@@ -27,6 +27,6 @@ func RunUpdate(cmd *cobra.Command, args []string) {
 	Notef("\nUpdating project file '%s'", glice.ProjectFilename)
 	deps := ScanDependencies(ctx)
 	pf := AuditingProjectDependencies(ctx, deps)
-	SavingProjectFile(ctx, pf)
+	SaveProjectFile(ctx, pf)
 	NoteEnd()
 }

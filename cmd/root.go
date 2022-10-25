@@ -2,31 +2,12 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/ribice/glice/v3/pkg"
-	"github.com/spf13/cobra"
 	"os"
 	"strconv"
-)
 
-/*
-Commands & Switches:
-	--verbose
-	--indirect
-	--cache-file={cache_file}
-	--path={repo_dir}
-	--log
-	--logfile
-	init - Initialize glice.yaml for a directory
-	audit - CI check
-		--ttl={cache_ttl}
-	report - Generate a license report
-			- print - AllPrint license report to stdout
-			- save - Write license report to file
-				--output={report_file}
-  text - Write licenses to text files
-		--output={output_dir}
-	thank - Give thanks by starring repositories
-*/
+	"github.com/ribice/glice/v3/pkg"
+	"github.com/spf13/cobra"
+)
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -63,7 +44,7 @@ func init() {
 	pf.Lookup("verbose").NoOptDefVal = strconv.Itoa(glice.InfoLevel)
 	pf.BoolVar(&logOutput, "log", false, "Log output to default logging filepath.")
 	pf.StringVar(&logfile, "logfile", "", "File to log output to.")
-	pf.StringVar(&source, "source", glice.SourceDir(""), "Source directory where go.mod.")
+	pf.StringVar(&source, "source", glice.SourceDir(), "Source directory where go.mod.")
 	pf.StringVar(&cachefile, "cache-file", glice.CacheFilepath(), "Full filepath to the cachefile to create.")
 	pf.BoolVar(&nocache, "nocache", false, "Disable use of caching")
 	pf.BoolVar(&captureLic, "capture-license", false, "Download license from host while processing (slower)")

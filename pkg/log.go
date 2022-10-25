@@ -42,7 +42,7 @@ var ValidVerbositiesString = fmt.Sprintf("Verbosity: %d=%s, %d=%s, %d=%s, %d=%s,
 
 const LogFilename = "glice.log"
 
-var logFilepath = SourceDir(LogFilename)
+var logFilepath = GetSourceDir(LogFilename)
 
 var logFile *os.File
 

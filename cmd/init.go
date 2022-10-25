@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+
 	"github.com/ribice/glice/v3/pkg"
 	"github.com/spf13/cobra"
 )
@@ -25,11 +26,11 @@ func init() {
 
 //goland:noinspection GoUnusedParameter
 func RunInit(cmd *cobra.Command, args []string) {
-	ctx := context.Background()
 	NoteBegin()
 	Notef("\nInitializing %s for project", glice.AppName)
-	pf := CreatingProjectFile(ctx)
+	ctx := context.Background()
+	pf := CreateProjectFile(ctx)
 	pf.Dependencies = ScanDependencies(ctx)
-	SavingProjectFile(ctx, pf)
+	SaveProjectFile(ctx, pf)
 	NoteEnd()
 }

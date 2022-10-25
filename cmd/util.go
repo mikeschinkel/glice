@@ -2,10 +2,15 @@ package cmd
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"github.com/ribice/glice/v3/pkg"
-	"github.com/spf13/cobra"
 	"os"
+	"path/filepath"
+
+	"github.com/ribice/glice/v3/pkg"
+	"github.com/ribice/glice/v3/pkg/gllicscan"
+	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 )
 
 // WARNING: These functions are designed to support commands and are future mutable.
@@ -66,7 +71,7 @@ func SavingOverridesFile(ctx context.Context, of *glice.OverridesFile) {
 }
 
 //goland:noinspection GoUnusedParameter
-func LoadingProfileFile(ctx context.Context) *glice.ProjectFile {
+func LoadProjectFile(ctx context.Context) *glice.ProjectFile {
 	Notef("\nLoading `%s`", glice.ProjectFilename)
 	pf, err := glice.LoadProjectFile(glice.GetOptions().SourceDir)
 	if err != nil {
@@ -75,7 +80,7 @@ func LoadingProfileFile(ctx context.Context) *glice.ProjectFile {
 			glice.CallerName(),
 			err.Error())
 	}
-	Notef("\nLoaded `%s`", pf.Filepath)
+	Notef("\nFile `%s` loaded", pf.Filepath)
 	return pf
 }
 
@@ -92,9 +97,9 @@ func ScanDependencies(ctx context.Context) (deps glice.Dependencies) {
 	return deps
 }
 
-// SavingProjectFile saves the passed project file to disk
+// SaveProjectFile saves the passed project file to disk
 //goland:noinspection GoUnusedParameter
-func SavingProjectFile(ctx context.Context, pf *glice.ProjectFile) {
+func SaveProjectFile(ctx context.Context, pf *glice.ProjectFile) {
 	Notef("\nSaving %s", glice.ProjectFilename)
 	backups, err := pf.Save()
 	if err != nil {
@@ -111,9 +116,9 @@ func SavingProjectFile(ctx context.Context, pf *glice.ProjectFile) {
 	Notef("\nProject file saved")
 }
 
-// CreatingProjectFile creates a new object representing the project file
+// CreateProjectFile creates a new object representing the project file
 //goland:noinspection GoUnusedParameter
-func CreatingProjectFile(ctx context.Context) (pf *glice.ProjectFile) {
+func CreateProjectFile(ctx context.Context) (pf *glice.ProjectFile) {
 	Notef("\nCreating %s", glice.ProjectFilename)
 	pf = glice.NewProjectFile(glice.GetOptions().SourceDir)
 	if pf.Exists() {
@@ -161,7 +166,7 @@ end:
 }
 
 func AuditingProjectDependencies(ctx context.Context, deps glice.Dependencies) (pf *glice.ProjectFile) {
-	pf = LoadingProfileFile(ctx)
+	pf = LoadProjectFile(ctx)
 	Notef("\nAuditing dependencies...")
 	pf.Changes, pf.Disalloweds = pf.AuditDependencies(deps)
 	Notef("\nAudit complete.")
@@ -207,7 +212,7 @@ func HandleChanges(ctx context.Context, pf *glice.ProjectFile) {
 }
 
 func ShouldGenerateOverrides(cmd *cobra.Command) bool {
-	return cmd.Name() == "overrides" || glice.Flag(cmd, "overrides") == "true"
+	return cmd.Name() == "overrides" || Flag(cmd, "overrides") == "true"
 }
 
 func GeneratingOverrides(ctx context.Context, cmd *cobra.Command, pf *glice.ProjectFile, onExists int) {
@@ -226,10 +231,10 @@ func GetReportWriterAdapter(cmd *cobra.Command) (adapter glice.ReportWriterAdapt
 
 	Notef("\nAcquiring report writer adapter")
 
-	var filename = glice.Flag(cmd, "filename")
+	var filename = Flag(cmd, "filename")
 	Notef("\nReport filename is '%s'", filename)
 
-	var format = glice.OutputFormat(glice.Flag(cmd, "format"))
+	var format = glice.OutputFormat(Flag(cmd, "format"))
 	Notef("\nReport format is '%s'", format)
 
 	adapter, err = glice.GetReportWriterAdapter(format)
@@ -248,7 +253,7 @@ func GetReportWriterAdapter(cmd *cobra.Command) (adapter glice.ReportWriterAdapt
 		filename = glice.ReplaceFileExtension(DefaultReportFilename, adapter.FileExtension())
 	}
 
-	fp := glice.SourceDir(filename)
+	fp := glice.GetSourceDir(filename)
 	if glice.FileExists(fp) {
 		Failf(glice.ExitFileExistsCannotOverwrite,
 			"\nCannot generate report. The file %s already exists. Rename or delete and then rerun the `%s report save` command.",
@@ -279,4 +284,64 @@ func WriteReport(adapter glice.ReportWriterAdapter) {
 			err)
 	}
 	Notef("\nReport written")
+}
+
+// Flag returns the string value of a cobra.Command pFlag.
+func Flag(cmd *cobra.Command, name string) (strVal string) {
+	var value pflag.Value
+	flag := cmd.Flags().Lookup(name)
+	if flag == nil {
+		glice.Warnf("Flag '%s' not found for the `%s `%s` command",
+			name,
+			glice.CLIName,
+			cmd.Name())
+		goto end
+	}
+	value = flag.Value
+	if value == nil {
+		glice.Warnf("The value of flag '%s' for the `%s %s` command is unexpectedly nil",
+			name,
+			glice.CLIName,
+			cmd.Name())
+		goto end
+	}
+	strVal = value.String()
+end:
+	return strVal
+}
+
+func LoadJSONReportFromGitLab(cmd *cobra.Command) (rpt *gllicscan.Report) {
+	var err error
+
+	path := Flag(cmd, "path")
+	filename := Flag(cmd, "filename")
+	fp := filepath.Join(path, filename)
+	rpt, err = gllicscan.LoadReport(fp)
+
+	switch {
+	case errors.Is(err, gllicscan.ErrFileDoesNotExist):
+		Warnf("\nCannot load %s as it does not exist.", fp)
+		Warnf("\nCreating anew instead.")
+	case errors.Is(err, gllicscan.ErrCannotReadFile):
+		Failf(glice.ExitCannotReadFile, "\nCannot load GitLab report; %w", err)
+	case errors.Is(err, gllicscan.ErrCannotUnmarshalJSON):
+		Failf(glice.ExitCannotUnmarshalJSON, "\nCannot load GitLab report; %w", err)
+	case err != nil:
+		Failf(glice.ExitUnexpectedError, "\nCannot load GitLab report %s; %w", fp, err)
+	}
+
+	return rpt
+}
+
+//goland:noinspection GoUnusedParameter
+func SaveJSONReportForGitLab(ctx context.Context, rpt *gllicscan.Report) {
+	Notef("\nSaving %s", gllicscan.ReportFilename)
+	err := rpt.Save()
+	if err != nil {
+		Failf(glice.ExitCannotSaveFile,
+			"\nFailed to save %s: %s",
+			rpt.Filepath,
+			err.Error())
+	}
+	Notef("\nReport file saved")
 }

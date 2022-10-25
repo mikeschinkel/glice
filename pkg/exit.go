@@ -1,20 +1,23 @@
 package glice
 
 const (
+	ExitUnexpectedError              = -1
 	ExitAuditFoundDisallowedLicenses = 1
-	ExitCannotGetWorkingDir          = 2
-	ExitCannotGetCacheDir            = 3
-	ExitCannotCreateCacheDir         = 4
-	ExitCannotScanDependencies       = 5
-	ExitCannotSaveFile               = 6
-	ExitCannotStatFile               = 7
-	ExitFileExistsCannotOverwrite    = 8
-	ExitFileDoesNotExist             = 9
-	ExitRepoInfoGetterIsNil          = 10
-	ExitCannotGetRepositoryAdapter   = 11
-	ExitCannotSetOptions             = 12
-	ExitHostNotYetSupported          = 13
-	ExitCannotWriteReport            = 14
-	ExitCannotCreateFile             = 15
-	ExitCannotGetReportWriterAdapter = 16
+	ExitCannotGetWorkingDir          = 3
+	ExitCannotGetCacheDir            = 4
+	ExitCannotCreateCacheDir         = 5
+	ExitCannotScanDependencies       = 6
+	ExitCannotSaveFile               = 7
+	ExitCannotStatFile               = 8
+	ExitFileExistsCannotOverwrite    = 9
+	ExitFileDoesNotExist             = 10
+	ExitRepoInfoGetterIsNil          = 11
+	ExitCannotGetRepositoryAdapter   = 12
+	ExitCannotSetOptions             = 13
+	ExitHostNotYetSupported          = 14
+	ExitCannotWriteReport            = 15
+	ExitCannotCreateFile             = 16
+	ExitCannotGetReportWriterAdapter = 17
+	ExitCannotReadFile               = 18
+	ExitCannotUnmarshalJSON          = 19
 )

@@ -1,52 +1,15 @@
 package glice
 
 import (
-	"context"
 	"encoding/base64"
 	"fmt"
-	"github.com/fatih/color"
 	"os"
 	"path/filepath"
-	"sort"
-	"strconv"
+
+	"github.com/fatih/color"
 )
 
-type Dependencies []*Dependency
-type DependencyMap map[string]*Dependency
-
-// ToMap creates a map indexed by Dependency Import of Dependencies
-func (deps Dependencies) ToMap() DependencyMap {
-	newDeps := make(DependencyMap, len(deps))
-	for _, dep := range deps {
-		newDeps[dep.Import] = dep
-	}
-	return newDeps
-}
-
-// ToEditorsAndOverrides returns a slice of *Dependency and a slice of unique *Editor
 //goland:noinspection GoUnusedParameter
-func (deps Dependencies) ToEditorsAndOverrides(ctx context.Context) (editors Editors, overrides Overrides) {
-	overrides = make(Overrides, len(deps))
-	edMap := make(EditorMap, 0)
-	for index, dep := range deps {
-		eg, err := GetEditorGetter(dep)
-		if err != nil {
-			Warnf("Unable to add dependency '%s'; %w",
-				dep.Import,
-				err)
-			continue
-		}
-		ed := eg.GetEditor()
-		overrides[index] = NewOverride(dep, ed)
-
-		id := ed.GetID()
-		if _, ok := edMap[id]; !ok {
-			edMap[id] = ed
-		}
-	}
-	editors = edMap.ToEditors()
-	return editors, overrides
-}
 
 // Dependency holds information about a dependency
 type Dependency struct {
@@ -61,117 +24,9 @@ type Dependency struct {
 	Added      string `yaml:"added" json:"added"`
 }
 
-func GetDependencyFromRepository(r *Repository) *Dependency {
-	return &Dependency{
-		r:          r,
-		Import:     r.Import,
-		RepoURL:    r.GetURL(),
-		Host:       r.GetHost(),
-		Author:     r.GetOrgName(),
-		Project:    r.GetRepoName(),
-		LicenseID:  r.GetLicenseID(),
-		LicenseURL: r.GetLicenseURL(),
-		Added:      Timestamp(),
-	}
-}
-
-func ScanDependencies(ctx context.Context, options *Options) (ds Dependencies, err error) {
-	var repos Repositories
-	var deps Dependencies
-
-	//TODO Handle this concern somewhere
-	//if thanks && githubAPIKey == "" {
-	//	return ErrNoAPIKey
-	//}
-
-	repos, err = ScanRepositories(ctx, options)
-	if err != nil {
-		goto end
-	}
-
-	Notef("\nFound %d dependencies", len(repos))
-	Notef("\nResolving licenses...")
-
-	deps = make(Dependencies, len(repos))
-	for i, r := range repos {
-		Infof("\nFetching license for: %s", r.Import)
-		err = r.ResolveLicense(ctx, GetOptions())
-		if err != nil {
-			err = fmt.Errorf("failed to resolve license; %w", err)
-			goto end
-		}
-		deps[i] = GetDependencyFromRepository(r)
-	}
-end:
-	return deps, err
-}
-
 // Repository returns the associated Repository object
 func (dep *Dependency) Repository() *Repository {
 	return dep.r
-}
-
-// ImportWidth returns the length of the longest Import
-func (deps Dependencies) ImportWidth() (width int) {
-	for _, d := range deps {
-		n := len(d.Import)
-		if n <= width {
-			continue
-		}
-		width = n
-	}
-	return width
-}
-
-// LogPrint outputs all rejections in list individually
-func (deps Dependencies) LogPrint() {
-	level := ErrorLevel
-	LogPrintFunc(level, func() {
-		width := strconv.Itoa(deps.ImportWidth() + 2)
-		format := "\n%s: - %-" + width + "s %s"
-		sort.Slice(deps, func(i, j int) bool {
-			return deps[i].Import < deps[j].Import
-		})
-		for _, d := range deps {
-			LogPrintf(level, format, LogLevels[level], d.Import+":", d.LicenseID)
-		}
-	})
-}
-
-// SaveLicenses writes all the dependency licenses each to their own file
-func (deps Dependencies) SaveLicenses(dir string, msgFunc SaveDependencyMsgFunc) (err error) {
-	var dp string
-
-	if deps == nil {
-		goto end
-	}
-
-	if len(deps) < 1 {
-		goto end
-	}
-
-	if filepath.IsAbs(dir) {
-		dp = dir
-	} else {
-		dp = SourceDir(dir)
-	}
-
-	err = os.Mkdir(dp, os.ModePerm)
-	if err != nil {
-		err = fmt.Errorf("unable to create directory %s in which to save licenses; %w",
-			dp,
-			err)
-		goto end
-	}
-
-	for _, dep := range deps {
-		err = dep.SaveLicense(dp, msgFunc)
-		if err != nil {
-			Warnf("Unable to save license for %s; %s", dep.Import, err.Error())
-		}
-	}
-end:
-	return err
 }
 
 func (dep *Dependency) GetLicenseFilepath(dir string) string {
@@ -240,12 +95,7 @@ func (dep *Dependency) GetReportRow() []string {
 	return []string{dep.Import, dep.RepoURL, dep.LicenseID, dep.Added}
 }
 
-var reportHeaderRow = []string{"Dependency", "Repository", "License", "Added"}
 var reportLicenseCol = 2
-
-func (Dependencies) GetReportHeader() []string {
-	return reportHeaderRow
-}
 
 func (dep *Dependency) GetColorizedReportRow() []string {
 	row := dep.GetReportRow()

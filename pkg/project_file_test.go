@@ -3,10 +3,11 @@ package glice_test
 import (
 	"context"
 	"fmt"
-	"github.com/ribice/glice/v3/pkg"
 	"log"
 	"os"
 	"testing"
+
+	"github.com/ribice/glice/v3/pkg"
 )
 
 const (
@@ -18,7 +19,7 @@ const (
 var (
 	GitHubAPIKey = os.Getenv("GITHUB_API_KEY")
 
-	LogFilepath = glice.SourceDir(fmt.Sprintf("%s/test.log", TestLogDir))
+	LogFilepath = glice.GetSourceDir(fmt.Sprintf("%s/test.log", TestLogDir))
 
 	yamlFileInitTests = []*glice.Options{
 		{
@@ -92,7 +93,7 @@ func TestProjectFileInit(t *testing.T) {
 var yamlFileLoadTests = []struct {
 	Directory string
 }{
-	{Directory: glice.SourceDir(TestDataDir)},
+	{Directory: glice.GetSourceDir(TestDataDir)},
 }
 
 func TestProjectFileLoad(t *testing.T) {
